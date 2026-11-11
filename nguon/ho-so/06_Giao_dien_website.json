@@ -1,0 +1,57 @@
+{
+  "metadata": {
+    "project": "KẾT NỐI HỌC SINH",
+    "version": "1.0",
+    "date": "2026-11-10",
+    "synthetic": true,
+    "environment": "test",
+    "timezone": "Asia/Ho_Chi_Minh",
+    "scope": "Dữ liệu giả lập theo 8 mục trong tài liệu nguồn; các quy tắc chi tiết bổ sung là đề xuất chạy thử, chưa phải quy chế được nhà trường ban hành."
+  },
+  "section": 6,
+  "title": "Tên gọi và nội dung giao diện website",
+  "content": [
+    {
+      "heading": "Nhận diện từ tài liệu nguồn",
+      "text": "Tên website: KẾT NỐI HỌC SINH. Thông điệp: Lắng nghe – Đồng hành – Chia sẻ. Màu chủ đạo xanh dương, kết hợp đỏ và trắng. Trong giai đoạn thử nghiệm sử dụng tên chữ thay logo; tên miền giả lập ketnoihocsinh.local."
+    },
+    {
+      "heading": "Nội dung trang chủ",
+      "text": "Tiêu đề: Có điều muốn chia sẻ, em có thể bắt đầu ở đây. Mô tả: Tìm hiểu kiến thức để bảo vệ bản thân, học cách hỗ trợ bạn bè và gửi phản ánh về những điều đang khiến em lo lắng ở trường. Nút chính: Gửi phản ánh. Nút phụ: Khám phá chủ đề. Liên kết riêng: Theo dõi phản ánh."
+    },
+    {
+      "heading": "Menu và danh mục",
+      "text": "Trang chủ; Học cùng nhau; Gửi phản ánh; Theo dõi phản ánh; Hướng dẫn và bảo mật. Năm thẻ học tập: Bạo lực học đường; Phòng tránh thuốc lá điện tử; An toàn trên mạng xã hội; Phòng chống tảo hôn; Phòng chống quấy rối tình dục."
+    },
+    {
+      "heading": "Nội dung biểu mẫu phản ánh",
+      "text": "Các trường: nhóm vấn đề; tiêu đề; nội dung; thời điểm và địa điểm nếu biết; có nguy cơ tức thời hay không; hình thức gửi; tệp tùy chọn; cách liên hệ nếu học sinh chọn cung cấp. Không bắt buộc mô tả chi tiết nhạy cảm hoặc xác định đúng thuật ngữ pháp lý để được tiếp nhận."
+    },
+    {
+      "heading": "Thông báo sau khi gửi",
+      "text": "Phản ánh đã được ghi nhận. Mã hồ sơ của em là {report_id}. Hãy giữ mã theo dõi bảo mật để xem phản hồi. Em có thể bổ sung thông tin khi sẵn sàng. Bên dưới hiển thị giờ làm việc và thời gian dự kiến phản hồi theo cấu hình, không hiển thị số giả lập như đường dây đang hoạt động."
+    },
+    {
+      "heading": "Chân trang và khả năng tiếp cận",
+      "text": "Chân trang: Phiên bản chạy thử — toàn bộ dữ liệu là giả lập. Không dùng website thử nghiệm để gửi tình huống khẩn cấp có thật. Đề xuất màu: xanh #1557B0, đỏ #C62828, trắng #FFFFFF. Cần kiểm tra tương phản, hỗ trợ bàn phím, nhãn rõ cho trường nhập và không dùng màu làm tín hiệu duy nhất."
+    }
+  ],
+  "test_data": {
+    "name": "KẾT NỐI HỌC SINH",
+    "tagline": "Lắng nghe – Đồng hành – Chia sẻ",
+    "domain": "ketnoihocsinh.local",
+    "logo_mode": "text",
+    "colors_proposed": {
+      "blue": "#1557B0",
+      "red": "#C62828",
+      "white": "#FFFFFF"
+    },
+    "navigation": [
+      "Trang chủ",
+      "Học cùng nhau",
+      "Gửi phản ánh",
+      "Theo dõi phản ánh",
+      "Hướng dẫn và bảo mật"
+    ]
+  }
+}

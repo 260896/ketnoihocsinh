@@ -1,0 +1,58 @@
+{
+  "metadata": {
+    "project": "KẾT NỐI HỌC SINH",
+    "version": "1.0",
+    "date": "2026-11-10",
+    "synthetic": true,
+    "environment": "test",
+    "timezone": "Asia/Ho_Chi_Minh",
+    "scope": "Dữ liệu giả lập theo 8 mục trong tài liệu nguồn; các quy tắc chi tiết bổ sung là đề xuất chạy thử, chưa phải quy chế được nhà trường ban hành."
+  },
+  "section": 5,
+  "title": "Tệp đính kèm phản ánh",
+  "content": [
+    {
+      "heading": "Quy định từ nguồn",
+      "text": "Chấp nhận PDF, JPG, JPEG, PNG và MP4. Mỗi tệp tối đa 10 MB, mỗi phản ánh tối đa 5 tệp. Đề xuất quy đổi để thử: 10 MB = 10.000.000 byte; cần thống nhất nếu đội phát triển sử dụng MiB."
+    },
+    {
+      "heading": "Lời hướng dẫn trên biểu mẫu",
+      "text": "Em có thể gửi tệp nếu thấy cần và an toàn. Không cần có tệp mới được gửi phản ánh. Tránh đính kèm mật khẩu, giấy tờ định danh hoặc dữ liệu của người không liên quan. Không gửi nội dung tình dục liên quan trẻ em; em có thể mô tả sự việc để người có trách nhiệm hướng dẫn tiếp nhận phù hợp."
+    },
+    {
+      "heading": "Mẫu danh mục tệp giả lập",
+      "text": "TEP01 — minh_hoa_01.jpg — image/jpeg — 245.000 byte — hợp lệ. TEP02 — tom_tat_su_viec.pdf — application/pdf — 360.000 byte — hợp lệ. TEP03 — camera_minh_hoa.mp4 — video/mp4 — 9.500.000 byte — hợp lệ. Tên tệp chỉ là dữ liệu mô phỏng; gói này không chứa ảnh, video hoặc chứng cứ có thật."
+    },
+    {
+      "heading": "Ca kiểm tra biên",
+      "text": "10.000.000 byte: chấp nhận nếu nội dung hợp lệ. 10.000.001 byte: từ chối. Tệp thứ 6: từ chối. Đuôi EXE hoặc ZIP: từ chối. Tệp giả PDF nhưng nội dung thực thi: từ chối dù tên có đuôi PDF. Tệp rỗng: từ chối theo quy tắc bổ sung đề xuất."
+    },
+    {
+      "heading": "Xử lý tệp đề xuất",
+      "text": "Kiểm tra loại tệp thực, quét mã độc và cách ly trước khi cho xem; không dùng tên tệp gốc làm đường dẫn công khai. Chỉ người được phép đọc hồ sơ mới được tải tệp qua liên kết có kiểm soát. Giữ bản gốc có hạn chế quyền nếu cần xác minh; tạo bản xem trước đã giảm dữ liệu nhận diện khi phù hợp."
+    },
+    {
+      "heading": "Mẫu thông báo lỗi",
+      "text": "Tệp vượt dung lượng: Mỗi tệp tối đa 10 MB, em vui lòng chọn tệp nhỏ hơn. Quá số lượng: Mỗi phản ánh tối đa 5 tệp. Loại không phù hợp: Hệ thống chỉ nhận PDF, JPG, JPEG, PNG và MP4. Khi tải lỗi, giữ nội dung phản ánh đã nhập để học sinh không phải viết lại."
+    }
+  ],
+  "test_data": {
+    "allowed_extensions": [
+      "pdf",
+      "jpg",
+      "jpeg",
+      "png",
+      "mp4"
+    ],
+    "allowed_mime": [
+      "application/pdf",
+      "image/jpeg",
+      "image/png",
+      "video/mp4"
+    ],
+    "max_file_bytes": 10000000,
+    "max_files": 5,
+    "required": false,
+    "examples_are_metadata_only": true
+  }
+}

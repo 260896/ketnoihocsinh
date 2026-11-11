@@ -89,6 +89,15 @@ $pages = [
     ]],
 ];
 
+// Danh mục tài liệu tham khảo xây dựng 5 chủ đề (nguồn: nguon/hoc-lieu/tai-lieu-tham-khao.docx)
+$refSections = [];
+foreach (seed_source()['references'] ?? [] as $r) {
+    $refSections[$r['section'] ?: 'Tài liệu'][] = ['text' => $r['n'] . '. ' . $r['text'], 'url' => $r['url']];
+}
+if ($refSections) {
+    $pages['tham-khao'] = ['Tài liệu tham khảo', array_map(null, array_keys($refSections), array_values($refSections))];
+}
+
 $p = array_key_exists(get('p'), $pages) ? get('p') : 'an-danh';
 [$title, $sections] = $pages[$p];
 $back = current_user() && current_user()['role'] === 'student' ? url('sv/tai-khoan.php') : url('');
@@ -107,7 +116,13 @@ mobile_start($title, ['back' => $back]);
   <section class="card" style="gap:8px">
     <h2 class="t-h2"><?= e($h) ?></h2>
     <ul style="margin:0;padding-left:20px" class="stack gap-6">
-      <?php foreach ($items as $it): ?><li><?= e($it) ?></li><?php endforeach; ?>
+      <?php foreach ($items as $it): ?>
+        <?php if (is_array($it)): ?>
+          <li><?= e($it['text']) ?><?php if ($it['url']): ?> <a class="link" href="<?= e($it['url']) ?>" target="_blank" rel="noopener noreferrer" style="word-break:break-all">Mở nguồn</a><?php endif; ?></li>
+        <?php else: ?>
+          <li><?= e($it) ?></li>
+        <?php endif; ?>
+      <?php endforeach; ?>
     </ul>
   </section>
 <?php endforeach; ?>

@@ -1,6 +1,6 @@
 # Apache (XAMPP): chặn truy cập trực tiếp các thư mục nội bộ
 Options -Indexes
-RedirectMatch 403 ^.*/(data|includes|tools|tests|_old-react|Ho_so_[^/]*|Kh[^/]*nghi[^/]*)(/|$)
+RedirectMatch 403 ^.*/(data|includes|tools|tests|_old-react|Ho_so_[^/]*|Kh[^/]*nghi[^/]*|nguon)(/|$)
 RedirectMatch 403 \.(zip|xlsx|docx|md|sh)$
 
 # Bản demo: không cho công cụ tìm kiếm lập chỉ mục (kể cả tệp tĩnh). Gỡ khi nhà trường dùng thật.

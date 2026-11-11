@@ -1,0 +1,21 @@
+THỜI GIAN TIẾP NHẬN VÀ XỬ LÝ
+
+DỮ LIỆU GIẢ LẬP CHỈ PHỤC VỤ CHẠY THỬ
+
+Thông số từ tài liệu nguồn
+Giờ làm việc: 08:00–17:00, thứ Hai đến thứ Sáu. Phản ánh khẩn cấp cần được xác nhận trong 15 phút; phản ánh thông thường được phản hồi lần đầu trong 2 ngày làm việc. Hệ thống nhận phản ánh ngoài giờ và hiển thị thời gian dự kiến xử lý.
+
+Điểm cần chốt trước vận hành
+Nguồn chưa xác định 15 phút khẩn cấp có áp dụng ngoài giờ hay không, chưa quy định ngày nghỉ lễ hoặc thời hạn giải quyết cuối cùng. Bộ dữ liệu thử đề xuất: trong giờ làm việc, tính 15 phút liên tục từ lúc nhận; ngoài giờ, cảnh báo chưa có trực thực tế và chuyển đầu giờ làm việc kế tiếp. Đây chỉ là cấu hình thử, không được hiển thị như cam kết hỗ trợ khẩn cấp 24 giờ.
+
+Cách tính hạn thông thường đề xuất
+Tính đến cùng thời điểm sau 2 ngày làm việc; phản ánh nhận ngoài giờ được lấy mốc bắt đầu là 08:00 ngày làm việc tiếp theo. Bộ mẫu không có ngày nghỉ lễ, cần cấu hình riêng khi triển khai. Xác nhận tiếp nhận, phản hồi lần đầu và giải quyết xong là ba mốc khác nhau.
+
+Mẫu thông báo trong giờ
+Phản ánh {report_id} đã được ghi nhận lúc {received_at}. Dự kiến phản hồi lần đầu trước {first_response_due}. Nếu có nguy cơ tức thời, em hãy rời nơi nguy hiểm nếu có thể và tìm người lớn đáng tin cậy hoặc dịch vụ khẩn cấp chính thức; không chờ website phản hồi.
+
+Mẫu thông báo ngoài giờ
+Hệ thống đã ghi nhận phản ánh. Bộ phận tiếp nhận làm việc từ 08:00 đến 17:00, thứ Hai đến thứ Sáu. Thời gian bắt đầu xử lý dự kiến: {next_work_start}. Số 1900 0000 trong tài liệu là số giả lập, không phải kênh hỗ trợ đang hoạt động và không được tạo nút gọi.
+
+Các ca kiểm tra thời gian
+Khẩn cấp nhận 10/11/2026 lúc 09:00 → hạn xác nhận 09:15 cùng ngày. Thông thường nhận 10/11 lúc 09:00 → hạn phản hồi lần đầu 12/11 lúc 09:00. Thông thường nhận thứ Sáu 13/11 lúc 18:00 → bắt đầu thứ Hai 16/11 lúc 08:00, hạn thứ Tư 18/11 lúc 08:00. Quá hạn → cảnh báo nội bộ, không tự đánh dấu đã xử lý.

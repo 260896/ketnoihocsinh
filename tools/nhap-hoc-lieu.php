@@ -1,101 +1,72 @@
 <?php
 /**
- * Nhập học liệu gốc của nhà trường ("Khởi nghiệp_Tân Hưng") vào dữ liệu mẫu của website.
+ * Nhập học liệu gốc của nhà trường từ thư mục nguon/ vào dữ liệu mẫu của website (includes/du-lieu-mau.json).
  *
- *   php tools/nhap-hoc-lieu.php "<thư mục văn bản>" "<thư mục nguồn Khởi nghiệp_Tân Hưng>"
+ *   php tools/nhap-hoc-lieu.php
  *
- * <thư mục văn bản>: các tệp .txt đã trích từ .docx (PHP trên XAMPP không có ZipArchive) – xem HUONG-DAN.md mục 4:
- *   Bộ_câu_hỏi_trắc_nghiệm_*.txt và Chu_de_1_*.txt … Chu_de_5_*.txt
- * <thư mục nguồn>: để chép hình minh họa, infographic, video, tài liệu PDF vào data/uploads/.
+ * Đọc:
+ *   nguon/hoc-lieu/bo-cau-hoi-trac-nghiem.txt        – 15 câu hỏi (trích từ .docx cùng tên)
+ *   nguon/hoc-lieu/thao-luan/chu-de-N-<id>.txt         – nội dung học tập (tài liệu thảo luận chủ đề)
+ *   nguon/hoc-lieu/tai-lieu-tham-khao.txt             – danh mục tài liệu tham khảo
+ *   nguon/hoc-lieu/<id>/ anh-*.jpg, infographic.png, video.mp4, tai-lieu.pdf
+ * Ghi khóa "topics", "docs", "references" (giữ nguyên các khóa khác). Media được website tự chép
+ * vào data/uploads/ khi tạo dữ liệu (xem seed_ensure_media() trong includes/seed.php).
  *
- * Ghi khóa "topics" và "docs" của includes/du-lieu-mau.json (giữ nguyên các khóa khác).
- * Chỉ chạy từ dòng lệnh.
+ * Khi sửa tệp .docx gốc: lưu lại bản .txt cùng tên (Word → Lưu thành → Văn bản thuần, UTF-8) rồi chạy lại công cụ này.
+ * PHP của XAMPP không có ZipArchive nên không đọc thẳng .docx. Chỉ chạy từ dòng lệnh.
  */
 if (PHP_SAPI !== 'cli') { http_response_code(403); exit('Forbidden'); }
 
-$txtDir = rtrim($argv[1] ?? '', '/\\');
-$srcDir = rtrim($argv[2] ?? '', '/\\');
 $root = dirname(__DIR__);
-$find = function (string $dir, string $pattern): ?string {
-    foreach (glob($dir . '/*') ?: [] as $f) if (preg_match($pattern, basename($f))) return $f;
-    return null;
+$src  = $root . '/nguon/hoc-lieu';
+$read = function (string $f): array {
+    if (!is_file($f)) { fwrite(STDERR, "Không thấy $f\n"); exit(1); }
+    return array_values(array_filter(array_map('trim', preg_split('/\R/u', (string) file_get_contents($f))), fn ($l) => $l !== ''));
 };
 
-// Chủ đề → id, icon, mô tả ngắn, thư mục ảnh / tên tệp nguồn
-$meta = [
-    1 => ['bao-luc-hoc-duong', 'shield', 'Nhận biết hành vi bắt nạt, cách ứng xử và hướng tìm kiếm sự hỗ trợ.', '/^1\./u', '/Chu_de_1_/'],
-    2 => ['thuoc-la-dien-tu', 'vapeOff', 'Nhận biết tác hại, quy định liên quan và cách từ chối.', '/^2\./u', '/Chu_de_2_/'],
-    3 => ['an-toan-mang-xa-hoi', 'messageLines', 'Nhận diện dấu hiệu lừa đảo, bảo vệ dữ liệu cá nhân và cách báo cáo sự việc.', '/^3\./u', '/Chu_de_3_/'],
-    4 => ['phong-chong-tao-hon', 'heart', 'Nhận biết tảo hôn, điều kiện tuổi kết hôn, quyền tự nguyện và cách tìm kiếm sự hỗ trợ.', '/^4\./u', '/Chu_de_4_/'],
-    5 => ['phong-chong-quay-roi', 'hand', 'Nhận diện quấy rối trực tiếp và trên mạng, tôn trọng ranh giới, bảo vệ bản thân và tìm hỗ trợ.', '/^5\./u', '/Chu_de_5_/'],
+// Thứ tự chủ đề trong bộ câu hỏi → id, icon, mô tả ngắn
+const META = [
+    1 => ['bao-luc-hoc-duong', 'shield', 'Nhận biết hành vi bắt nạt, cách ứng xử và hướng tìm kiếm sự hỗ trợ.'],
+    2 => ['thuoc-la-dien-tu', 'vapeOff', 'Nhận biết tác hại, quy định liên quan và cách từ chối.'],
+    3 => ['an-toan-mang-xa-hoi', 'messageLines', 'Nhận diện dấu hiệu lừa đảo, bảo vệ dữ liệu cá nhân và cách báo cáo sự việc.'],
+    4 => ['phong-chong-tao-hon', 'heart', 'Nhận biết tảo hôn, điều kiện tuổi kết hôn, quyền tự nguyện và cách tìm kiếm sự hỗ trợ.'],
+    5 => ['phong-chong-quay-roi', 'hand', 'Nhận diện quấy rối trực tiếp và trên mạng, tôn trọng ranh giới, bảo vệ bản thân và tìm hỗ trợ.'],
 ];
 
-/* ---------- 1. Bộ câu hỏi trắc nghiệm (15 câu) ---------- */
-$quizFile = $find($txtDir, '/^B.*c.u.h.i.*\.txt$/u');
-if (!$quizFile) { fwrite(STDERR, "Không thấy tệp bộ câu hỏi trong $txtDir\n"); exit(1); }
-$lines = array_values(array_filter(array_map('trim', preg_split('/\R/u', (string) file_get_contents($quizFile))), fn ($l) => $l !== ''));
-$topics = [];
-$cur = null; $q = null;
-$flushQ = function () use (&$cur, &$q) { if ($cur !== null && $q) { $cur['questions'][] = $q; } $q = null; };
-foreach ($lines as $l) {
+/* ---------- 1. Bộ câu hỏi trắc nghiệm ---------- */
+$topics = []; $cur = null; $q = null;
+$flushQ = function () use (&$cur, &$q) { if ($cur !== null && $q) $cur['questions'][] = $q; $q = null; };
+foreach ($read("$src/bo-cau-hoi-trac-nghiem.txt") as $l) {
     if (preg_match('/^Chủ đề (\d+):\s*(.+)$/u', $l, $m)) {
         $flushQ(); if ($cur) $topics[] = $cur;
         $cur = ['n' => (int) $m[1], 'name' => $m[2], 'situation' => '', 'learn' => '', 'questions' => []];
-    } elseif ($cur && preg_match('/^Tình huống:\s*(.+)$/u', $l, $m)) {
-        $cur['situation'] = $m[1];
-    } elseif ($cur && preg_match('/^Nội dung học tập:\s*(.+)$/u', $l, $m)) {
-        $cur['learn'] = $m[1];
-    } elseif ($cur && preg_match('/^Câu (\d+)\.\s*(.+)$/u', $l, $m)) {
-        $flushQ(); $q = ['prompt' => $m[2], 'options' => [], 'answer' => '', 'explanation' => ''];
-    } elseif ($q && preg_match('/^([A-D])\.\s*(.+)$/u', $l, $m)) {
-        $q['options'][$m[1]] = $m[2];
-    } elseif ($q && preg_match('/^Đáp án:\s*([A-D])\.\s*(.+)$/u', $l, $m)) {
-        $q['answer'] = $m[1]; $q['explanation'] = $m[2];
-    }
+    } elseif ($cur && preg_match('/^Tình huống:\s*(.+)$/u', $l, $m)) { $cur['situation'] = $m[1];
+    } elseif ($cur && preg_match('/^Nội dung học tập:\s*(.+)$/u', $l, $m)) { $cur['learn'] = $m[1];
+    } elseif ($cur && preg_match('/^Câu \d+\.\s*(.+)$/u', $l, $m)) { $flushQ(); $q = ['prompt' => $m[1], 'options' => [], 'answer' => '', 'explanation' => ''];
+    } elseif ($q && preg_match('/^([A-D])\.\s*(.+)$/u', $l, $m)) { $q['options'][$m[1]] = $m[2];
+    } elseif ($q && preg_match('/^Đáp án:\s*([A-D])\.\s*(.+)$/u', $l, $m)) { $q['answer'] = $m[1]; $q['explanation'] = $m[2]; }
 }
 $flushQ(); if ($cur) $topics[] = $cur;
 
-/* ---------- 2. Tài liệu thảo luận chủ đề → nội dung học tập ---------- */
-$discussion = function (int $n) use ($txtDir, $find, $meta): string {
-    $f = $find($txtDir, $meta[$n][4]);
-    if (!$f) return '';
-    $ls = array_values(array_filter(array_map('trim', preg_split('/\R/u', (string) file_get_contents($f))), fn ($l) => $l !== ''));
-    // Bỏ 2 dòng tiêu đề "CHỦ ĐỀ n" / tên chủ đề; mỗi dòng còn lại là một đoạn
-    return implode("\n\n", array_slice($ls, 2));
-};
-
-/* ---------- 3. Chép tệp media vào data/uploads ---------- */
-$copy = function (?string $from, string $toRel) use ($root): string {
-    if (!$from || !is_file($from)) return '';
-    $to = $root . '/data/uploads/' . $toRel;
-    if (!is_dir(dirname($to))) mkdir(dirname($to), 0775, true);
-    copy($from, $to);
-    return $toRel;
-};
-
-$out = []; $docs = []; $nQ = 0; $nFiles = 0;
+$out = []; $docs = []; $nQ = 0;
 foreach ($topics as $t) {
-    [$id, $icon, $desc, $mediaPat] = $meta[$t['n']];
-    $media = [];
-    if ($srcDir) {
-        $imgDir = $find($srcDir . '/hình ảnh chủ đề', $mediaPat);
-        $photos = $imgDir ? glob($imgDir . '/*') : [];
-        foreach ($photos as $i => $p) $media['photos'][] = $copy($p, "images/hoc-lieu/$id-anh-" . ($i + 1) . '.jpg');
-        $media['infographic'] = $copy($find($srcDir . '/infographic', $mediaPat), "images/hoc-lieu/$id-infographic.png");
-        $media['video'] = $copy($find($srcDir . '/video', '/Chủ đề ' . $t['n'] . ' /u'), "docs/hoc-lieu/$id.mp4");
-        $media['pdf'] = $copy($find($srcDir . '/tài liệu', $mediaPat), "docs/hoc-lieu/$id.pdf");
-        $nFiles += count(array_filter([...($media['photos'] ?? []), $media['infographic'], $media['video'], $media['pdf']]));
-    }
+    [$id, $icon, $desc] = META[$t['n']];
+    $dir = "$src/$id";
+    // Media: đường dẫn trong data/uploads/ mà website dùng (seed_ensure_media() chép từ nguon/)
+    $photos = array_map(fn ($f) => "images/hoc-lieu/$id-" . basename($f), glob("$dir/anh-*.jpg") ?: []);
+    $has = fn (string $f) => is_file("$dir/$f");
+    $disc = glob("$src/thao-luan/chu-de-{$t['n']}-*.txt")[0] ?? null;
     $situations = [];
     foreach ($t['questions'] as $qi => $qq) {
         $keys = array_keys($qq['options']);
+        if (!$qq['answer'] || count($keys) < 2) { fwrite(STDERR, "Câu hỏi thiếu đáp án: {$qq['prompt']}\n"); exit(1); }
         $situations[] = [
             'id' => "$id-" . ($qi + 1), 'title' => $qq['prompt'],
             'question' => 'Tình huống: ' . $t['situation'] . "\n\n" . $qq['prompt'],
-            'image' => $media['photos'][$qi % max(1, count($media['photos'] ?? []))] ?? '', 'video' => '',
+            'image' => $photos ? $photos[$qi % count($photos)] : '', 'video' => '',
             'choices' => array_map(fn ($k) => [
                 'text' => $qq['options'][$k],
-                'explanation' => ($k === $qq['answer'] ? 'Phù hợp nhất. ' . $qq['explanation'] : 'Chưa phù hợp. Đáp án phù hợp nhất là ' . $qq['answer'] . '. ' . $qq['explanation']),
+                'explanation' => $k === $qq['answer'] ? 'Phù hợp nhất. ' . $qq['explanation'] : 'Chưa phù hợp. Đáp án phù hợp nhất là ' . $qq['answer'] . '. ' . $qq['explanation'],
             ], $keys),
             'best' => (int) array_search($qq['answer'], $keys, true), 'status' => 'Đã công bố', 'order' => $qi + 1, 'allow_retry' => true,
         ];
@@ -104,23 +75,28 @@ foreach ($topics as $t) {
     $out[] = [
         'id' => $id, 'name' => $t['name'], 'icon' => $icon, 'order' => $t['n'], 'description' => $desc,
         'situation' => $t['situation'], 'learn' => $t['learn'],
-        'image' => $media['infographic'] ?? '', 'video_file' => $media['video'] ?? '',
-        'content' => "Tình huống: {$t['situation']}\n\nNội dung học tập: {$t['learn']}\n\n" . $discussion($t['n']),
+        'content' => "Tình huống: {$t['situation']}\n\nNội dung học tập: {$t['learn']}" . ($disc ? "\n\n" . implode("\n\n", array_slice($read($disc), 2)) : ''),
         'situations' => $situations,
     ];
-    foreach (['pdf' => 'PDF', 'video' => 'Video', 'infographic' => 'Infographic'] as $k => $fmt) {
-        if (!empty($media[$k])) {
-            $docs[] = ['id' => "d-$id-$k", 'topic_id' => $id, 'name' => ($k === 'pdf' ? 'Tài liệu: ' : ($k === 'video' ? 'Video: ' : 'Infographic: ')) . $t['name'],
-                'format' => $fmt, 'path' => $media[$k], 'link' => '', 'status' => 'Đã công bố'];
-        }
+    foreach ([['tai-lieu.pdf', 'PDF', 'Tài liệu', "docs/hoc-lieu/$id.pdf"], ['video.mp4', 'Video', 'Video', "docs/hoc-lieu/$id.mp4"], ['infographic.png', 'Hình ảnh', 'Infographic', "images/hoc-lieu/$id-infographic.png"]] as [$file, $fmt, $label, $path]) {
+        if ($has($file)) $docs[] = ['id' => "d-$id-" . strtolower(pathinfo($file, PATHINFO_FILENAME) === 'tai-lieu' ? 'pdf' : ($fmt === 'Video' ? 'video' : 'infographic')),
+            'topic_id' => $id, 'name' => "$label: {$t['name']}", 'format' => $fmt, 'path' => $path, 'link' => '', 'status' => 'Đã công bố'];
     }
+}
+
+/* ---------- 2. Danh mục tài liệu tham khảo ---------- */
+$refs = []; $section = '';
+foreach ($read("$src/tai-lieu-tham-khao.txt") as $l) {
+    if (preg_match('/^(I|II|III|IV)\s+(.+)$/u', $l, $m)) { $section = $m[2]; continue; }
+    if (preg_match('/^(\d+)\.\s*(.+)$/u', $l, $m)) { $refs[] = ['section' => $section, 'n' => (int) $m[1], 'text' => $m[2], 'url' => '']; continue; }
+    if (preg_match('#^https?://\S+$#', $l) && $refs) { $refs[count($refs) - 1]['url'] = $l; }
 }
 
 $file = $root . '/includes/du-lieu-mau.json';
 $data = is_file($file) ? (json_decode((string) file_get_contents($file), true) ?: []) : [];
 $data['topics'] = $out;
 $data['docs'] = $docs;
-$data['nguon_hoc_lieu'] = 'Bộ câu hỏi trắc nghiệm – Nội dung học tập ban đầu (10/11/2026) và tài liệu thảo luận 5 chủ đề';
+$data['references'] = $refs;
+$data['nguon_hoc_lieu'] = 'Bộ câu hỏi trắc nghiệm – Nội dung học tập ban đầu (10/11/2026), tài liệu thảo luận 5 chủ đề, danh mục tài liệu tham khảo';
 file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
-printf("Đã ghi %d chủ đề, %d câu hỏi, %d tài liệu; chép %d tệp media vào data/uploads/\n", count($out), $nQ, count($docs), $nFiles);
-foreach ($out as $t) printf("  %-22s %d câu · ảnh %s · video %s\n", $t['id'], count($t['situations']), $t['image'] ? 'có' : '—', $t['video_file'] ? 'có' : '—');
+printf("Đã ghi %d chủ đề, %d câu hỏi, %d tài liệu, %d tài liệu tham khảo vào includes/du-lieu-mau.json\n", count($out), $nQ, count($docs), count($refs));

@@ -1,0 +1,26 @@
+PHÂN CÔNG XỬ LÝ CÁC NHÓM PHẢN ÁNH
+
+DỮ LIỆU GIẢ LẬP CHỈ PHỤC VỤ CHẠY THỬ
+
+Danh mục và người phụ trách
+BLHD — Bạo lực học đường và bắt nạt: chính NV02; dự phòng NV04.
+TLDT — Sử dụng thuốc lá điện tử: chính NV02; dự phòng chưa quy định trong nguồn.
+MXH — Các vấn đề trên mạng xã hội: chính NV03; dự phòng chưa quy định trong nguồn.
+QRTD — Quấy rối và xâm hại: chính NV03; dự phòng NV05.
+GOPY — Góp ý hoạt động và môi trường học đường: chính NV02; dự phòng chưa quy định trong nguồn.
+TAOHON — Nguy cơ tảo hôn hoặc bị ép kết hôn: chính NV03; dự phòng NV05. Nội dung bổ sung đề xuất.
+
+Quy tắc chuyển hồ sơ đề xuất
+Ưu tiên kiểm tra xung đột lợi ích trước khi phân loại. Phản ánh liên quan người đang xử lý phải chuyển NV05. Nếu NV05 cũng có liên quan, khóa truy cập của người liên quan và đặt trạng thái chờ chỉ định người độc lập khác; không tự trả hồ sơ về người bị phản ánh. Nội dung trên mạng có yếu tố quấy rối hoặc xâm hại được ưu tiên nhóm QRTD.
+
+Trường hợp chưa đủ thông tin
+Hệ thống gắn nhãn chờ phân loại và chuyển hàng đợi rà soát; người có thẩm quyền hỏi thêm bằng kênh bảo mật. Không buộc học sinh phải kể lại chi tiết nhạy cảm mới ghi nhận phản ánh. Các nhóm chưa có người dự phòng không được âm thầm bỏ qua khi người chính vắng mặt.
+
+Mẫu phiếu chuyển
+Mã: PC-0001. Hồ sơ: KN-2026-0006. Người đang được phân công ban đầu: NV02. Lý do chuyển: nội dung phản ánh liên quan trực tiếp NV02. Người nhận mới: NV05. Phạm vi quyền: nội dung cần xác minh; thông tin định danh vẫn áp dụng kiểm soát riêng.
+
+Mẫu phản hồi cho học sinh
+Nhà trường đã ghi nhận phản ánh mã {report_id}. Nội dung sẽ được chuyển đến người phù hợp. Em có thể bổ sung thông tin qua kênh theo dõi bảo mật. Việc tiếp nhận chưa phải là kết luận về người hoặc sự việc được phản ánh.
+
+Tiêu chí kiểm tra
+Chạy đủ từng nhóm; chuyển dự phòng khi có người được quy định; chặn phân công cho người có liên quan; lưu người giao, người nhận, thời điểm và lý do. Các phân loại tự động cần được người phụ trách kiểm tra lại.

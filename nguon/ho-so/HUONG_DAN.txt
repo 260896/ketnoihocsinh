@@ -1,0 +1,9 @@
+BỘ HỒ SƠ CHẠY THỬ KẾT NỐI HỌC SINH
+
+Gồm 8 bộ tương ứng 8 mục trong tài liệu nguồn. Mỗi bộ có Word để đọc và chỉnh sửa, TXT để sao chép nội dung và JSON để đối chiếu dữ liệu. Du_lieu_tong_hop.json tập hợp dữ liệu của 8 mục.
+
+Mục 7 có 5 chủ đề, 15 câu hỏi, đáp án và giải thích. Mục 8 có 12 phản ánh mẫu và danh tính giả lập tách riêng.
+
+Mọi dữ liệu đều giả lập. Không gửi email, không gọi số giả lập, không dùng tài khoản thử khi vận hành. Tệp đính kèm chỉ là siêu dữ liệu. Gói chưa chứa mã nguồn hay chức năng nhập dữ liệu. Các email nguồn được giữ để đối chiếu; email example.com được dùng trong dữ liệu chạy thử.
+
+Các nội dung bổ sung gồm nhóm tảo hôn, quy tắc xung đột lợi ích, cách tính hạn phản hồi và kiểm soát tệp. Nội dung nguồn và đề xuất được phân biệt trong từng hồ sơ.

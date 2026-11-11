@@ -75,6 +75,7 @@ mobile_start('Tài liệu', ['back' => url('sv/hoc.php')]);
 <?php endif; ?>
 
 <h2 class="t-h2"><?= $q === '' ? 'Tất cả tài liệu' : 'Tài liệu' ?></h2>
+<?php if ($q === ''): ?><a href="<?= e(url('trang.php', ['p' => 'tham-khao'])) ?>" class="list-card list-card--row"><?= icon('book', 20, 'var(--c-primary)') ?><span class="grow"><span class="t-title d-block">Danh mục tài liệu tham khảo</span><span class="t-small t-muted">Văn bản pháp luật và bài nghiên cứu dùng để xây dựng 5 chủ đề</span></span><?= icon('chevronRight', 18, 'var(--c-muted)') ?></a><?php endif; ?>
 <?php foreach ($hitDocs as $d) echo $docRow($d); ?>
 <?php if (!$hitDocs): ?><p class="t-small t-muted"><?= $q === '' ? 'Chưa có tài liệu nào được công bố.' : 'Không có tài liệu phù hợp.' ?></p><?php endif; ?>
 <?php if ($q !== '' && !$hitTopics && !$hitSits && !$hitDocs): ?><p class="t-muted t-center">Không tìm thấy kết quả.</p><?php endif; ?>

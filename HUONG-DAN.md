@@ -119,13 +119,14 @@ Cán bộ chỉ thấy mẫu chung và mẫu của nhóm phiếu đang xử lý.
 
 ## 4. Việc nhóm nội dung (#17 và 3 chủ đề còn thiếu)
 
-Đã nhập từ thư mục nguồn `Khởi nghiệp_Tân Hưng…/`: bộ câu hỏi gốc (15 câu), tài liệu thảo luận 5 chủ đề (nội dung học tập: nhận diện, cơ sở pháp lý, nơi tiếp nhận, hiểu nhầm, tình huống), ảnh minh họa, infographic, video, PDF.
+Đã nhập từ thư mục **`nguon/`** (xem `nguon/README.md`): bộ câu hỏi gốc (15 câu), tài liệu thảo luận 5 chủ đề (nội dung học tập: nhận diện, cơ sở pháp lý, nơi tiếp nhận, hiểu nhầm, tình huống), ảnh minh họa, infographic, video, PDF.
 Khi nhà trường sửa tài liệu nguồn, nhập lại như sau (trên máy có PowerShell):
 
-1. Trích chữ từ các tệp `.docx` (PHP của XAMPP không có ZipArchive) ra một thư mục, mỗi tệp một `.txt` cùng tên – ví dụ bằng Word: *Lưu thành → Văn bản thuần (.txt), mã hóa UTF-8*.
-2. `php tools/nhap-hoc-lieu.php "<thư mục .txt>" "<thư mục Khởi nghiệp_Tân Hưng>"` → ghi `includes/du-lieu-mau.json`, chép media vào `data/uploads/`.
-3. `php tools/nhap-ho-so.php "<thư mục Ho_so_Ket_noi_hoc_sinh>"` → nhân sự, 12 phiếu mẫu, danh tính giả lập.
-4. Sao lưu rồi xóa `data/*.json` để website tạo lại dữ liệu mẫu (thư mục `data/uploads/` giữ nguyên).
+1. Thay tệp trong `nguon/` (giữ đúng tên). Nếu sửa `.docx`, lưu lại bản `.txt` cùng tên bên cạnh (PHP của XAMPP không có ZipArchive) – bằng Word: *Lưu thành → Văn bản thuần (.txt), mã hóa UTF-8*.
+2. `php tools/nhap-hoc-lieu.php` → đọc `nguon/hoc-lieu/`, ghi `includes/du-lieu-mau.json` (câu hỏi, nội dung, tài liệu, danh mục tham khảo).
+3. `php tools/nhap-ho-so.php` → đọc `nguon/ho-so/`: nhân sự, 12 phiếu mẫu, danh tính giả lập.
+   Media (ảnh, infographic, video, PDF) được website tự chép từ `nguon/hoc-lieu/<id>/` vào `data/uploads/`.
+4. Sao lưu rồi xóa `data/*.json` (và `data/uploads/{images,docs}/hoc-lieu/` nếu thay media) để website tạo lại dữ liệu mẫu.
 
 Thêm tình huống mới trên giao diện:
 

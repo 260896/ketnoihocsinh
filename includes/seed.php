@@ -125,6 +125,7 @@ function seed_group_templates(): array
  */
 function seed_topics(): array
 {
+    seed_ensure_media();
     $topics = seed_source()['topics'] ?? [];
     $now = date('c');
     foreach ($topics as &$t) {
@@ -179,7 +180,35 @@ function seed_users(): array
 /** Tài liệu kèm chủ đề: PDF, video, infographic (đã công bố). */
 function seed_docs(): array
 {
-    return array_map(fn ($d) => ['format' => $d['format'] === 'Infographic' ? 'Hình ảnh' : $d['format']] + $d, seed_source()['docs'] ?? []);
+    seed_ensure_media();
+    return seed_source()['docs'] ?? [];
+}
+
+/**
+ * Chép media học liệu từ nguon/hoc-lieu/<id>/ (lưu trong Git) vào data/uploads/ (không lưu trong Git) nếu chưa có,
+ * để bản cài mới vẫn có đủ ảnh, infographic, video, PDF. Không ghi đè tệp đã có.
+ */
+function seed_ensure_media(): void
+{
+    static $done = false;
+    if ($done) return;
+    $done = true;
+    foreach (glob(ROOT . '/nguon/hoc-lieu/*', GLOB_ONLYDIR) ?: [] as $dir) {
+        $id = basename($dir);
+        if ($id === 'thao-luan') continue;
+        foreach (glob($dir . '/*') ?: [] as $file) {
+            $name = basename($file);
+            $to = match (true) {
+                $name === 'video.mp4'    => "docs/hoc-lieu/$id.mp4",
+                $name === 'tai-lieu.pdf' => "docs/hoc-lieu/$id.pdf",
+                default                  => "images/hoc-lieu/$id-$name",
+            };
+            $dest = UPLOAD_DIR . '/' . $to;
+            if (is_file($dest)) continue;
+            if (!is_dir(dirname($dest))) mkdir(dirname($dest), 0775, true);
+            copy($file, $dest);
+        }
+    }
 }
 
 /** Cặp mã tham gia + email. HS2026 là mã nguồn của tài khoản E2400249 (đã dùng). */

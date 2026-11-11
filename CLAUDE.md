@@ -1,6 +1,6 @@
 # CLAUDE.md – Dự án KẾT NỐI HỌC SINH
 
-> Đọc file này trước khi sửa hoặc kiểm tra code. Nguồn gốc (thư mục `Khởi nghiệp_Tân Hưng…/`, không đưa lên Git): **Brief kỹ thuật giai đoạn 1** (PDF – nguyên tắc), **Thông tin giả lập chạy thử** (cấu hình), **Bộ câu hỏi trắc nghiệm** + tài liệu thảo luận, infographic, video, PDF 5 chủ đề (học liệu), logo *schoolink*. Bổ sung: **Bộ hồ sơ chạy thử** (`Ho_so_Ket_noi_hoc_sinh…/`, 8 mục – đề xuất chi tiết). Thứ tự ưu tiên: **Brief thắng ở nguyên tắc** → **dữ liệu giả lập thắng ở cấu hình** → bộ hồ sơ chỉ áp dụng khi không trái hai nguồn trên.
+> Đọc file này trước khi sửa hoặc kiểm tra code. Nguồn gốc (thư mục **`nguon/`** – mục lục ở `nguon/README.md`): **Brief kỹ thuật giai đoạn 1** (PDF – nguyên tắc), **Thông tin giả lập chạy thử** (cấu hình), **Bộ câu hỏi trắc nghiệm** + tài liệu thảo luận, infographic, video, PDF 5 chủ đề (học liệu), logo *schoolink*. Bổ sung: **Bộ hồ sơ chạy thử** (`nguon/ho-so/`, 8 mục – đề xuất chi tiết). Thứ tự ưu tiên: **Brief thắng ở nguyên tắc** → **dữ liệu giả lập thắng ở cấu hình** → bộ hồ sơ chỉ áp dụng khi không trái hai nguồn trên.
 
 ## 1. Dự án là gì
 

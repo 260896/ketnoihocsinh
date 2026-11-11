@@ -1,0 +1,25 @@
+THÔNG TIN QUẢN TRỊ VÀ TIẾP NHẬN PHẢN ÁNH
+
+DỮ LIỆU GIẢ LẬP CHỈ PHỤC VỤ CHẠY THỬ
+
+Mục đích và phạm vi
+Thiết lập nhân sự, tài khoản và quyền truy cập để chạy thử quy trình tiếp nhận phản ánh. Tất cả nhân sự và địa chỉ liên hệ trong hồ sơ là giả lập.
+
+Danh sách nhân sự
+NV01 — Nguyễn Minh Anh: admin. Email nguồn: admin@abc-trung học.edu.vn. Tài khoản thử: admin@example.com.
+NV02 — Trần Quốc Bảo: student_affairs. Email nguồn: baotq@abc-trung học.edu.vn. Tài khoản thử: baotq@example.com.
+NV03 — Lê Thu Hà: counselor. Email nguồn: hatl@abc-trung học.edu.vn. Tài khoản thử: hatl@example.com.
+NV04 — Phạm Hoàng Nam: backup. Email nguồn: namph@abc-trung học.edu.vn. Tài khoản thử: namph@example.com.
+NV05 — Võ Thanh Tùng: independent. Email nguồn: tungvt@abc-trung học.edu.vn. Tài khoản thử: tungvt@example.com.
+
+Phiếu phân quyền đề xuất
+NV01 quản lý cấu hình, tài khoản và quyền. NV02 xử lý công tác học sinh. NV03 tư vấn, hỗ trợ học sinh. NV04 nhận hồ sơ được chuyển dự phòng. NV05 tiếp nhận độc lập khi có xung đột lợi ích. Mỗi người chỉ được xem hồ sơ đã được phân công; quyền quản trị cấu hình không tự động cho phép đọc toàn bộ nội dung phản ánh.
+
+Kiểm soát thông tin định danh
+Theo tài liệu nguồn, chỉ NV01 và NV05 được phép mở thông tin định danh đã bảo mật, khi có lý do chính đáng và cần thiết. Đề xuất chạy thử yêu cầu nhập lý do và ghi nhật ký mỗi lần mở. Nếu phản ánh liên quan chính một trong hai người này, người đó không được mở danh tính hoặc xử lý hồ sơ ấy.
+
+Mẫu tiếp nhận nội bộ
+Mã hồ sơ: KN-2026-0001. Thời điểm nhận: 09:00 ngày 10/11/2026. Nhóm: BLHD. Hình thức: ẩn danh. Người được phân công: NV02. Trạng thái: đã tiếp nhận. Nội dung: học sinh báo bị chặn lối đi và xúc phạm sau giờ học; cần được gặp riêng để hỗ trợ.
+
+Tiêu chí kiểm tra
+Đăng nhập từng vai trò; xác nhận quyền đọc đúng hồ sơ; NV04 chỉ thấy hồ sơ sau khi được giao; người xử lý không thấy thông tin định danh; tài khoản bị vô hiệu hóa không còn truy cập được. Không gửi email ra ngoài trong quá trình thử.

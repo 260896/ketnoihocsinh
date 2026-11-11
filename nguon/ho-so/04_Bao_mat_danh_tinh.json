@@ -1,0 +1,54 @@
+{
+  "metadata": {
+    "project": "KẾT NỐI HỌC SINH",
+    "version": "1.0",
+    "date": "2026-11-10",
+    "synthetic": true,
+    "environment": "test",
+    "timezone": "Asia/Ho_Chi_Minh",
+    "scope": "Dữ liệu giả lập theo 8 mục trong tài liệu nguồn; các quy tắc chi tiết bổ sung là đề xuất chạy thử, chưa phải quy chế được nhà trường ban hành."
+  },
+  "section": 4,
+  "title": "Bảo mật thông tin người phản ánh",
+  "content": [
+    {
+      "heading": "Hai hình thức gửi phản ánh",
+      "text": "Ẩn danh: không yêu cầu tên, email hoặc mã học sinh trong biểu mẫu. Có danh tính được bảo mật: thông tin định danh được lưu riêng và chỉ NV01, NV05 có thể mở có kiểm soát. Không hiển thị tên người gửi trong danh sách hồ sơ hoặc thông báo."
+    },
+    {
+      "heading": "Lưu ý về đăng nhập và ẩn danh",
+      "text": "Nếu hệ thống vẫn liên kết phản ánh với tài khoản học sinh đã đăng nhập thì phải gọi đúng là phản ánh được bảo mật danh tính, không hứa ẩn danh tuyệt đối. Phương án thử đề xuất cho chế độ ẩn danh: không lưu liên kết tài khoản trong bản ghi phản ánh; cấp mã theo dõi kèm mã bí mật để xem phản hồi. Mã hồ sơ đơn lẻ không đủ quyền truy cập."
+    },
+    {
+      "heading": "Phiếu yêu cầu mở danh tính giả lập",
+      "text": "Mã yêu cầu: MD-0001. Hồ sơ: KN-2026-0004. Người yêu cầu mở: NV05. Mục đích: liên hệ riêng để bố trí hỗ trợ theo đề nghị của người phản ánh. Phạm vi: tên hiển thị và kênh liên hệ; không xuất toàn bộ danh sách. Trạng thái: chờ xác nhận nhu cầu. Mỗi lần thực sự mở phải tạo một sự kiện nhật ký riêng."
+    },
+    {
+      "heading": "Mẫu nhật ký truy cập",
+      "text": "Sự kiện NK-0001: NV02 đọc nội dung KN-2026-0001, kết quả cho phép. NK-0002: NV02 yêu cầu xem danh tính KN-2026-0004, kết quả từ chối. NK-0003: NV05 mở danh tính KN-2026-0004 sau khi ghi lý do, kết quả cho phép. Không đưa giá trị danh tính thực tế vào nhật ký."
+    },
+    {
+      "heading": "Thông báo bảo mật đề xuất",
+      "text": "Thông tin được sử dụng để tiếp nhận, xác minh và hỗ trợ xử lý phản ánh. Người xử lý chỉ được tiếp cận dữ liệu trong phạm vi nhiệm vụ. Nhà trường cần công bố rõ người phụ trách dữ liệu, thời hạn lưu, kênh yêu cầu chỉnh sửa và những trường hợp cung cấp thông tin theo quy định trước khi vận hành chính thức. Bộ thử chưa đặt thời hạn lưu tự động."
+    },
+    {
+      "heading": "Tiêu chí kiểm tra",
+      "text": "Thử truy cập hồ sơ của người khác; thử dùng mã hồ sơ mà thiếu mã bí mật; kiểm tra xuất file và nội dung email không lộ danh tính; người bị phản ánh không được xem hồ sơ liên quan; kiểm tra tệp đính kèm có thể tự tiết lộ danh tính và cảnh báo trước khi gửi."
+    }
+  ],
+  "test_data": {
+    "modes": [
+      "anonymous",
+      "confidential_identity"
+    ],
+    "identity_access": [
+      "NV01",
+      "NV05"
+    ],
+    "identity_access_requires_reason": true,
+    "report_id_alone_allows_access": false,
+    "anonymous_account_link": false,
+    "retention_days": null,
+    "audit_log_store_identity_values": false
+  }
+}

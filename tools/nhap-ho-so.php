@@ -1,13 +1,14 @@
 <?php
 /**
  * Chuyển "Bộ hồ sơ chạy thử Kết nối học sinh" (JSON) thành dữ liệu mẫu của website: includes/du-lieu-mau.json
- *   php tools/nhap-ho-so.php "<thư mục chứa 07_Hoc_lieu_5_chu_de.json, 08_Tai_khoan_ho_so_mau.json, 01_Quan_tri_tiep_nhan.json>"
+ *   php tools/nhap-ho-so.php                 (mặc định đọc nguon/ho-so/)
+ *   php tools/nhap-ho-so.php "<thư mục khác>"  (chứa 01_…json, 07_…json, 08_…json)
  * Sau đó xóa data/*.json (sao lưu trước) để website tạo lại dữ liệu từ includes/seed.php.
  * Chỉ chạy từ dòng lệnh.
  */
 if (PHP_SAPI !== 'cli') { http_response_code(403); exit('Forbidden'); }
 
-$dir = rtrim($argv[1] ?? '', '/\\');
+$dir = rtrim($argv[1] ?? (dirname(__DIR__) . '/nguon/ho-so'), '/\\');
 $read = function (string $name) use ($dir): array {
     $f = "$dir/$name";
     if (!is_file($f)) { fwrite(STDERR, "Không thấy $f\n"); exit(1); }

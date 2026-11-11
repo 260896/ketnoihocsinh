@@ -1,0 +1,83 @@
+{
+  "metadata": {
+    "project": "KẾT NỐI HỌC SINH",
+    "version": "1.0",
+    "date": "2026-11-10",
+    "synthetic": true,
+    "environment": "test",
+    "timezone": "Asia/Ho_Chi_Minh",
+    "scope": "Dữ liệu giả lập theo 8 mục trong tài liệu nguồn; các quy tắc chi tiết bổ sung là đề xuất chạy thử, chưa phải quy chế được nhà trường ban hành."
+  },
+  "section": 1,
+  "title": "Thông tin quản trị và tiếp nhận phản ánh",
+  "content": [
+    {
+      "heading": "Mục đích và phạm vi",
+      "text": "Thiết lập nhân sự, tài khoản và quyền truy cập để chạy thử quy trình tiếp nhận phản ánh. Tất cả nhân sự và địa chỉ liên hệ trong hồ sơ là giả lập."
+    },
+    {
+      "heading": "Danh sách nhân sự",
+      "text": "NV01 — Nguyễn Minh Anh: admin. Email nguồn: admin@abc-trung học.edu.vn. Tài khoản thử: admin@example.com.\nNV02 — Trần Quốc Bảo: student_affairs. Email nguồn: baotq@abc-trung học.edu.vn. Tài khoản thử: baotq@example.com.\nNV03 — Lê Thu Hà: counselor. Email nguồn: hatl@abc-trung học.edu.vn. Tài khoản thử: hatl@example.com.\nNV04 — Phạm Hoàng Nam: backup. Email nguồn: namph@abc-trung học.edu.vn. Tài khoản thử: namph@example.com.\nNV05 — Võ Thanh Tùng: independent. Email nguồn: tungvt@abc-trung học.edu.vn. Tài khoản thử: tungvt@example.com."
+    },
+    {
+      "heading": "Phiếu phân quyền đề xuất",
+      "text": "NV01 quản lý cấu hình, tài khoản và quyền. NV02 xử lý công tác học sinh. NV03 tư vấn, hỗ trợ học sinh. NV04 nhận hồ sơ được chuyển dự phòng. NV05 tiếp nhận độc lập khi có xung đột lợi ích. Mỗi người chỉ được xem hồ sơ đã được phân công; quyền quản trị cấu hình không tự động cho phép đọc toàn bộ nội dung phản ánh."
+    },
+    {
+      "heading": "Kiểm soát thông tin định danh",
+      "text": "Theo tài liệu nguồn, chỉ NV01 và NV05 được phép mở thông tin định danh đã bảo mật, khi có lý do chính đáng và cần thiết. Đề xuất chạy thử yêu cầu nhập lý do và ghi nhật ký mỗi lần mở. Nếu phản ánh liên quan chính một trong hai người này, người đó không được mở danh tính hoặc xử lý hồ sơ ấy."
+    },
+    {
+      "heading": "Mẫu tiếp nhận nội bộ",
+      "text": "Mã hồ sơ: KN-2026-0001. Thời điểm nhận: 09:00 ngày 10/11/2026. Nhóm: BLHD. Hình thức: ẩn danh. Người được phân công: NV02. Trạng thái: đã tiếp nhận. Nội dung: học sinh báo bị chặn lối đi và xúc phạm sau giờ học; cần được gặp riêng để hỗ trợ."
+    },
+    {
+      "heading": "Tiêu chí kiểm tra",
+      "text": "Đăng nhập từng vai trò; xác nhận quyền đọc đúng hồ sơ; NV04 chỉ thấy hồ sơ sau khi được giao; người xử lý không thấy thông tin định danh; tài khoản bị vô hiệu hóa không còn truy cập được. Không gửi email ra ngoài trong quá trình thử."
+    }
+  ],
+  "test_data": {
+    "staff": [
+      {
+        "id": "NV01",
+        "name": "Nguyễn Minh Anh",
+        "role": "admin",
+        "source_email": "admin@abc-trung học.edu.vn",
+        "test_email": "admin@example.com"
+      },
+      {
+        "id": "NV02",
+        "name": "Trần Quốc Bảo",
+        "role": "student_affairs",
+        "source_email": "baotq@abc-trung học.edu.vn",
+        "test_email": "baotq@example.com"
+      },
+      {
+        "id": "NV03",
+        "name": "Lê Thu Hà",
+        "role": "counselor",
+        "source_email": "hatl@abc-trung học.edu.vn",
+        "test_email": "hatl@example.com"
+      },
+      {
+        "id": "NV04",
+        "name": "Phạm Hoàng Nam",
+        "role": "backup",
+        "source_email": "namph@abc-trung học.edu.vn",
+        "test_email": "namph@example.com"
+      },
+      {
+        "id": "NV05",
+        "name": "Võ Thanh Tùng",
+        "role": "independent",
+        "source_email": "tungvt@abc-trung học.edu.vn",
+        "test_email": "tungvt@example.com"
+      }
+    ],
+    "notifications_outbound_enabled": false,
+    "identity_authorized_roles": [
+      "admin",
+      "independent"
+    ]
+  }
+}

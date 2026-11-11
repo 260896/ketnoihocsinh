@@ -1,0 +1,664 @@
+{
+  "metadata": {
+    "project": "KẾT NỐI HỌC SINH",
+    "version": "1.0",
+    "date": "2026-11-10",
+    "synthetic": true,
+    "environment": "test",
+    "timezone": "Asia/Ho_Chi_Minh",
+    "scope": "Dữ liệu giả lập theo 8 mục trong tài liệu nguồn; các quy tắc chi tiết bổ sung là đề xuất chạy thử, chưa phải quy chế được nhà trường ban hành."
+  },
+  "sections": [
+    {
+      "id": 1,
+      "title": "Thông tin quản trị và tiếp nhận phản ánh",
+      "data": {
+        "staff": [
+          {
+            "id": "NV01",
+            "name": "Nguyễn Minh Anh",
+            "role": "admin",
+            "source_email": "admin@abc-trung học.edu.vn",
+            "test_email": "admin@example.com"
+          },
+          {
+            "id": "NV02",
+            "name": "Trần Quốc Bảo",
+            "role": "student_affairs",
+            "source_email": "baotq@abc-trung học.edu.vn",
+            "test_email": "baotq@example.com"
+          },
+          {
+            "id": "NV03",
+            "name": "Lê Thu Hà",
+            "role": "counselor",
+            "source_email": "hatl@abc-trung học.edu.vn",
+            "test_email": "hatl@example.com"
+          },
+          {
+            "id": "NV04",
+            "name": "Phạm Hoàng Nam",
+            "role": "backup",
+            "source_email": "namph@abc-trung học.edu.vn",
+            "test_email": "namph@example.com"
+          },
+          {
+            "id": "NV05",
+            "name": "Võ Thanh Tùng",
+            "role": "independent",
+            "source_email": "tungvt@abc-trung học.edu.vn",
+            "test_email": "tungvt@example.com"
+          }
+        ],
+        "notifications_outbound_enabled": false,
+        "identity_authorized_roles": [
+          "admin",
+          "independent"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "title": "Phân công xử lý các nhóm phản ánh",
+      "data": {
+        "routes": [
+          {
+            "id": "BLHD",
+            "label": "Bạo lực học đường và bắt nạt",
+            "primary": "NV02",
+            "backup": "NV04"
+          },
+          {
+            "id": "TLDT",
+            "label": "Sử dụng thuốc lá điện tử",
+            "primary": "NV02",
+            "backup": null
+          },
+          {
+            "id": "MXH",
+            "label": "Các vấn đề trên mạng xã hội",
+            "primary": "NV03",
+            "backup": null
+          },
+          {
+            "id": "QRTD",
+            "label": "Quấy rối và xâm hại",
+            "primary": "NV03",
+            "backup": "NV05"
+          },
+          {
+            "id": "GOPY",
+            "label": "Góp ý hoạt động và môi trường học đường",
+            "primary": "NV02",
+            "backup": null
+          },
+          {
+            "id": "TAOHON",
+            "label": "Nguy cơ tảo hôn hoặc bị ép kết hôn",
+            "primary": "NV03",
+            "backup": "NV05",
+            "proposed": true
+          }
+        ],
+        "conflict_override": "NV05",
+        "independent_conflict_action": "pending_independent_assignment",
+        "unclassified_action": "manual_review"
+      }
+    },
+    {
+      "id": 3,
+      "title": "Thời gian tiếp nhận và xử lý",
+      "data": {
+        "working_days": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "open": "08:00",
+        "close": "17:00",
+        "urgent_ack_minutes": 15,
+        "normal_response_workdays": 2,
+        "outside_hours_urgent_policy": "next_work_start_proposed_no_live_coverage",
+        "holidays": [],
+        "fake_phone": "1900 0000",
+        "phone_click_enabled": false
+      }
+    },
+    {
+      "id": 4,
+      "title": "Bảo mật thông tin người phản ánh",
+      "data": {
+        "modes": [
+          "anonymous",
+          "confidential_identity"
+        ],
+        "identity_access": [
+          "NV01",
+          "NV05"
+        ],
+        "identity_access_requires_reason": true,
+        "report_id_alone_allows_access": false,
+        "anonymous_account_link": false,
+        "retention_days": null,
+        "audit_log_store_identity_values": false
+      }
+    },
+    {
+      "id": 5,
+      "title": "Tệp đính kèm phản ánh",
+      "data": {
+        "allowed_extensions": [
+          "pdf",
+          "jpg",
+          "jpeg",
+          "png",
+          "mp4"
+        ],
+        "allowed_mime": [
+          "application/pdf",
+          "image/jpeg",
+          "image/png",
+          "video/mp4"
+        ],
+        "max_file_bytes": 10000000,
+        "max_files": 5,
+        "required": false,
+        "examples_are_metadata_only": true
+      }
+    },
+    {
+      "id": 6,
+      "title": "Tên gọi và nội dung giao diện website",
+      "data": {
+        "name": "KẾT NỐI HỌC SINH",
+        "tagline": "Lắng nghe – Đồng hành – Chia sẻ",
+        "domain": "ketnoihocsinh.local",
+        "logo_mode": "text",
+        "colors_proposed": {
+          "blue": "#1557B0",
+          "red": "#C62828",
+          "white": "#FFFFFF"
+        },
+        "navigation": [
+          "Trang chủ",
+          "Học cùng nhau",
+          "Gửi phản ánh",
+          "Theo dõi phản ánh",
+          "Hướng dẫn và bảo mật"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "title": "Học liệu và câu hỏi kiểm tra cho năm chủ đề",
+      "data": {
+        "pass_threshold": 2,
+        "question_count_per_topic": 3,
+        "topics": [
+          {
+            "id": "CD01",
+            "title": "Bạo lực học đường",
+            "situation": "Một nhóm bạn liên tục chế giễu Minh, không cho Minh tham gia hoạt động nhóm và đăng lời xúc phạm lên nhóm lớp. Minh sợ đến trường.",
+            "lesson": "Bắt nạt có thể biểu hiện bằng lời nói, cô lập, hành vi gây hại hoặc trên mạng. Những hành vi này cần được tiếp nhận nghiêm túc. Người bị bắt nạt không có lỗi vì đã tìm sự hỗ trợ; người chứng kiến không nên cổ vũ, quay clip để phát tán hoặc tham gia xúc phạm.",
+            "suggested_action": "Ưu tiên an toàn, đến nơi có người hỗ trợ; báo giáo viên hoặc người lớn đáng tin cậy. Nếu an toàn, lưu thông tin liên quan và hỏi bạn cần hỗ trợ gì. Không tự đối đầu với nhóm đang có hành vi bạo lực.",
+            "questions": [
+              {
+                "id": "CD01-Q1",
+                "prompt": "Khi chứng kiến Minh bị bắt nạt, em nên làm gì?",
+                "options": {
+                  "A": "Cổ vũ để không bị nhóm ghét",
+                  "B": "Tìm người lớn hỗ trợ và giúp Minh đến nơi an toàn nếu có thể",
+                  "C": "Đăng clip kèm tên Minh",
+                  "D": "Mặc kệ vì không liên quan"
+                },
+                "answer": "B",
+                "explanation": "Hỗ trợ an toàn và báo người có trách nhiệm giúp hạn chế nguy cơ; phát tán clip có thể làm tổn thương thêm."
+              },
+              {
+                "id": "CD01-Q2",
+                "prompt": "Hành vi nào cần được chú ý?",
+                "options": {
+                  "A": "Liên tục cô lập và xúc phạm bạn trên mạng",
+                  "B": "Góp ý lịch sự về bài làm",
+                  "C": "Từ chối cho mượn một vật cá nhân",
+                  "D": "Không đồng ý với một quan điểm"
+                },
+                "answer": "A",
+                "explanation": "Cô lập và xúc phạm lặp lại là dấu hiệu cần được xem xét, không thể coi mặc nhiên là trò đùa."
+              },
+              {
+                "id": "CD01-Q3",
+                "prompt": "Nếu chưa có ảnh hoặc video, học sinh có được phản ánh không?",
+                "options": {
+                  "A": "Không, bắt buộc có chứng cứ",
+                  "B": "Chỉ được gửi khi cả lớp đồng ý",
+                  "C": "Có, có thể kể thông tin mình biết và đề nghị hỗ trợ",
+                  "D": "Phải tự quay clip trước"
+                },
+                "answer": "C",
+                "explanation": "Tệp đính kèm là tùy chọn. Học sinh không phải tự đặt mình vào nguy hiểm để thu thập tài liệu."
+              }
+            ],
+            "source": null
+          },
+          {
+            "id": "CD02",
+            "title": "Phòng tránh thuốc lá điện tử",
+            "situation": "Trong giờ nghỉ, một người bạn đưa cho An thiết bị thuốc lá điện tử có mùi trái cây và nói thử một lần sẽ không sao.",
+            "lesson": "Thuốc lá điện tử không trở nên an toàn vì có mùi dễ chịu. Quốc hội đã thống nhất cấm sản xuất, kinh doanh, nhập khẩu, chứa chấp, vận chuyển và sử dụng thuốc lá điện tử, thuốc lá nung nóng từ năm 2025 theo Nghị quyết 173/2024/QH15. Bài học này không dùng để tự xác định mức phạt cho từng tình huống.",
+            "suggested_action": "Từ chối rõ ràng, rời khỏi tình huống nếu bị ép và báo người lớn đáng tin cậy. Không giữ hoặc mang hộ thiết bị. Nếu bạn có biểu hiện bất thường sau sử dụng, tìm người lớn và hỗ trợ y tế ngay; không chờ xử lý qua website.",
+            "questions": [
+              {
+                "id": "CD02-Q1",
+                "prompt": "Khi bị rủ sử dụng, An nên làm gì?",
+                "options": {
+                  "A": "Thử để chứng minh tình bạn",
+                  "B": "Từ chối, rời tình huống và tìm hỗ trợ nếu bị ép",
+                  "C": "Giữ hộ để bạn dùng sau",
+                  "D": "Mua loại có mùi nhẹ"
+                },
+                "answer": "B",
+                "explanation": "Từ chối và tìm hỗ trợ là cách ứng xử phù hợp; mùi hương không chứng minh sản phẩm an toàn."
+              },
+              {
+                "id": "CD02-Q2",
+                "prompt": "Nhận định nào phù hợp?",
+                "options": {
+                  "A": "Có mùi trái cây nên không gây hại",
+                  "B": "Không có khói rõ thì không có rủi ro",
+                  "C": "Thuốc lá điện tử có nguy cơ với sức khỏe và bị cấm sử dụng theo quy định nêu trong bài",
+                  "D": "Chỉ người học kém mới có thể bị rủ rê"
+                },
+                "answer": "C",
+                "explanation": "Cần dựa vào thông tin sức khỏe và quy định, không dựa vào mùi hay định kiến về người sử dụng."
+              },
+              {
+                "id": "CD02-Q3",
+                "prompt": "Bạn khó thở sau khi sử dụng, cần làm gì trước?",
+                "options": {
+                  "A": "Chỉ gửi phản ánh rồi chờ",
+                  "B": "Đăng video lên nhóm lớp",
+                  "C": "Giấu thiết bị và bỏ đi",
+                  "D": "Tìm người lớn và hỗ trợ y tế ngay"
+                },
+                "answer": "D",
+                "explanation": "Tình huống sức khỏe cần hỗ trợ trực tiếp, website không thay thế cấp cứu."
+              }
+            ],
+            "source": "https://xaydungchinhsach.chinhphu.vn/cam-san-xuat-kinh-doanh-nhap-khau-chua-chap-van-chuyen-su-dung-thuoc-la-dien-tu-thuoc-la-nung-nong-tu-nam-2025-119241214164955394.htm"
+          },
+          {
+            "id": "CD03",
+            "title": "An toàn trên mạng xã hội",
+            "situation": "Linh nhận đường link thông báo trúng học bổng và yêu cầu nhập mật khẩu, mã OTP cùng thông tin tài khoản ngân hàng để nhận tiền.",
+            "lesson": "Đường link lạ, lời hứa hấp dẫn và yêu cầu cung cấp mật khẩu hoặc OTP là những dấu hiệu cần cảnh giác. Tên hoặc ảnh đại diện quen thuộc không đủ chứng minh người gửi đáng tin. Kiểm tra thông tin qua kênh chính thức do mình chủ động tìm.",
+            "suggested_action": "Không nhập dữ liệu, không chuyển tiền, không gửi tiếp đường link. Nếu đã nhập mật khẩu, đổi ngay qua ứng dụng hoặc trang chính thức; nếu liên quan tài khoản ngân hàng, liên hệ ngân hàng qua kênh chính thức. Nhờ người lớn hỗ trợ và báo cáo tài khoản đáng ngờ.",
+            "questions": [
+              {
+                "id": "CD03-Q1",
+                "prompt": "Khi nhận đường link trên, Linh nên làm gì?",
+                "options": {
+                  "A": "Nhập OTP để kiểm tra",
+                  "B": "Không cung cấp dữ liệu, kiểm tra học bổng qua kênh chính thức",
+                  "C": "Chuyển link để cả lớp đăng ký",
+                  "D": "Gửi mật khẩu nhưng không gửi OTP"
+                },
+                "answer": "B",
+                "explanation": "Không cung cấp mật khẩu hoặc OTP; xác minh độc lập qua kênh chính thức."
+              },
+              {
+                "id": "CD03-Q2",
+                "prompt": "Nếu đã nhập mật khẩu vào trang nghi giả mạo, nên làm gì?",
+                "options": {
+                  "A": "Đổi mật khẩu qua kênh chính thức và tìm hỗ trợ",
+                  "B": "Đợi xem có mất tiền không",
+                  "C": "Đăng mật khẩu để mọi người kiểm tra",
+                  "D": "Chỉ xóa tin nhắn"
+                },
+                "answer": "A",
+                "explanation": "Đổi mật khẩu và xử lý qua kênh chính thức giúp hạn chế nguy cơ; xóa tin nhắn không bảo vệ tài khoản."
+              },
+              {
+                "id": "CD03-Q3",
+                "prompt": "Bạn gửi tin đáng ngờ bằng tài khoản quen thuộc, điều đó có nghĩa gì?",
+                "options": {
+                  "A": "Chắc chắn an toàn",
+                  "B": "Phải làm theo ngay",
+                  "C": "Vẫn cần xác minh vì tài khoản có thể bị chiếm quyền",
+                  "D": "Không bao giờ cần kiểm tra đường link"
+                },
+                "answer": "C",
+                "explanation": "Tài khoản quen thuộc vẫn có thể bị giả mạo hoặc chiếm quyền."
+              }
+            ],
+            "source": null
+          },
+          {
+            "id": "CD04",
+            "title": "Phòng chống tảo hôn",
+            "situation": "Một học sinh 16 tuổi bị gia đình yêu cầu nghỉ học để tổ chức đám cưới, dù em chưa đồng ý và muốn tiếp tục đến trường.",
+            "lesson": "Theo Luật Hôn nhân và gia đình, điều kiện tuổi kết hôn là nam từ đủ 20 tuổi, nữ từ đủ 18 tuổi; việc kết hôn phải do hai bên tự nguyện. Tảo hôn là lấy vợ, lấy chồng khi một hoặc cả hai bên chưa đủ tuổi luật định. Sự đồng ý của gia đình không thay thế điều kiện về tuổi và sự tự nguyện.",
+            "suggested_action": "Tìm giáo viên, người tư vấn hoặc người lớn đáng tin cậy có thể bảo vệ mình. Nếu gia đình là nguồn gây áp lực, chọn người hỗ trợ ngoài gia đình. Trình bày mức độ an toàn và nguy cơ bị ép nghỉ học; không tự đối đầu nếu có thể bị gây hại. Nhóm tiếp nhận tảo hôn trong bộ thử được đề xuất là NV03, dự phòng NV05.",
+            "questions": [
+              {
+                "id": "CD04-Q1",
+                "prompt": "Học sinh trong tình huống nên làm gì?",
+                "options": {
+                  "A": "Im lặng vì gia đình đã quyết",
+                  "B": "Tự bỏ đi mà không báo người hỗ trợ",
+                  "C": "Tìm người lớn đáng tin cậy hoặc nhà trường để được hỗ trợ an toàn",
+                  "D": "Tổ chức cưới trước rồi tính sau"
+                },
+                "answer": "C",
+                "explanation": "Cần được hỗ trợ bảo vệ an toàn và quyền lợi, không phải tự giải quyết áp lực một mình."
+              },
+              {
+                "id": "CD04-Q2",
+                "prompt": "Tuổi kết hôn theo quy định được giới thiệu trong bài là gì?",
+                "options": {
+                  "A": "Nam đủ 18, nữ đủ 16",
+                  "B": "Nam đủ 20, nữ đủ 18",
+                  "C": "Cả hai đủ 16",
+                  "D": "Chỉ cần gia đình đồng ý"
+                },
+                "answer": "B",
+                "explanation": "Điểm a khoản 1 Điều 8 Luật Hôn nhân và gia đình quy định nam từ đủ 20 tuổi, nữ từ đủ 18 tuổi."
+              },
+              {
+                "id": "CD04-Q3",
+                "prompt": "Khi đã đủ tuổi, có thể ép một người kết hôn không?",
+                "options": {
+                  "A": "Có, nếu cha mẹ đồng ý",
+                  "B": "Có, nếu đã tổ chức đám cưới",
+                  "C": "Có, nếu gia đình gặp khó khăn",
+                  "D": "Không, việc kết hôn phải tự nguyện"
+                },
+                "answer": "D",
+                "explanation": "Tuổi kết hôn và sự tự nguyện là các điều kiện riêng; đủ tuổi không làm việc cưỡng ép trở nên phù hợp."
+              }
+            ],
+            "source": "https://hoptacquocte.moj.gov.vn/portal/tin-tuc/chi-tiet/mot-so-quy-inh-ve-ket-hon-tcv14a.html"
+          },
+          {
+            "id": "CD05",
+            "title": "Phòng chống quấy rối tình dục",
+            "situation": "Một học sinh liên tục nhận tin nhắn có nội dung tình dục, bị bình phẩm cơ thể và bị cố tình đụng chạm dù em đã thể hiện không muốn.",
+            "lesson": "Cần tôn trọng ranh giới cá nhân cả trực tiếp và trên mạng. Những hành vi không mong muốn mang tính tình dục có thể làm người nhận lo sợ, xấu hổ hoặc mất an toàn và cần được tiếp nhận nghiêm túc. Không đổ lỗi dựa trên trang phục, quan hệ quen biết hoặc việc người bị tác động không kịp phản ứng.",
+            "suggested_action": "Rời tình huống nếu có thể, tìm người lớn đáng tin cậy hoặc người tiếp nhận độc lập nếu phản ánh liên quan người đang xử lý. Chỉ lưu thông tin khi an toàn; không chuyển tiếp nội dung nhạy cảm trong nhóm lớp. Không yêu cầu học sinh tự tiếp xúc với người bị phản ánh để lấy thêm tài liệu.",
+            "questions": [
+              {
+                "id": "CD05-Q1",
+                "prompt": "Khi bị quấy rối, học sinh nên ưu tiên việc gì?",
+                "options": {
+                  "A": "Đối đầu một mình để lấy bằng chứng",
+                  "B": "Tìm nơi an toàn và người hỗ trợ đáng tin cậy",
+                  "C": "Đăng nội dung nhạy cảm công khai",
+                  "D": "Giữ kín vì sợ làm phiền"
+                },
+                "answer": "B",
+                "explanation": "An toàn và hỗ trợ là ưu tiên; không cần tự đối đầu hoặc công khai nội dung nhạy cảm."
+              },
+              {
+                "id": "CD05-Q2",
+                "prompt": "Nếu người bị phản ánh là người đang xử lý hồ sơ, nên chuyển cho ai trong bộ thử?",
+                "options": {
+                  "A": "Chính người đó",
+                  "B": "Nhóm lớp bình chọn",
+                  "C": "NV05 là người tiếp nhận độc lập; nếu NV05 có liên quan thì chờ chỉ định độc lập khác",
+                  "D": "Bất cứ học sinh nào"
+                },
+                "answer": "C",
+                "explanation": "Cần tránh xung đột lợi ích và bảo đảm người bị phản ánh không được tự xử lý hồ sơ liên quan mình."
+              },
+              {
+                "id": "CD05-Q3",
+                "prompt": "Khi bạn kể mình bị quấy rối, em nên làm gì?",
+                "options": {
+                  "A": "Lắng nghe, không đổ lỗi và hỗ trợ bạn tìm người đáng tin cậy",
+                  "B": "Hỏi bạn đã mặc gì để xác định lỗi",
+                  "C": "Chia sẻ tin nhắn của bạn cho cả lớp",
+                  "D": "Bắt bạn phải kể chi tiết ngay"
+                },
+                "answer": "A",
+                "explanation": "Lắng nghe và tôn trọng giúp bạn tiếp cận hỗ trợ; tránh ép kể lại hoặc phát tán thông tin."
+              }
+            ],
+            "source": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "title": "Tài khoản và hồ sơ mẫu phục vụ chạy thử",
+      "data": {
+        "student_account": {
+          "participation_code": "HS2026",
+          "display_name": "E2400249",
+          "email": "E2400249.test@example.com",
+          "test_password": "TestHS2026!",
+          "test_only": true
+        },
+        "staff_account_state": "pending_password_setup",
+        "reports": [
+          {
+            "id": "KN-2026-0001",
+            "category": "BLHD",
+            "mode": "anonymous",
+            "title": "Phản ánh giả lập số 01",
+            "body": "Học sinh bị chặn lối đi và xúc phạm sau giờ học.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV02",
+            "status": "received",
+            "identity_ref": null,
+            "attachments": [],
+            "conflict_of_interest": false
+          },
+          {
+            "id": "KN-2026-0002",
+            "category": "TLDT",
+            "mode": "confidential_identity",
+            "title": "Phản ánh giả lập số 02",
+            "body": "Một nhóm rủ học sinh dùng thiết bị thuốc lá điện tử ở giờ nghỉ.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV02",
+            "status": "received",
+            "identity_ref": "DD-0002",
+            "attachments": [],
+            "conflict_of_interest": false
+          },
+          {
+            "id": "KN-2026-0003",
+            "category": "MXH",
+            "mode": "anonymous",
+            "title": "Phản ánh giả lập số 03",
+            "body": "Tin nhắn mạo danh học bổng yêu cầu mật khẩu và OTP.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV03",
+            "status": "received",
+            "identity_ref": null,
+            "attachments": [],
+            "conflict_of_interest": false
+          },
+          {
+            "id": "KN-2026-0004",
+            "category": "QRTD",
+            "mode": "confidential_identity",
+            "title": "Phản ánh giả lập số 04",
+            "body": "Học sinh muốn được hỗ trợ riêng vì nhận tin nhắn tình dục không mong muốn.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV03",
+            "status": "received",
+            "identity_ref": "DD-0004",
+            "attachments": [],
+            "conflict_of_interest": false
+          },
+          {
+            "id": "KN-2026-0005",
+            "category": "GOPY",
+            "mode": "anonymous",
+            "title": "Phản ánh giả lập số 05",
+            "body": "Học sinh đề nghị bổ sung đèn tại lối đi sân sau.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV02",
+            "status": "received",
+            "identity_ref": null,
+            "attachments": [],
+            "conflict_of_interest": false
+          },
+          {
+            "id": "KN-2026-0006",
+            "category": "BLHD",
+            "mode": "confidential_identity",
+            "title": "Phản ánh giả lập số 06",
+            "body": "Nội dung phản ánh liên quan người phụ trách NV02.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV05",
+            "status": "received",
+            "identity_ref": "DD-0006",
+            "attachments": [],
+            "conflict_of_interest": true,
+            "conflicted_staff": [
+              "NV02"
+            ]
+          },
+          {
+            "id": "KN-2026-0007",
+            "category": "TAOHON",
+            "mode": "confidential_identity",
+            "title": "Phản ánh giả lập số 07",
+            "body": "Học sinh 16 tuổi lo bị ép nghỉ học để kết hôn.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV03",
+            "status": "received",
+            "identity_ref": "DD-0007",
+            "attachments": [],
+            "conflict_of_interest": false
+          },
+          {
+            "id": "KN-2026-0008",
+            "category": "BLHD",
+            "mode": "anonymous",
+            "title": "Phản ánh giả lập số 08",
+            "body": "Người chính NV02 vắng mặt, cần giao người dự phòng.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV04",
+            "status": "received",
+            "identity_ref": null,
+            "attachments": [],
+            "conflict_of_interest": false,
+            "unavailable_staff": [
+              "NV02"
+            ]
+          },
+          {
+            "id": "KN-2026-0009",
+            "category": "QRTD",
+            "mode": "anonymous",
+            "title": "Phản ánh giả lập số 09",
+            "body": "NV03 vắng mặt, nội dung cần chuyển người dự phòng độc lập.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV05",
+            "status": "received",
+            "identity_ref": null,
+            "attachments": [],
+            "conflict_of_interest": false,
+            "unavailable_staff": [
+              "NV03"
+            ]
+          },
+          {
+            "id": "KN-2026-0010",
+            "category": "GOPY",
+            "mode": "anonymous",
+            "title": "Phản ánh giả lập số 10",
+            "body": "Phản ánh gửi ngoài giờ về việc bố trí lịch hoạt động.",
+            "received_at": "2026-11-13T18:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV02",
+            "status": "received",
+            "identity_ref": null,
+            "attachments": [],
+            "conflict_of_interest": false,
+            "expected_first_response_due": "2026-11-18T08:00:00+07:00"
+          },
+          {
+            "id": "KN-2026-0011",
+            "category": "QRTD",
+            "mode": "confidential_identity",
+            "title": "Phản ánh giả lập số 11",
+            "body": "Phản ánh có liên quan NV03 và NV05, cần chỉ định người độc lập khác.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": null,
+            "status": "pending_independent_assignment",
+            "identity_ref": "DD-0011",
+            "attachments": [],
+            "conflict_of_interest": true,
+            "conflicted_staff": [
+              "NV03",
+              "NV05"
+            ]
+          },
+          {
+            "id": "KN-2026-0012",
+            "category": "BLHD",
+            "mode": "anonymous",
+            "title": "Phản ánh giả lập số 12",
+            "body": "Học sinh báo nguy cơ xô xát đang xảy ra và cần người lớn hỗ trợ trực tiếp.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "urgent",
+            "assigned_to": "NV02",
+            "status": "received",
+            "identity_ref": null,
+            "attachments": [],
+            "conflict_of_interest": false
+          }
+        ],
+        "identity_records_restricted": [
+          {
+            "id": "DD-0002",
+            "name": "Học sinh giả lập 02",
+            "contact": "hocsinh02@example.com",
+            "access_scope": "identity_authorized_only"
+          },
+          {
+            "id": "DD-0004",
+            "name": "Học sinh giả lập 04",
+            "contact": "hocsinh04@example.com",
+            "access_scope": "identity_authorized_only"
+          },
+          {
+            "id": "DD-0006",
+            "name": "Học sinh giả lập 06",
+            "contact": "hocsinh06@example.com",
+            "access_scope": "identity_authorized_only"
+          },
+          {
+            "id": "DD-0007",
+            "name": "Học sinh giả lập 07",
+            "contact": "hocsinh07@example.com",
+            "access_scope": "identity_authorized_only"
+          },
+          {
+            "id": "DD-0011",
+            "name": "Học sinh giả lập 11",
+            "contact": "hocsinh11@example.com",
+            "access_scope": "identity_authorized_only"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+
+THÔNG TIN GIẢ LẬP PHỤC VỤ CHẠY THỬ WEBSITE
+Tên dự án: KẾT NỐI HỌC SINH
+Website được xây dựng nhằm tạo một không gian để học sinh tìm hiểu kiến thức, tham gia các nội dung học tập và gửi phản ánh khi gặp vấn đề trong quá trình học tập, sinh hoạt tại trường.
+1. Thông tin quản trị và tiếp nhận phản ánh
+Trong giai đoạn chạy thử, nhà trường giả lập một tài khoản quản trị chính và các tài khoản phụ trách tiếp nhận phản ánh như sau:
+Người quản trị chính: Nguyễn Minh Anh – admin@abc-trung học.edu.vn.
+Phụ trách công tác học sinh: Trần Quốc Bảo – baotq@abc-trung học.edu.vn.
+Phụ trách tư vấn, hỗ trợ học sinh: Lê Thu Hà – hatl@abc-trung học.edu.vn.
+Người hỗ trợ dự phòng: Phạm Hoàng Nam – namph@abc-trung học.edu.vn.
+Người tiếp nhận độc lập: Võ Thanh Tùng – tungvt@abc-trung học.edu.vn.
+Đây đều là thông tin giả lập, được sử dụng để kiểm tra quy trình phân quyền và tiếp nhận phản ánh trên website.
+2. Phân công xử lý các nhóm phản ánh
+Để tránh tình trạng phản ánh bị bỏ sót hoặc chuyển nhầm người phụ trách, website sẽ phân loại nội dung và chuyển đến bộ phận phù hợp:
+Bạo lực học đường, bắt nạt: Chuyển đến anh Trần Quốc Bảo; anh Phạm Hoàng Nam hỗ trợ khi người phụ trách chính vắng mặt.
+Sử dụng thuốc lá điện tử: Chuyển đến anh Trần Quốc Bảo.
+Các vấn đề trên mạng xã hội: Chuyển đến chị Lê Thu Hà.
+Quấy rối, xâm hại: Chuyển đến chị Lê Thu Hà; anh Võ Thanh Tùng là người tiếp nhận dự phòng độc lập.
+Góp ý về hoạt động và môi trường học đường: Chuyển đến anh Trần Quốc Bảo.
+Phản ánh liên quan trực tiếp đến người đang xử lý: Chuyển đến anh Võ Thanh Tùng để bảo đảm tính khách quan.
+3. Thời gian tiếp nhận và xử lý
+Nhà trường giả định bộ phận tiếp nhận phản ánh làm việc từ 08 giờ đến 17 giờ, từ thứ Hai đến thứ Sáu.
+Đối với những phản ánh khẩn cấp, người phụ trách cần xác nhận đã tiếp nhận trong vòng 15 phút. Những phản ánh thông thường sẽ được phản hồi lần đầu trong vòng 2 ngày làm việc.
+Nếu học sinh gửi phản ánh ngoài giờ hành chính, hệ thống vẫn ghi nhận thông tin và thông báo thời gian dự kiến xử lý. Trong bản chạy thử, số điện thoại hỗ trợ ngoài giờ được đặt là 1900 0000 (số giả lập).
+4. Quy định bảo mật thông tin người phản ánh
+Website cho phép học sinh gửi phản ánh ẩn danh hoặc cung cấp thông tin cá nhân tùy theo nhu cầu.
+Đối với phản ánh có danh tính được bảo mật, chỉ người quản trị chính Nguyễn Minh Anh và người tiếp nhận độc lập Võ Thanh Tùng được phép xem thông tin định danh. Việc mở thông tin chỉ được thực hiện khi có lý do chính đáng, cần thiết cho quá trình xác minh và xử lý vụ việc.
+Người trực tiếp xử lý phản ánh không được tự ý xem hoặc tiết lộ danh tính của người gửi. Hệ thống cần lưu lại lịch sử truy cập thông tin để phục vụ việc kiểm tra khi cần thiết.
+5. Quy định về tệp đính kèm
+Học sinh có thể gửi hình ảnh, tài liệu hoặc video để làm rõ nội dung phản ánh. Các định dạng được chấp nhận trong bản chạy thử gồm:
+Tài liệu: PDF.
+Hình ảnh: JPG, JPEG, PNG.
+Video: MP4.
+Dung lượng tối đa cho mỗi tệp là 10 MB và mỗi phản ánh được đính kèm tối đa 5 tệp.
+6. Tên gọi và giao diện website
+Tên website dự kiến là KẾT NỐI HỌC SINH, với thông điệp: “Lắng nghe – Đồng hành – Chia sẻ”.
+Giao diện sử dụng màu xanh dương làm màu chủ đạo, kết hợp màu đỏ và trắng để tạo cảm giác thân thiện, dễ nhìn và phù hợp với môi trường giáo dục.
+Trong giai đoạn thử nghiệm, website sử dụng tên chữ thay cho logo chính thức. Tên miền tạm thời được giả lập là ketnoihocsinh.local.
+7. Nội dung học tập ban đầu
+Để kiểm tra chức năng học tập, nhà trường chuẩn bị trước năm chủ đề:
+Chủ đề 1: Bạo lực học đường
+Tình huống: Học sinh thường xuyên bị bạn bè trêu chọc, cô lập và xúc phạm trên mạng xã hội.
+Nội dung học tập: Nhận biết hành vi bắt nạt, cách ứng xử và hướng tìm kiếm sự hỗ trợ.
+Câu hỏi kiểm tra: Khi chứng kiến bạn học bị bắt nạt, học sinh nên làm gì?
+Chủ đề 2: Phòng tránh thuốc lá điện tử
+Tình huống: Học sinh được bạn bè rủ sử dụng thuốc lá điện tử trong giờ nghỉ.
+Nội dung học tập: Nhận biết tác hại, quy định liên quan và cách từ chối.
+Câu hỏi kiểm tra: Học sinh nên xử lý như thế nào khi bị rủ rê sử dụng thuốc lá điện tử?
+Chủ đề 3: An toàn trên mạng xã hội
+Tình huống: Học sinh nhận được đường link lạ yêu cầu cung cấp thông tin cá nhân và tài khoản ngân hàng.
+Nội dung học tập: Nhận diện dấu hiệu lừa đảo, bảo vệ dữ liệu cá nhân và cách báo cáo sự việc.
+Câu hỏi kiểm tra: Khi nhận được đường link đáng ngờ, học sinh nên làm gì?
+Mỗi chủ đề sẽ có tình huống minh họa, câu hỏi trắc nghiệm, các phương án trả lời và phần giải thích đáp án. Những nội dung còn lại có thể được bổ sung thông qua tài khoản quản trị sau khi website được bàn giao.
+Chủ đề 4: Phòng, chống tảo hôn
+• Tình huống: Học sinh chưa đủ tuổi kết hôn bị gia đình thúc ép nghỉ học để lấy chồng hoặc lấy vợ.
+• Nội dung học tập: Nhận biết tảo hôn, tác động đối với sức khỏe và việc học; tìm hiểu điều kiện về tuổi kết hôn, quyền tự nguyện kết hôn và cách tìm kiếm sự hỗ trợ.
+• Câu hỏi kiểm tra: Khi bản thân hoặc bạn bè bị ép kết hôn khi chưa đủ tuổi, học sinh nên làm gì?
+Chủ đề 5: Phòng, chống quấy rối tình dục
+• Tình huống: Học sinh bị người khác bình phẩm về cơ thể, gửi tin nhắn có nội dung tình dục hoặc cố tình đụng chạm khiến mình khó chịu, lo sợ.
+• Nội dung học tập: Nhận diện hành vi quấy rối tình dục trực tiếp và trên mạng; tôn trọng ranh giới cá nhân; cách bảo vệ bản thân, lưu giữ bằng chứng khi an toàn và tìm kiếm sự hỗ trợ.
+• Câu hỏi kiểm tra: Khi bị quấy rối tình dục hoặc chứng kiến bạn bị quấy rối, học sinh nên làm gì để bảo đảm an toàn và được hỗ trợ?
+8. Tài khoản phục vụ chạy thử
+Tài khoản học sinh
+Mã tham gia: HS2026.
+Tên hiển thị:E2400249.
+Email:E2400249.test@example.com.
+Mật khẩu: TestHS2026!
+Tài khoản quản trị
+Tên đăng nhập: admin@abc-trung học.edu.vn.
+Tên hiển thị: Admin.
+Mã phản ánh mẫu: KN-2026-0001.
+Lưu ý: Toàn bộ tên trường, nhân sự, email, số điện thoại, tài khoản và dữ liệu trong tài liệu này chỉ phục vụ mục đích giả lập. Không sử dụng các thông tin trên như dữ liệu liên hệ hoặc tài khoản chính thức.

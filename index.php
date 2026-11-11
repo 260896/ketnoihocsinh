@@ -229,6 +229,7 @@ page_head('Học qua tình huống & Gửi phản ánh', ['assets/css/landing.cs
         <a href="<?= e(url('trang.php', ['p' => 'quy-tac'])) ?>">Quy tắc sử dụng</a>
         <a href="<?= e(url('trang.php', ['p' => 'an-danh'])) ?>">Cơ chế ẩn danh – ai xem được phiếu?</a>
         <a href="<?= e(url('trang.php', ['p' => 'gio-tiep-nhan'])) ?>">Giờ tiếp nhận</a>
+        <a href="<?= e(url('trang.php', ['p' => 'tham-khao'])) ?>">Tài liệu tham khảo</a>
       </nav>
       <div class="lp-footer__col" style="flex:1 1 160px">
         <span style="font-weight:700;color:var(--c-text)">Cán bộ</span>

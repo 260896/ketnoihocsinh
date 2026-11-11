@@ -1,0 +1,265 @@
+{
+  "metadata": {
+    "project": "KẾT NỐI HỌC SINH",
+    "version": "1.0",
+    "date": "2026-11-10",
+    "synthetic": true,
+    "environment": "test",
+    "timezone": "Asia/Ho_Chi_Minh",
+    "scope": "Dữ liệu giả lập theo 8 mục trong tài liệu nguồn; các quy tắc chi tiết bổ sung là đề xuất chạy thử, chưa phải quy chế được nhà trường ban hành."
+  },
+  "section": 8,
+  "title": "Tài khoản và hồ sơ mẫu phục vụ chạy thử",
+  "content": [
+    {
+      "heading": "Tài khoản học sinh từ nguồn",
+      "text": "Mã tham gia: HS2026. Tên hiển thị: E2400249. Email: E2400249.test@example.com. Mật khẩu chạy thử: TestHS2026! Chỉ dùng trong môi trường thử; không đưa mật khẩu này lên giao diện công khai hoặc dùng lại khi vận hành."
+    },
+    {
+      "heading": "Tài khoản quản trị và nhân sự",
+      "text": "Tên hiển thị quản trị: Admin. Email nguồn admin@abc-trung học.edu.vn được giữ trong trường source_email. Vì email nguồn có khoảng trắng và ký tự tiếng Việt ở phần tên miền, bộ dữ liệu dùng admin@example.com để thử đăng nhập. Các nhân sự khác dùng email example.com tương ứng trong mục 1. Không tạo thêm mật khẩu cho nhân sự; trạng thái chờ thiết lập nội bộ, không gửi thư ra ngoài."
+    },
+    {
+      "heading": "Danh mục mười hai hồ sơ giả lập",
+      "text": "KN-2026-0001 — BLHD — anonymous — người nhận NV02 — Học sinh bị chặn lối đi và xúc phạm sau giờ học.\nKN-2026-0002 — TLDT — confidential_identity — người nhận NV02 — Một nhóm rủ học sinh dùng thiết bị thuốc lá điện tử ở giờ nghỉ.\nKN-2026-0003 — MXH — anonymous — người nhận NV03 — Tin nhắn mạo danh học bổng yêu cầu mật khẩu và OTP.\nKN-2026-0004 — QRTD — confidential_identity — người nhận NV03 — Học sinh muốn được hỗ trợ riêng vì nhận tin nhắn tình dục không mong muốn.\nKN-2026-0005 — GOPY — anonymous — người nhận NV02 — Học sinh đề nghị bổ sung đèn tại lối đi sân sau.\nKN-2026-0006 — BLHD — confidential_identity — người nhận NV05 — Nội dung phản ánh liên quan người phụ trách NV02.\nKN-2026-0007 — TAOHON — confidential_identity — người nhận NV03 — Học sinh 16 tuổi lo bị ép nghỉ học để kết hôn.\nKN-2026-0008 — BLHD — anonymous — người nhận NV04 — Người chính NV02 vắng mặt, cần giao người dự phòng.\nKN-2026-0009 — QRTD — anonymous — người nhận NV05 — NV03 vắng mặt, nội dung cần chuyển người dự phòng độc lập.\nKN-2026-0010 — GOPY — anonymous — người nhận NV02 — Phản ánh gửi ngoài giờ về việc bố trí lịch hoạt động.\nKN-2026-0011 — QRTD — confidential_identity — người nhận chờ chỉ định độc lập — Phản ánh có liên quan NV03 và NV05, cần chỉ định người độc lập khác.\nKN-2026-0012 — BLHD — anonymous — người nhận NV02 — Học sinh báo nguy cơ xô xát đang xảy ra và cần người lớn hỗ trợ trực tiếp."
+    },
+    {
+      "heading": "Kịch bản chạy thử từ đầu đến cuối",
+      "text": "Dùng tài khoản học sinh để mở một chủ đề, làm 3 câu hỏi và xem giải thích. Gửi phản ánh ẩn danh không kèm tệp; lưu mã theo dõi. Đăng nhập người được giao để phản hồi; kiểm tra người không được giao bị từ chối. Tiếp tục thử phản ánh bảo mật danh tính, chuyển dự phòng, xung đột lợi ích và phản ánh ngoài giờ. Cuối cùng kiểm tra nhật ký và đối chiếu kết quả mong đợi."
+    },
+    {
+      "heading": "Phạm vi dữ liệu và giới hạn nhập",
+      "text": "JSON là dữ liệu nội dung và kết quả mong đợi, chưa phải script nhập cho một nền tảng cụ thể vì chưa có schema website. Các bản ghi danh tính đặt trong nhóm dữ liệu riêng, không gộp vào phản ánh. Không lưu mã bí mật theo dõi ẩn danh ở dạng rõ trong gói; ứng dụng phải sinh tại thời điểm thử. Tệp đính kèm mẫu chỉ có siêu dữ liệu, không có chứng cứ thật."
+    },
+    {
+      "heading": "Điều kiện hoàn tất chạy thử",
+      "text": "Có thể đọc đủ 5 chủ đề và 15 câu hỏi; tạo được phản ánh hai hình thức; chuyển đúng người; không lộ định danh; hiển thị thời hạn đúng ca mẫu; từ chối tệp không hợp lệ; nhật ký ghi đủ sự kiện. Các điểm chưa chốt phải được nhà trường và đội phát triển thống nhất trước vận hành chính thức."
+    }
+  ],
+  "test_data": {
+    "student_account": {
+      "participation_code": "HS2026",
+      "display_name": "E2400249",
+      "email": "E2400249.test@example.com",
+      "test_password": "TestHS2026!",
+      "test_only": true
+    },
+    "staff_account_state": "pending_password_setup",
+    "reports": [
+      {
+        "id": "KN-2026-0001",
+        "category": "BLHD",
+        "mode": "anonymous",
+        "title": "Phản ánh giả lập số 01",
+        "body": "Học sinh bị chặn lối đi và xúc phạm sau giờ học.",
+        "received_at": "2026-11-10T09:00:00+07:00",
+        "priority": "normal",
+        "assigned_to": "NV02",
+        "status": "received",
+        "identity_ref": null,
+        "attachments": [],
+        "conflict_of_interest": false
+      },
+      {
+        "id": "KN-2026-0002",
+        "category": "TLDT",
+        "mode": "confidential_identity",
+        "title": "Phản ánh giả lập số 02",
+        "body": "Một nhóm rủ học sinh dùng thiết bị thuốc lá điện tử ở giờ nghỉ.",
+        "received_at": "2026-11-10T09:00:00+07:00",
+        "priority": "normal",
+        "assigned_to": "NV02",
+        "status": "received",
+        "identity_ref": "DD-0002",
+        "attachments": [],
+        "conflict_of_interest": false
+      },
+      {
+        "id": "KN-2026-0003",
+        "category": "MXH",
+        "mode": "anonymous",
+        "title": "Phản ánh giả lập số 03",
+        "body": "Tin nhắn mạo danh học bổng yêu cầu mật khẩu và OTP.",
+        "received_at": "2026-11-10T09:00:00+07:00",
+        "priority": "normal",
+        "assigned_to": "NV03",
+        "status": "received",
+        "identity_ref": null,
+        "attachments": [],
+        "conflict_of_interest": false
+      },
+      {
+        "id": "KN-2026-0004",
+        "category": "QRTD",
+        "mode": "confidential_identity",
+        "title": "Phản ánh giả lập số 04",
+        "body": "Học sinh muốn được hỗ trợ riêng vì nhận tin nhắn tình dục không mong muốn.",
+        "received_at": "2026-11-10T09:00:00+07:00",
+        "priority": "normal",
+        "assigned_to": "NV03",
+        "status": "received",
+        "identity_ref": "DD-0004",
+        "attachments": [],
+        "conflict_of_interest": false
+      },
+      {
+        "id": "KN-2026-0005",
+        "category": "GOPY",
+        "mode": "anonymous",
+        "title": "Phản ánh giả lập số 05",
+        "body": "Học sinh đề nghị bổ sung đèn tại lối đi sân sau.",
+        "received_at": "2026-11-10T09:00:00+07:00",
+        "priority": "normal",
+        "assigned_to": "NV02",
+        "status": "received",
+        "identity_ref": null,
+        "attachments": [],
+        "conflict_of_interest": false
+      },
+      {
+        "id": "KN-2026-0006",
+        "category": "BLHD",
+        "mode": "confidential_identity",
+        "title": "Phản ánh giả lập số 06",
+        "body": "Nội dung phản ánh liên quan người phụ trách NV02.",
+        "received_at": "2026-11-10T09:00:00+07:00",
+        "priority": "normal",
+        "assigned_to": "NV05",
+        "status": "received",
+        "identity_ref": "DD-0006",
+        "attachments": [],
+        "conflict_of_interest": true,
+        "conflicted_staff": [
+          "NV02"
+        ]
+      },
+      {
+        "id": "KN-2026-0007",
+        "category": "TAOHON",
+        "mode": "confidential_identity",
+        "title": "Phản ánh giả lập số 07",
+        "body": "Học sinh 16 tuổi lo bị ép nghỉ học để kết hôn.",
+        "received_at": "2026-11-10T09:00:00+07:00",
+        "priority": "normal",
+        "assigned_to": "NV03",
+        "status": "received",
+        "identity_ref": "DD-0007",
+        "attachments": [],
+        "conflict_of_interest": false
+      },
+      {
+        "id": "KN-2026-0008",
+        "category": "BLHD",
+        "mode": "anonymous",
+        "title": "Phản ánh giả lập số 08",
+        "body": "Người chính NV02 vắng mặt, cần giao người dự phòng.",
+        "received_at": "2026-11-10T09:00:00+07:00",
+        "priority": "normal",
+        "assigned_to": "NV04",
+        "status": "received",
+        "identity_ref": null,
+        "attachments": [],
+        "conflict_of_interest": false,
+        "unavailable_staff": [
+          "NV02"
+        ]
+      },
+      {
+        "id": "KN-2026-0009",
+        "category": "QRTD",
+        "mode": "anonymous",
+        "title": "Phản ánh giả lập số 09",
+        "body": "NV03 vắng mặt, nội dung cần chuyển người dự phòng độc lập.",
+        "received_at": "2026-11-10T09:00:00+07:00",
+        "priority": "normal",
+        "assigned_to": "NV05",
+        "status": "received",
+        "identity_ref": null,
+        "attachments": [],
+        "conflict_of_interest": false,
+        "unavailable_staff": [
+          "NV03"
+        ]
+      },
+      {
+        "id": "KN-2026-0010",
+        "category": "GOPY",
+        "mode": "anonymous",
+        "title": "Phản ánh giả lập số 10",
+        "body": "Phản ánh gửi ngoài giờ về việc bố trí lịch hoạt động.",
+        "received_at": "2026-11-13T18:00:00+07:00",
+        "priority": "normal",
+        "assigned_to": "NV02",
+        "status": "received",
+        "identity_ref": null,
+        "attachments": [],
+        "conflict_of_interest": false,
+        "expected_first_response_due": "2026-11-18T08:00:00+07:00"
+      },
+      {
+        "id": "KN-2026-0011",
+        "category": "QRTD",
+        "mode": "confidential_identity",
+        "title": "Phản ánh giả lập số 11",
+        "body": "Phản ánh có liên quan NV03 và NV05, cần chỉ định người độc lập khác.",
+        "received_at": "2026-11-10T09:00:00+07:00",
+        "priority": "normal",
+        "assigned_to": null,
+        "status": "pending_independent_assignment",
+        "identity_ref": "DD-0011",
+        "attachments": [],
+        "conflict_of_interest": true,
+        "conflicted_staff": [
+          "NV03",
+          "NV05"
+        ]
+      },
+      {
+        "id": "KN-2026-0012",
+        "category": "BLHD",
+        "mode": "anonymous",
+        "title": "Phản ánh giả lập số 12",
+        "body": "Học sinh báo nguy cơ xô xát đang xảy ra và cần người lớn hỗ trợ trực tiếp.",
+        "received_at": "2026-11-10T09:00:00+07:00",
+        "priority": "urgent",
+        "assigned_to": "NV02",
+        "status": "received",
+        "identity_ref": null,
+        "attachments": [],
+        "conflict_of_interest": false
+      }
+    ],
+    "identity_records_restricted": [
+      {
+        "id": "DD-0002",
+        "name": "Học sinh giả lập 02",
+        "contact": "hocsinh02@example.com",
+        "access_scope": "identity_authorized_only"
+      },
+      {
+        "id": "DD-0004",
+        "name": "Học sinh giả lập 04",
+        "contact": "hocsinh04@example.com",
+        "access_scope": "identity_authorized_only"
+      },
+      {
+        "id": "DD-0006",
+        "name": "Học sinh giả lập 06",
+        "contact": "hocsinh06@example.com",
+        "access_scope": "identity_authorized_only"
+      },
+      {
+        "id": "DD-0007",
+        "name": "Học sinh giả lập 07",
+        "contact": "hocsinh07@example.com",
+        "access_scope": "identity_authorized_only"
+      },
+      {
+        "id": "DD-0011",
+        "name": "Học sinh giả lập 11",
+        "contact": "hocsinh11@example.com",
+        "access_scope": "identity_authorized_only"
+      }
+    ]
+  }
+}

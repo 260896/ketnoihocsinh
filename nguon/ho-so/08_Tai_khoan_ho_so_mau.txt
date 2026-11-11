@@ -1,0 +1,32 @@
+TÀI KHOẢN VÀ HỒ SƠ MẪU PHỤC VỤ CHẠY THỬ
+
+DỮ LIỆU GIẢ LẬP CHỈ PHỤC VỤ CHẠY THỬ
+
+Tài khoản học sinh từ nguồn
+Mã tham gia: HS2026. Tên hiển thị: E2400249. Email: E2400249.test@example.com. Mật khẩu chạy thử: TestHS2026! Chỉ dùng trong môi trường thử; không đưa mật khẩu này lên giao diện công khai hoặc dùng lại khi vận hành.
+
+Tài khoản quản trị và nhân sự
+Tên hiển thị quản trị: Admin. Email nguồn admin@abc-trung học.edu.vn được giữ trong trường source_email. Vì email nguồn có khoảng trắng và ký tự tiếng Việt ở phần tên miền, bộ dữ liệu dùng admin@example.com để thử đăng nhập. Các nhân sự khác dùng email example.com tương ứng trong mục 1. Không tạo thêm mật khẩu cho nhân sự; trạng thái chờ thiết lập nội bộ, không gửi thư ra ngoài.
+
+Danh mục mười hai hồ sơ giả lập
+KN-2026-0001 — BLHD — anonymous — người nhận NV02 — Học sinh bị chặn lối đi và xúc phạm sau giờ học.
+KN-2026-0002 — TLDT — confidential_identity — người nhận NV02 — Một nhóm rủ học sinh dùng thiết bị thuốc lá điện tử ở giờ nghỉ.
+KN-2026-0003 — MXH — anonymous — người nhận NV03 — Tin nhắn mạo danh học bổng yêu cầu mật khẩu và OTP.
+KN-2026-0004 — QRTD — confidential_identity — người nhận NV03 — Học sinh muốn được hỗ trợ riêng vì nhận tin nhắn tình dục không mong muốn.
+KN-2026-0005 — GOPY — anonymous — người nhận NV02 — Học sinh đề nghị bổ sung đèn tại lối đi sân sau.
+KN-2026-0006 — BLHD — confidential_identity — người nhận NV05 — Nội dung phản ánh liên quan người phụ trách NV02.
+KN-2026-0007 — TAOHON — confidential_identity — người nhận NV03 — Học sinh 16 tuổi lo bị ép nghỉ học để kết hôn.
+KN-2026-0008 — BLHD — anonymous — người nhận NV04 — Người chính NV02 vắng mặt, cần giao người dự phòng.
+KN-2026-0009 — QRTD — anonymous — người nhận NV05 — NV03 vắng mặt, nội dung cần chuyển người dự phòng độc lập.
+KN-2026-0010 — GOPY — anonymous — người nhận NV02 — Phản ánh gửi ngoài giờ về việc bố trí lịch hoạt động.
+KN-2026-0011 — QRTD — confidential_identity — người nhận chờ chỉ định độc lập — Phản ánh có liên quan NV03 và NV05, cần chỉ định người độc lập khác.
+KN-2026-0012 — BLHD — anonymous — người nhận NV02 — Học sinh báo nguy cơ xô xát đang xảy ra và cần người lớn hỗ trợ trực tiếp.
+
+Kịch bản chạy thử từ đầu đến cuối
+Dùng tài khoản học sinh để mở một chủ đề, làm 3 câu hỏi và xem giải thích. Gửi phản ánh ẩn danh không kèm tệp; lưu mã theo dõi. Đăng nhập người được giao để phản hồi; kiểm tra người không được giao bị từ chối. Tiếp tục thử phản ánh bảo mật danh tính, chuyển dự phòng, xung đột lợi ích và phản ánh ngoài giờ. Cuối cùng kiểm tra nhật ký và đối chiếu kết quả mong đợi.
+
+Phạm vi dữ liệu và giới hạn nhập
+JSON là dữ liệu nội dung và kết quả mong đợi, chưa phải script nhập cho một nền tảng cụ thể vì chưa có schema website. Các bản ghi danh tính đặt trong nhóm dữ liệu riêng, không gộp vào phản ánh. Không lưu mã bí mật theo dõi ẩn danh ở dạng rõ trong gói; ứng dụng phải sinh tại thời điểm thử. Tệp đính kèm mẫu chỉ có siêu dữ liệu, không có chứng cứ thật.
+
+Điều kiện hoàn tất chạy thử
+Có thể đọc đủ 5 chủ đề và 15 câu hỏi; tạo được phản ánh hai hình thức; chuyển đúng người; không lộ định danh; hiển thị thời hạn đúng ca mẫu; từ chối tệp không hợp lệ; nhật ký ghi đủ sự kiện. Các điểm chưa chốt phải được nhà trường và đội phát triển thống nhất trước vận hành chính thức.

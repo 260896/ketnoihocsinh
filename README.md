@@ -47,8 +47,8 @@ Cặp chạy thử: `DEMO-0001`…`DEMO-0005` với `demo1@example.com`…`demo5
 Phản ánh mẫu: `KN-2026-0001`…`KN-2026-0012` theo bộ hồ sơ mục 8 (gồm ca xung đột lợi ích, người vắng mặt, ngoài giờ, khẩn).
 Số hỗ trợ `1900 0000` là **số giả lập**: không có nút gọi (`phone_click = false`).
 
-**Nguồn dữ liệu** (không đưa lên Git): Brief kỹ thuật + học liệu gốc trong `Khởi nghiệp_Tân Hưng…/`, bộ hồ sơ chạy thử trong `Ho_so_Ket_noi_hoc_sinh…/`.
-Nhập lại: `php tools/nhap-ho-so.php <thư mục hồ sơ>` và `php tools/nhap-hoc-lieu.php <thư mục văn bản .txt> <thư mục Khởi nghiệp>` → `includes/du-lieu-mau.json` + `data/uploads/` (xem HUONG-DAN.md mục 4).
+**Nguồn dữ liệu**: toàn bộ tài liệu gốc (Brief, thông tin giả lập, bộ câu hỏi, tài liệu thảo luận, infographic, ảnh, video, PDF, logo, bộ hồ sơ chạy thử) nằm trong **[nguon/](nguon/README.md)** – lưu trong Git, chặn truy cập qua web. Website tự chép media từ `nguon/` vào `data/uploads/` khi tạo dữ liệu.
+Khi nhà trường sửa tài liệu: thay tệp trong `nguon/`, chạy `php tools/nhap-hoc-lieu.php` và `php tools/nhap-ho-so.php` (xem `nguon/README.md`).
 
 ## Vai trò
 
