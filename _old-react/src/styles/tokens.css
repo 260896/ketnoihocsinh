@@ -1,0 +1,41 @@
+/* Design tokens – lấy từ bản thiết kế (canvas "Landing page – Website giáo dục & tiếp nhận phản ánh") */
+:root {
+  /* Màu chính */
+  --c-primary: #15489d;
+  --c-primary-dark: #0e3577;
+  --c-primary-100: #e3eefb;
+  --c-primary-50: #eaf0f9;
+  --c-primary-25: #f3f7fc;
+  --c-bg: #f5f8fc;
+
+  /* Khẩn cấp / lỗi */
+  --c-danger: #c5050c;
+  --c-danger-50: #fdecec;
+  --c-danger-border: #f2c4c4;
+
+  /* Chữ & viền */
+  --c-text: #1a2433;
+  --c-text-2: #3e4a5c;
+  --c-muted: #4a5568;
+  --c-border: #e3e8ef;
+  --c-border-strong: #cbd3de;
+  --c-neutral: #eef1f5;
+  --c-white: #ffffff;
+
+  /* Trên nền tối */
+  --c-on-dark-accent: #9cc3f5;
+  --c-on-dark-muted: #d5e3f5;
+
+  --font: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 12px;
+  --r-xl: 14px;
+  --r-2xl: 16px;
+  --r-3xl: 20px;
+  --r-pill: 999px;
+
+  --shadow-card: 0 12px 40px rgba(21, 72, 157, 0.14);
+  --shadow-soft: 0 8px 28px rgba(26, 36, 51, 0.06);
+}

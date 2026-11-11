@@ -1,0 +1,6 @@
+# Dữ liệu chạy (tạo lại từ includes/seed.php khi xóa)
+data/*.json
+data/*.tmp
+data/uploads/
+# Bản React cũ, không dùng
+_old-react/node_modules/

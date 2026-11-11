@@ -1,0 +1,3 @@
+# Apache (XAMPP): chặn truy cập trực tiếp các thư mục nội bộ
+Options -Indexes
+RedirectMatch 403 ^.*/(data|includes|_old-react)(/|$)

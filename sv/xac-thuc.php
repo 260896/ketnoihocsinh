@@ -1,0 +1,62 @@
+<?php
+/* SV03 – Xác thực email */
+require __DIR__ . '/../includes/bootstrap.php';
+
+// Bấm liên kết xác thực: ?token=...
+if (($token = get('token')) !== '') {
+    foreach (users_all() as $u) {
+        if (($u['verify_token'] ?? '') !== '' && hash_equals($u['verify_token'], $token)) {
+            $u['verified'] = true;
+            $u['verify_token'] = '';
+            user_save($u);
+            flash('Đã xác thực email. Bạn có thể đăng nhập.');
+            redirect('sv/dang-nhap.php');
+        }
+    }
+    flash('Liên kết xác thực không hợp lệ hoặc đã dùng.', 'error');
+    redirect('sv/dang-nhap.php');
+}
+
+$email = $_SESSION['pending_email'] ?? '';
+$user = $email ? user_find_by_email($email) : null;
+
+// Gửi lại liên kết: giới hạn 60 giây/lần
+$wait = max(0, 60 - (time() - ($_SESSION['verify_sent_at'] ?? 0)));
+if (is_post() && $user) {
+    if ($wait === 0) {
+        $user['verify_token'] = bin2hex(random_bytes(16));
+        user_save($user);
+        $_SESSION['verify_sent_at'] = time();
+        flash('Đã gửi lại liên kết xác thực.');
+    }
+    redirect('sv/xac-thuc.php');
+}
+if (!isset($_SESSION['verify_sent_at'])) {
+    $_SESSION['verify_sent_at'] = time();
+    $wait = 60;
+}
+
+mobile_start('Xác thực email');
+?>
+<div class="stack gap-14 items-center" style="padding-top:36px">
+  <span class="icon-circle" style="width:72px;height:72px;background:var(--c-primary-50)"><?= icon('mail', 36, 'var(--c-primary)') ?></span>
+  <h2 class="t-h1 t-center">Kiểm tra hộp thư của bạn</h2>
+  <p class="t-muted t-center">Liên kết xác thực đã gửi tới <?= e($email ?: 'email của bạn') ?>. Tài khoản chỉ dùng được sau khi xác thực.</p>
+  <div class="panel self-stretch"><?= note('info', 'Không thấy email? Kiểm tra mục Thư rác/Spam. Liên kết có hiệu lực trong ' . e(SITE['verify_ttl']) . '.') ?></div>
+
+  <?php if ($user && !$user['verified']): ?>
+    <div class="demo-box self-stretch">
+      <strong>Bản chạy thử:</strong> hệ thống chưa gửi email thật. Bấm vào
+      <a href="<?= e(url('sv/xac-thuc.php', ['token' => $user['verify_token']])) ?>">liên kết xác thực này</a>.
+    </div>
+  <?php endif; ?>
+
+  <form method="post" class="self-stretch">
+    <?= csrf_field() ?>
+    <button type="submit" class="btn btn--outline btn--block" <?= $wait > 0 ? 'disabled' : '' ?>>
+      <?= $wait > 0 ? 'Gửi lại liên kết (sau ' . $wait . ' giây)' : 'Gửi lại liên kết' ?>
+    </button>
+  </form>
+  <a href="<?= e(url('sv/dang-nhap.php')) ?>" class="btn btn--ghost btn--block">Đã xác thực – Đăng nhập</a>
+</div>
+<?php mobile_end();
