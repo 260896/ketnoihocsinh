@@ -29,19 +29,20 @@ page_head('Học qua tình huống & Gửi phản ánh', ['assets/css/landing.cs
 <?php if ($outOfHours): ?>
   <div class="lp-banner">
     <span style="font-weight:700">Ngoài giờ trực</span>
-    <span>Phản ánh gửi bây giờ vẫn được ghi nhận và dự kiến xử lý từ <?= e(expected_processing_label()) ?>. Cần hỗ trợ ngay, gọi <a href="<?= e(tel_href()) ?>"><?= e(hotline()) ?></a></span>
+    <span>Phản ánh gửi bây giờ vẫn được ghi nhận và dự kiến xử lý từ <?= e(expected_processing_label()) ?>. <?= e(DANGER_ADVICE) ?></span>
   </div>
 <?php endif; ?>
 
   <header class="lp-header">
     <div class="lp-container lp-header__inner">
-      <a href="#top" class="lp-logo"><?= wordmark() ?></a>
+      <a href="#top" class="lp-logo row gap-10" style="text-decoration:none"><?= site_logo() ?><?= wordmark() ?></a>
       <nav aria-label="Điều hướng chính" class="lp-nav">
         <a href="#top" aria-current="page">Trang chủ</a>
-        <a href="<?= e(url('sv/hoc.php')) ?>">Học tương tác</a>
+        <a href="<?= e(url('sv/hoc.php')) ?>">Học cùng nhau</a>
         <a href="<?= e(url('sv/tai-lieu.php')) ?>">Tài liệu</a>
         <a href="<?= e(url('sv/gui-phieu.php')) ?>">Gửi phản ánh</a>
-        <a href="<?= e(url('sv/phieu.php')) ?>">Theo dõi phiếu</a>
+        <a href="<?= e(url('sv/phieu.php')) ?>">Theo dõi phản ánh</a>
+        <a href="<?= e(url('trang.php', ['p' => 'an-danh'])) ?>">Hướng dẫn và bảo mật</a>
         <form method="get" action="<?= e(url('sv/tai-lieu.php')) ?>" class="lp-search" role="search">
           <?= icon('search', 16, 'var(--c-muted)') ?><label for="lp-q" class="sr-only">Tìm học liệu</label>
           <input id="lp-q" name="q" placeholder="Tìm học liệu">
@@ -57,13 +58,14 @@ page_head('Học qua tình huống & Gửi phản ánh', ['assets/css/landing.cs
     <div class="lp-container lp-hero__inner">
       <div class="lp-hero__text">
         <span class="lp-pill"><?= e(SITE['slogan']) ?></span>
-        <h1>Học cách ứng xử qua tình huống thật. <span>Lên tiếng an toàn</span> khi cần.</h1>
-        <p class="lp-lead"><?= e(SITE['intro']) ?> Làm các tình huống trắc nghiệm về bạo lực học đường, thuốc lá điện tử, an toàn trên mạng xã hội, phòng chống tảo hôn và quấy rối tình dục. Gửi phản ánh, đề nghị hỗ trợ hoặc góp ý, có thể ẩn danh.</p>
+        <h1>Có điều muốn chia sẻ, <span>em có thể bắt đầu ở đây.</span></h1>
+        <p class="lp-lead">Tìm hiểu kiến thức để bảo vệ bản thân, học cách hỗ trợ bạn bè và gửi phản ánh về những điều đang khiến em lo lắng ở trường. Năm chủ đề: bạo lực học đường, thuốc lá điện tử, an toàn trên mạng xã hội, phòng chống tảo hôn và quấy rối tình dục. Có thể gửi ẩn danh.</p>
         <div class="row wrap gap-12">
-          <a href="<?= e(url('sv/hoc.php')) ?>" class="lp-cta">Khám phá tình huống</a>
+          <a href="<?= e(url('sv/gui-phieu.php')) ?>" class="lp-cta">Gửi phản ánh</a>
+          <a href="<?= e(url('sv/hoc.php')) ?>" class="lp-cta lp-cta--outline">Khám phá chủ đề</a>
           <a href="#ho-tro" class="lp-cta lp-cta--danger">Em cần hỗ trợ</a>
-          <a href="<?= e(url('sv/gui-phieu.php')) ?>" class="lp-cta lp-cta--outline">Gửi góp ý hoặc phản ánh</a>
         </div>
+        <a href="<?= e(url('sv/phieu.php')) ?>" class="link link--lg">Theo dõi phản ánh</a>
         <p style="font-size:14px;color:var(--c-muted)">Đăng ký bằng <strong>mã tham gia và email</strong> do nhà trường cấp.</p>
       </div>
 
@@ -100,7 +102,7 @@ page_head('Học qua tình huống & Gửi phản ánh', ['assets/css/landing.cs
           <p style="font-weight:700;color:var(--c-danger)">Bạn đang gặp nguy hiểm hoặc cần hỗ trợ ngay?</p>
           <p style="font-size:14px;color:var(--c-text-2)">Gọi ngay số hỗ trợ khẩn cấp, không cần chờ gửi phiếu. Giờ trực: <?= e(duty_label()) ?>.</p>
         </div>
-        <a href="<?= e(tel_href()) ?>" class="lp-cta lp-cta--danger">Gọi <?= e(hotline()) ?></a>
+        <?= hotline_action('lp-cta lp-cta--danger') ?>
       </div>
     </div>
   </section>
@@ -214,12 +216,13 @@ page_head('Học qua tình huống & Gửi phản ánh', ['assets/css/landing.cs
         <?= wordmark('sm') ?>
         <span><?= e(SITE['slogan']) ?></span>
         <span>Đơn vị quản lý: <?= e(SITE['org_name']) ?> · <?= e(SITE['domain']) ?></span>
-        <span>Liên hệ: hỗ trợ trực tiếp tại phòng tư vấn học đường · <?= e(hotline()) ?></span>
+        <span>Liên hệ: hỗ trợ trực tiếp tại phòng tư vấn học đường</span>
         <span>Thời gian tiếp nhận: <?= e(duty_label()) ?></span>
       </div>
       <div class="lp-footer__col" style="flex:1 1 220px">
         <span style="font-weight:700;color:var(--c-text)">Hỗ trợ khẩn cấp</span>
-        <a href="<?= e(tel_href()) ?>" style="color:var(--c-danger);font-weight:700;text-decoration:none;font-size:18px"><?= e(hotline()) ?></a>
+        <span style="color:var(--c-danger);font-weight:700;font-size:18px"><?= e(hotline()) ?></span>
+        <?php if (!SITE['phone_click']): ?><span style="font-size:13px">Số giả lập – không dùng website thử nghiệm để gửi tình huống khẩn cấp có thật.</span><?php endif; ?>
       </div>
       <nav aria-label="Liên kết chân trang" class="lp-footer__col" style="flex:1 1 200px">
         <a href="<?= e(url('trang.php', ['p' => 'chinh-sach'])) ?>">Chính sách bảo mật</a>

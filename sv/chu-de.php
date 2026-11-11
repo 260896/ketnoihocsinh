@@ -47,6 +47,24 @@ mobile_start($topic['name'], ['back' => url('sv/hoc.php')]);
   <p class="t-small t-strong" style="color:#fff">Đã làm <?= $done ?>/<?= count($list) ?> tình huống</p>
 </div>
 
+<?php
+$media = fn (string $fmt) => array_values(array_filter($docs, fn ($d) => $d['format'] === $fmt && $d['path']))[0] ?? null;
+$video = $media('Video');
+$infographic = $media('Hình ảnh');
+?>
+<?php if ($infographic): ?>
+  <details class="card disclosure"<?= $done === 0 ? ' open' : '' ?>>
+    <summary class="row gap-10"><?= icon('file', 20, 'var(--c-primary)') ?><span class="t-h2 grow">Infographic</span><span class="when-closed"><?= icon('chevronDown', 18, 'var(--c-muted)') ?></span><span class="when-open"><?= icon('chevronUp', 18, 'var(--c-muted)') ?></span></summary>
+    <a href="<?= e(url('tep.php', ['k' => 'doc', 'id' => $infographic['id']])) ?>" target="_blank" rel="noopener" style="margin-top:10px;display:block"><img src="<?= e(url('tep.php', ['k' => 'doc', 'id' => $infographic['id']])) ?>" alt="Infographic chủ đề <?= e($topic['name']) ?>" loading="lazy" style="width:100%;height:auto;border-radius:12px"></a>
+  </details>
+<?php endif; ?>
+<?php if ($video): ?>
+  <div class="card" style="gap:8px">
+    <p class="t-h2">Video bài học</p>
+    <video controls preload="none" playsinline style="width:100%;border-radius:12px;background:#000" aria-label="Video chủ đề <?= e($topic['name']) ?>"><source src="<?= e(url('tep.php', ['k' => 'doc', 'id' => $video['id']])) ?>" type="video/mp4"></video>
+  </div>
+<?php endif; ?>
+
 <?php if (trim($topic['content'] ?? '') !== ''): ?>
   <details class="card disclosure"<?= $done === 0 ? ' open' : '' ?>>
     <summary class="row gap-10">
@@ -82,7 +100,7 @@ mobile_start($topic['name'], ['back' => url('sv/hoc.php')]);
   <?php foreach ($docs as $d):
       $href = $d['link'] ?: ($d['path'] ? url('tep.php', ['k' => 'doc', 'id' => $d['id']]) : '#'); ?>
     <a href="<?= e($href) ?>" class="list-card list-card--row" target="_blank" rel="noopener">
-      <?= icon($d['format'] === 'Liên kết video' ? 'play' : 'file', 20, 'var(--c-primary)') ?>
+      <?= icon(in_array($d['format'], ['Liên kết video', 'Video'], true) ? 'play' : 'file', 20, 'var(--c-primary)') ?>
       <span class="grow"><span class="t-title d-block"><?= e($d['name']) ?></span><span class="t-small t-muted"><?= e($d['format']) ?></span></span>
       <?= icon('chevronRight', 18, 'var(--c-muted)') ?>
     </a>

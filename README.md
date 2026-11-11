@@ -31,17 +31,24 @@ Nhắc hạn / chuyển người dự phòng chạy kèm mỗi lượt truy cậ
 | Tên đăng nhập | Người | Vai trò | Xem phiếu | Mở danh tính / tệp gốc |
 |---|---|---|---|---|
 | `E2400249.test@example.com` | E2400249 | Học sinh | Phiếu của mình | – |
-| `admin@abc-trunghoc.edu.vn` | Nguyễn Minh Anh | Quản trị viên | Mọi phiếu (người được chỉ định) | Có |
-| `baotq@abc-trunghoc.edu.vn` | Trần Quốc Bảo | Xử lý phiếu | Nhóm được giao | Không |
-| `hatl@abc-trunghoc.edu.vn` | Lê Thu Hà | Xử lý phiếu | Nhóm được giao | Không |
-| `namph@abc-trunghoc.edu.vn` | Phạm Hoàng Nam | Xử lý phiếu (dự phòng) | Nhóm được giao + hàng chờ | Không |
-| `tungvt@abc-trunghoc.edu.vn` | Võ Thanh Tùng | Xử lý phiếu (tiếp nhận độc lập) | Mọi phiếu (người được chỉ định) | Có |
-| `giaovien@abc-trunghoc.edu.vn` | Giáo viên chạy thử | Quản lý học liệu | Không | Không |
+| `admin@example.com` | NV01 Nguyễn Minh Anh | Quản trị viên | Mọi phiếu trừ phiếu mình có liên quan (người được chỉ định) | Có |
+| `baotq@example.com` | NV02 Trần Quốc Bảo | Xử lý phiếu | Phiếu được giao cho mình | Không |
+| `hatl@example.com` | NV03 Lê Thu Hà | Xử lý phiếu | Phiếu được giao cho mình | Không |
+| `namph@example.com` | NV04 Phạm Hoàng Nam | Xử lý phiếu (dự phòng) | Chỉ phiếu đã được giao | Không |
+| `tungvt@example.com` | NV05 Võ Thanh Tùng | Xử lý phiếu (tiếp nhận độc lập) | Mọi phiếu trừ phiếu mình có liên quan + hàng chờ | Có |
+| `giaovien@example.com` | Giáo viên chạy thử | Quản lý học liệu | Không | Không |
+
+Email nguồn `…@abc-trung học.edu.vn` có dấu cách nên không dùng đăng nhập được; giữ ở trường `source_email` để đối chiếu (bộ hồ sơ mục 1, 8).
+Mật khẩu chạy thử **không** hiển thị trên giao diện.
 
 **Đăng ký học sinh:** nhập đúng cặp **mã tham gia + email** đã được nạp ở trang *Mã tham gia* (QT10).
 Cặp chạy thử: `DEMO-0001`…`DEMO-0005` với `demo1@example.com`…`demo5@example.com`. Mỗi cặp dùng 1 lần.
 
-Phản ánh mẫu: `KN-2026-0001`…`KN-2026-0007` (mỗi nhóm có đầu mối đều có ít nhất 1 phiếu) · Số hỗ trợ: `1900 0000`.
+Phản ánh mẫu: `KN-2026-0001`…`KN-2026-0012` theo bộ hồ sơ mục 8 (gồm ca xung đột lợi ích, người vắng mặt, ngoài giờ, khẩn).
+Số hỗ trợ `1900 0000` là **số giả lập**: không có nút gọi (`phone_click = false`).
+
+**Nguồn dữ liệu** (không đưa lên Git): Brief kỹ thuật + học liệu gốc trong `Khởi nghiệp_Tân Hưng…/`, bộ hồ sơ chạy thử trong `Ho_so_Ket_noi_hoc_sinh…/`.
+Nhập lại: `php tools/nhap-ho-so.php <thư mục hồ sơ>` và `php tools/nhap-hoc-lieu.php <thư mục văn bản .txt> <thư mục Khởi nghiệp>` → `includes/du-lieu-mau.json` + `data/uploads/` (xem HUONG-DAN.md mục 4).
 
 ## Vai trò
 
@@ -49,8 +56,8 @@ Phản ánh mẫu: `KN-2026-0001`…`KN-2026-0007` (mỗi nhóm có đầu mối
 |---|---|---|
 | Học sinh | Học, làm tình huống, hỏi đáp, gửi / theo dõi **phiếu của mình** | Xem phiếu người khác |
 | Quản lý học liệu (giáo viên) | Soạn học liệu Nháp → Công bố, trả lời hỏi đáp, đọc "Vì sao em chọn" | Xem phiếu |
-| Xử lý phiếu | Phiếu nhóm mình là đầu mối / dự phòng / độc lập, hoặc được phân công | Xem danh tính phiếu ẩn danh, tệp gốc |
-| Người được chỉ định (tối đa 2) | Như trên với mọi phiếu + mở danh tính (bắt chọn căn cứ, ghi lý do, ghi nhật ký) + tệp gốc | – |
+| Xử lý phiếu | Chỉ phiếu đang được giao cho mình (người dự phòng chỉ thấy sau khi được giao) | Xem danh tính phiếu ẩn danh, tệp gốc, phiếu mình có liên quan |
+| Người được chỉ định (tối đa 2: NV01, NV05) | Mọi phiếu trừ phiếu mình có liên quan + mở danh tính (căn cứ, lý do, nhật ký) + tệp gốc + đánh dấu xung đột lợi ích | Phiếu mình có liên quan |
 | Quản trị viên | Cấu hình, tài khoản, mã tham gia, nhật ký | Đọc phiếu (trừ khi là người được chỉ định) |
 
 ## Thêm câu hỏi & đáp án
@@ -104,7 +111,8 @@ Muốn làm lại dữ liệu từ đầu: xóa các tệp `data/*.json`.
 
 - Mọi form POST có mã CSRF; mật khẩu băm bằng `password_hash`; mọi dữ liệu in ra đều qua `e()`.
 - Sai mật khẩu / mã tham gia 5 lần với một email → khóa 15 phút; 30 lần từ một IP → khóa IP (trường dùng chung IP).
-- Tệp đính kèm: kiểm tra đuôi, dung lượng, số tệp và **MIME thực** (`finfo`) ở máy chủ; JS kiểm tra trước ở trình duyệt.
+- Tệp đính kèm: kiểm tra đuôi, dung lượng (10 MB = 10.000.000 byte), tệp rỗng, số tệp và **MIME thực** (`finfo`) ở máy chủ; JS kiểm tra trước ở trình duyệt. Học liệu (video) tối đa 50 MB.
+- Hạn: phiếu khẩn xác nhận trong 15 phút tính trong giờ làm việc (nhận ngoài giờ → từ đầu giờ làm việc kế tiếp); phiếu thường 2 ngày làm việc. Người phụ trách **vắng mặt** → phiếu mới chuyển người dự phòng. **Xung đột lợi ích** → người liên quan bị loại khỏi phiếu, chuyển người độc lập.
 - Ảnh JPEG/PNG lưu 2 bản: gốc và đã xóa siêu dữ liệu (EXIF/GPS, máy chụp, thời điểm chụp). Cán bộ xem bản đã xóa;
   bản gốc chỉ người được chỉ định mở, luôn ghi nhật ký. PDF, MP4 **chưa** xóa được siêu dữ liệu.
 - Email: `mail_enabled = false` (mặc định) thì thư chỉ lưu ở *Nhật ký → Email đi*. Bản chạy thử (`is_demo`)

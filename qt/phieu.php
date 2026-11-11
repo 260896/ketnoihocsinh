@@ -86,11 +86,11 @@ admin_start('Phiếu phản ánh', 'Phiếu phản ánh', can_reveal($me)
     <?php foreach ($shown as $t): [$dl, $alert] = deadline_info($t); ?>
       <tr<?= $alert ? ' class="is-alert"' : '' ?>>
         <td class="t-nowrap"><a href="<?= e(url('qt/xu-ly-phieu.php', ['id' => $t['code']])) ?>" style="text-decoration:none">#<?= e($t['code']) ?></a></td>
-        <td><?= e($t['type']) ?> · <?= e($t['group'] === ISSUE_UNKNOWN ? 'Chưa rõ nhóm' : $t['group']) ?></td>
+        <td><?= e($t['type']) ?> · <?= e($t['group'] === ISSUE_UNKNOWN ? 'Chưa rõ nhóm' : $t['group']) ?><?php if (!empty($t['title'])): ?><br><span class="t-small t-muted"><?= e($t['title']) ?></span><?php endif; ?></td>
         <td><?= priority_badge($t['priority']) ?></td>
         <td><?= status_badge($t['status']) ?></td>
         <td><?= $alert ? '<span class="t-danger t-strong">' . e($dl) . '</span>' : e($dl) ?></td>
-        <td><?= $t['assignee'] ? e(staff_name($t['assignee'])) : '<span class="t-muted">Hàng chờ phân loại</span>' ?></td>
+        <td><?= $t['assignee'] ? e(staff_name($t['assignee'])) : (!empty($t['needs_independent']) ? '<span class="t-danger t-strong">Chờ chỉ định độc lập</span>' : '<span class="t-muted">Hàng chờ phân loại</span>') ?></td>
         <td><?= $t['anonymous'] ? 'Ẩn danh' : 'Có danh tính' ?></td>
       </tr>
     <?php endforeach; ?>

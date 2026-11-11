@@ -17,10 +17,10 @@ Không cần sửa code cho các việc này, trừ khi có ghi khác.
 |---|---|---|---|---|
 | 1 | Chốt cách cấp tài khoản | Đã làm: cặp mã + email nạp sẵn | Nhà trường xác nhận cách này | Nhà trường |
 | 2 | Đầu mối nhóm Đào tạo, CSVC, tiếp nhận chung | Đã thêm 2 nhóm, phiếu vào hàng chờ | Chỉ định người (mục 2.2) | Nhà trường |
-| 3 | Dự phòng nhóm Thuốc lá, MXH, Góp ý | Tạm đặt Phạm Hoàng Nam | Xác nhận hoặc đổi người | Nhà trường |
+| 3 | Dự phòng nhóm Thuốc lá, MXH, Góp ý | Để trống đúng như nguồn; quá hạn thì nhắc quản trị viên | Chỉ định người | Nhà trường |
 | 4 | Quy tắc mở danh tính, báo gia đình/cơ quan | Đã có bản nháp | Duyệt văn bản (mục 2.3) | PM + Nhà trường |
 | 5 | Chốt công nghệ | Xong: PHP thuần + JSON, ghi trong CLAUDE.md mục 2 | – | – |
-| 6 | Sửa email, mật khẩu thử | Xong (`abc-trunghoc.edu.vn`, `TestHS2026!`) | Đổi mật khẩu thật khi triển khai | PM |
+| 6 | Sửa email, mật khẩu thử | Xong (email thử `@example.com`, mật khẩu không hiện trên giao diện) | Đổi mật khẩu thật khi triển khai | PM |
 | 7 | Kịch bản chatbot | Đã chạy trong code | Duyệt câu chữ (mục 3.1) | PM |
 | 8 | Môi trường local, Git, CLAUDE.md | Đã có Git (chưa có remote) | Tên miền `ketnoihocsinh.local`, đẩy lên Git (mục 5.1) | Dev |
 | 9 | Giao diện nền | Xong: đủ 3 màu, header, footer, 3 lối vào | Thử ở màn 360px trên máy thật (#38) | PM |
@@ -28,7 +28,8 @@ Không cần sửa code cho các việc này, trừ khi có ghi khác.
 | 11 | Đăng ký, đăng nhập, đặt lại mật khẩu, khóa | Xong, có chống dò | – | – |
 | 12 | Trang Chính sách, Ẩn danh, Quy tắc, Giờ tiếp nhận | Đã có bản nháp tại `trang.php` | Duyệt câu chữ (mục 3.2) | PM |
 | 13–14 | Module học, quản lý học liệu | Xong | – | – |
-| 15–17 | Soạn nội dung chủ đề 1–5 | Mỗi chủ đề mới có 1 tình huống | Soạn thêm (mục 4) | Nội dung |
+| 15–16 | Soạn nội dung chủ đề 1–3 | **Xong**: 3 câu/chủ đề từ bộ câu hỏi gốc, giải thích từng lựa chọn, ảnh, infographic, video, PDF, tài liệu thảo luận | – | – |
+| 17 | Chủ đề 4, 5 | Đã nhập đủ như chủ đề 1–3 | Giáo viên duyệt mức phù hợp lứa tuổi | Nội dung + Nhà trường |
 | 18 | Nhập và công bố 5 chủ đề | Xong | – | – |
 | 19 | Hỏi đáp, "Vì sao em chọn" | Xong (QT11) | – | – |
 | 20 | Huy hiệu học tập | Xong (chỉ gắn với việc học) | – | – |
@@ -40,7 +41,7 @@ Không cần sửa code cho các việc này, trừ khi có ghi khác.
 | 31 | Email, nhắc hạn, chuyển dự phòng | Xong (đang lưu ở hộp thư đi) | Bật gửi thư thật (mục 5.3) | Dev |
 | 33 | Cron thật | Có `cron.php` | Đặt lịch trên máy chủ (mục 5.2) | Dev |
 | 34 | Gợi ý phiếu nghi trùng | Xong (chỉ gợi ý) | – | – |
-| 35 | Dữ liệu thử | Xong: 7 phiếu, mỗi nhóm có đầu mối đều có ít nhất 1 phiếu | – | – |
+| 35 | Dữ liệu thử | Xong: 12 phiếu theo bộ hồ sơ mục 8 (xung đột lợi ích, vắng mặt, ngoài giờ, khẩn) + 5 bản ghi danh tính tách riêng | – | – |
 | 36 | Chạy 10 luồng kiểm tra | Xong bằng tự động (71 bước) | PM thử tay theo mục 6 | PM |
 | 37 | Rà bảo mật | Xong, không còn lỗi mức cao | Rà lại trước khi chạy thật | Dev |
 | 38 | Thử trên điện thoại thật | Chưa | Mục 6.2 | PM |
@@ -69,7 +70,7 @@ và mỗi cặp chỉ dùng được một lần.
 | Chất lượng giảng dạy, đào tạo | Chưa có đầu mối → vào hàng chờ | Đầu mối chính |
 | Cơ sở vật chất | Chưa có đầu mối → vào hàng chờ | Đầu mối chính |
 | Chưa rõ / Khác | Hàng chờ, Nam và Tùng xem | Người tiếp nhận chung (nếu muốn) |
-| Thuốc lá, Mạng xã hội, Góp ý | Dự phòng: Phạm Hoàng Nam (giả định) | Xác nhận hoặc đổi |
+| Thuốc lá, Mạng xã hội, Góp ý | Chưa có dự phòng (đúng nguồn) | Chỉ định người dự phòng |
 
 Danh sách chỉ hiện cán bộ có vai trò **Xử lý phiếu**. Muốn thêm người, vào **Tài khoản** để tạo trước.
 
@@ -116,11 +117,19 @@ Cán bộ chỉ thấy mẫu chung và mẫu của nhóm phiếu đang xử lý.
 
 ---
 
-## 4. Việc nhóm nội dung (#15, #16, #17 và 3 chủ đề còn thiếu)
+## 4. Việc nhóm nội dung (#17 và 3 chủ đề còn thiếu)
 
-Mỗi chủ đề mới có **1 tình huống** và chưa có hình hoặc video. Cách thêm:
+Đã nhập từ thư mục nguồn `Khởi nghiệp_Tân Hưng…/`: bộ câu hỏi gốc (15 câu), tài liệu thảo luận 5 chủ đề (nội dung học tập: nhận diện, cơ sở pháp lý, nơi tiếp nhận, hiểu nhầm, tình huống), ảnh minh họa, infographic, video, PDF.
+Khi nhà trường sửa tài liệu nguồn, nhập lại như sau (trên máy có PowerShell):
 
-1. Đăng nhập `giaovien@abc-trunghoc.edu.vn` → **Học liệu** → chọn chủ đề → **Thêm tình huống**.
+1. Trích chữ từ các tệp `.docx` (PHP của XAMPP không có ZipArchive) ra một thư mục, mỗi tệp một `.txt` cùng tên – ví dụ bằng Word: *Lưu thành → Văn bản thuần (.txt), mã hóa UTF-8*.
+2. `php tools/nhap-hoc-lieu.php "<thư mục .txt>" "<thư mục Khởi nghiệp_Tân Hưng>"` → ghi `includes/du-lieu-mau.json`, chép media vào `data/uploads/`.
+3. `php tools/nhap-ho-so.php "<thư mục Ho_so_Ket_noi_hoc_sinh>"` → nhân sự, 12 phiếu mẫu, danh tính giả lập.
+4. Sao lưu rồi xóa `data/*.json` để website tạo lại dữ liệu mẫu (thư mục `data/uploads/` giữ nguyên).
+
+Thêm tình huống mới trên giao diện:
+
+1. Đăng nhập `giaovien@example.com` → **Học liệu** → chọn chủ đề → **Thêm tình huống**.
 2. Nhập tiêu đề, câu hỏi, hình (JPG/PNG/WebP, tối đa 10 MB) hoặc link video.
 3. Mỗi lựa chọn (2–6 lựa chọn) có nội dung và **giải thích riêng**. Đánh dấu một lựa chọn *phù hợp nhất*.
 4. **Lưu nháp** → bấm *Xem trước* để kiểm tra → **Công bố**. Học sinh chỉ thấy bản đã công bố.

@@ -144,18 +144,19 @@ function routing_people(string $group): array
 }
 
 /**
- * Cán bộ có được xem phiếu này không.
- * - Người được chỉ định mở danh tính: xem mọi phiếu (giám sát, tiếp nhận độc lập).
- * - Cán bộ xử lý phiếu: phiếu được phân công cho mình, hoặc nhóm mình là đầu mối / dự phòng / độc lập,
- *   hoặc phiếu đang ở hàng chờ phân loại nếu mình có tên ở dòng "Chưa rõ / Khác".
- * - Quản trị viên, giáo viên: không.
+ * Cán bộ có được xem phiếu này không (hồ sơ mục 1: "mỗi người chỉ được xem hồ sơ đã được phân công").
+ * - Người có liên quan đến phiếu (xung đột lợi ích): KHÔNG, kể cả người được chỉ định mở danh tính.
+ * - Người được chỉ định mở danh tính (NV01, NV05): xem để tiếp nhận độc lập và mở danh tính khi có căn cứ.
+ * - Cán bộ xử lý phiếu: chỉ phiếu đang được phân công cho mình; người dự phòng chỉ thấy sau khi được giao;
+ *   phiếu ở hàng chờ phân loại: người có tên ở dòng "Chưa rõ / Khác" của bảng đầu mối.
+ * - Quản trị viên (không được chỉ định), giáo viên: không – quyền cấu hình không cho đọc nội dung phiếu.
  */
 function can_access_ticket(?array $u, array $t): bool
 {
     if (!can_handle_tickets($u)) return false;
+    if (in_array($u['id'], $t['conflict'] ?? [], true)) return false;
     if (can_reveal($u)) return true;
     if ($t['assignee'] === $u['id']) return true;
-    if (in_array($u['id'], routing_people($t['group']), true)) return true;
     return $t['assignee'] === null && in_array($u['id'], routing_people(ISSUE_UNKNOWN), true);
 }
 

@@ -385,6 +385,10 @@ function tickets_upgrade(): void
             }
         }
         unset($m);
+        if (!array_key_exists('conflict', $t)) {
+            $t += ['conflict' => [], 'needs_independent' => false, 'title' => ''];
+            $changed = true;
+        }
         if (!in_array($t['priority'], PRIORITIES, true)) {
             $t['priority'] = in_array($t['priority'], ['Khẩn', 'Cao'], true) || !empty($t['urgent']) ? PRIORITY_NOW : PRIORITY_LATER;
             $changed = true;
@@ -474,18 +478,24 @@ function ticket_create(array $owner, array $draft): array
     $anonymous = $draft['anonymous'] !== '0';
     $route = $cfg['routing'][$draft['group']] ?? ['primary' => ''];
     $assignee = ($route['primary'] ?? '') ?: null;
-    // Khẩn: xác nhận trong N phút. Thường: phản hồi lần đầu trong N ngày làm việc,
-    // tính từ lúc bộ phận bắt đầu làm việc (nếu gửi ngoài giờ).
-    $deadline = $urgent
-        ? date('c', time() + (int) $cfg['urgent_ack_minutes'] * 60)
-        : date('c', add_working_days(next_duty_start(), (int) ($cfg['first_reply_days'] ?? 2)));
+    $absentNote = '';
+    // Người chính vắng mặt → người dự phòng (nếu có và không vắng); không có ai → hàng chờ + báo quản trị viên
+    if ($assignee && staff_is_absent($assignee)) {
+        $backup = ($route['backup'] ?? '') ?: null;
+        $absentNote = staff_name($assignee) . ' vắng mặt';
+        $assignee = $backup && !staff_is_absent($backup) ? $backup : null;
+    }
+    $deadline = date('c', ticket_deadline(time(), $urgent));
     $now = now_iso();
     $code = next_ticket_code();
 
     $ticket = [
         'code'        => $code,
         'type'        => $draft['type'],
+        'title'       => $draft['title'] ?? '',
         'group'       => $draft['group'],
+        'conflict'    => [],
+        'needs_independent' => false,
         'urgent'      => $urgent,
         'anonymous'   => $anonymous,
         'status'      => 'Đã tiếp nhận',
@@ -508,7 +518,7 @@ function ticket_create(array $owner, array $draft): array
                   . (is_out_of_hours() ? ' Phản ánh được gửi ngoài giờ làm việc, dự kiến được xử lý từ ' . expected_processing_label() . '.' : ''),
         ]],
         'history'     => [
-            ['time' => $now, 'text' => $assignee ? 'Hệ thống chuyển đến đầu mối ' . staff_name($assignee) : 'Phiếu vào hàng chờ phân loại'],
+            ['time' => $now, 'text' => ($absentNote ? $absentNote . ' → ' : '') . ($assignee ? 'Hệ thống chuyển đến ' . staff_name($assignee) : 'Phiếu vào hàng chờ phân loại')],
             ['time' => $now, 'text' => 'Phiếu được tạo' . ($anonymous ? ' (ẩn danh' . ($urgent ? ', cần phản hồi ngay' : '') . ')' : ($urgent ? ' (cần phản hồi ngay)' : ''))],
         ],
         'has_update'  => false,
@@ -519,10 +529,55 @@ function ticket_create(array $owner, array $draft): array
     $owners[$code] = $owner['id'];
     save('ticket_owners', $owners);
 
-    // Báo cán bộ (không kèm nội dung phiếu)
+    // Báo cán bộ (không kèm nội dung phiếu). Brief 2.8: phiếu khẩn gửi email ngay cho đầu mối VÀ người dự phòng.
     $to = $assignee ? [$assignee] : routing_people(ISSUE_UNKNOWN);
+    if ($urgent && !empty($route['backup'])) $to[] = $route['backup'];
+    if (!$assignee) $to = [...$to, ...array_column(array_filter(staff_all(), fn ($u) => $u['staff_role'] === ROLE_ADMIN), 'id')];
     notify_staff($to, $ticket, $urgent ? 'Phiếu CẦN PHẢN HỒI NGAY mới' : 'Phiếu mới');
     return $ticket;
+}
+
+/**
+ * Hạn xử lý theo hồ sơ mục 3:
+ * - Cần phản hồi ngay: xác nhận trong N phút, tính liên tục trong giờ làm việc; nhận ngoài giờ thì tính từ đầu giờ làm việc kế tiếp
+ *   (không có trực thực tế ngoài giờ – không hiển thị như cam kết hỗ trợ 24/7).
+ * - Thường: cùng thời điểm sau N ngày làm việc; nhận ngoài giờ thì mốc bắt đầu là đầu giờ làm việc kế tiếp.
+ *   Ví dụ: thứ Sáu 13/11 18:00 → bắt đầu thứ Hai 16/11 08:00 → hạn thứ Tư 18/11 08:00.
+ */
+function ticket_deadline(int $receivedTs, bool $urgent): int
+{
+    $cfg = config();
+    $start = next_duty_start($receivedTs);
+    return $urgent
+        ? $start + (int) $cfg['urgent_ack_minutes'] * 60
+        : add_working_days($start, (int) ($cfg['first_reply_days'] ?? 2));
+}
+
+/** Cán bộ đang vắng mặt (quản trị viên bật ở trang Tài khoản). */
+function staff_is_absent(?string $id): bool
+{
+    return $id !== null && !empty(user_find($id)['absent']);
+}
+
+/**
+ * Đánh dấu cán bộ có liên quan (xung đột lợi ích) – hồ sơ mục 2:
+ * người liên quan bị loại khỏi phiếu; nếu đang phụ trách thì chuyển người tiếp nhận độc lập;
+ * nếu người độc lập cũng liên quan thì bỏ trống và đặt "chờ chỉ định người độc lập khác" – không trả về người bị phản ánh.
+ */
+function ticket_set_conflict(array $t, array $staffIds, array $by, string $reason = ''): array
+{
+    $staffIds = array_values(array_unique(array_filter($staffIds)));
+    $t['conflict'] = $staffIds;
+    if ($t['assignee'] && in_array($t['assignee'], $staffIds, true)) {
+        $old = $t['assignee'];
+        $indep = config()['routing'][$t['group']]['independent'] ?? '';
+        $t['assignee'] = $indep && !in_array($indep, $staffIds, true) && !staff_is_absent($indep) ? $indep : null;
+        $t['needs_independent'] = $t['assignee'] === null;
+        array_unshift($t['history'], ['time' => now_iso(), 'text' => 'Xung đột lợi ích: chuyển khỏi ' . staff_name($old) . ' → ' . ($t['assignee'] ? staff_name($t['assignee']) : 'chờ chỉ định người độc lập khác')]);
+        audit_log('Phân công', $t['code'], 'Chuyển do xung đột lợi ích: ' . staff_name($old) . ' → ' . ($t['assignee'] ? staff_name($t['assignee']) : 'chờ chỉ định độc lập') . ($reason !== '' ? ' · Lý do: ' . $reason : ''), $by);
+        if ($t['assignee']) notify_staff([$t['assignee']], $t, 'Phiếu chuyển cho bạn (tiếp nhận độc lập)');
+    }
+    return $t;
 }
 
 /** Cán bộ xác nhận đã nhận phiếu khẩn (hoặc đã trả lời / đổi trạng thái): dừng đồng hồ 15 phút. */
@@ -649,6 +704,7 @@ function sla_run(bool $force = false): int
 
         if ($t['urgent'] && empty($t['acknowledged_at']) && empty($t['escalated_at'])) {
             $backup = $cfg['routing'][$t['group']]['backup'] ?? '';
+            if ($backup && (staff_is_absent($backup) || in_array($backup, $t['conflict'] ?? [], true))) $backup = '';
             $old = $t['assignee'];
             $t['escalated_at'] = now_iso();
             if (!empty($cfg['fallback']) && $backup && $backup !== $old) {
@@ -722,15 +778,28 @@ function why_answer_of(string $userId, string $situationId): ?array
 /* ======================= Huy hiệu học tập ======================= */
 /* Chỉ gắn với việc HỌC (CLAUDE.md 4.9) – không gắn với gửi phản ánh. Tính từ tiến độ, không lưu riêng. */
 
+/**
+ * Kết quả học một chủ đề: [số câu đã làm, số câu đúng (lần chọn gần nhất), tổng, đạt?].
+ * Đạt khi đúng ≥ pass_threshold câu (hồ sơ mục 7: 2/3), hoặc ≥ 2/3 số câu nếu chủ đề có số câu khác 3.
+ */
+function learning_result(array $user, array $topic): array
+{
+    $list = published_situations($topic);
+    $ids = array_column($list, 'id');
+    $done = count(array_intersect($ids, $user['progress'][$topic['id']] ?? []));
+    $correct = count(array_filter($ids, fn ($id) => !empty($user['answers'][$id])));
+    $total = count($list);
+    $need = $total === 3 ? (int) (config()['pass_threshold'] ?? 2) : (int) ceil($total * 2 / 3);
+    return [$done, $correct, $total, $total > 0 && $done >= $total && $correct >= $need, $need];
+}
+
 function learning_badges(array $user): array
 {
     $badges = [];
     $doneTopics = 0;
     $topics = array_values(array_filter(topics_all(), fn ($t) => published_situations($t)));
     foreach ($topics as $t) {
-        $list = published_situations($t);
-        $done = count(array_intersect(array_column($list, 'id'), $user['progress'][$t['id']] ?? []));
-        if ($done && $done >= count($list)) {
+        if (learning_result($user, $t)[3]) {
             $doneTopics++;
             $badges[] = ['icon' => $t['icon'], 'name' => 'Hoàn thành: ' . $t['name']];
         }

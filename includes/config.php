@@ -17,12 +17,16 @@ const SITE = [
     'domain'       => 'ketnoihocsinh.local',
     'hotline'      => '1900 0000',   // dùng khi chưa nhập số ở trang Cấu hình
     'verify_ttl'   => '24 giờ',
-    // Tài liệu gốc ghi "abc-trung học.edu.vn" (có dấu cách, không hợp lệ) → dùng abc-trunghoc.edu.vn
-    'staff_domain' => 'abc-trunghoc.edu.vn',
+    // Email nguồn "…@abc-trung học.edu.vn" có dấu cách, không hợp lệ → bản chạy thử đăng nhập bằng …@example.com
+    // (hồ sơ mục 1, 8); email nguồn giữ ở trường source_email để đối chiếu.
+    'staff_domain' => 'example.com',
     'is_demo'      => true,          // hiện dòng "Bản chạy thử – dữ liệu giả lập"
     // Chặn Google/Bing lập chỉ mục (thẻ meta robots + header X-Robots-Tag) để bản demo
     // không bị nhầm là kênh chính thức. Chỉ đặt false khi nhà trường đưa vào dùng thật.
     'noindex'      => true,
+    // Số hỗ trợ 1900 0000 là SỐ GIẢ LẬP (hồ sơ mục 3): không tạo nút gọi, không hiển thị như đường dây đang hoạt động.
+    // Đặt true khi nhà trường có số thật đang hoạt động.
+    'phone_click'  => false,
 ];
 
 /** Mật khẩu chung của các tài khoản chạy thử (học sinh và cán bộ). */
@@ -49,6 +53,9 @@ const STAFF_ROLES   = [ROLE_HANDLER, ROLE_TEACHER, ROLE_ADMIN];
 
 /** Brief: chỉ 2 người được mở danh tính (Nguyễn Minh Anh, Võ Thanh Tùng). */
 const REVEAL_MAX = 2;
+
+/** Dung lượng tối đa mỗi tệp học liệu (video bài giảng) – khác giới hạn tệp đính kèm phiếu. */
+const LEARNING_MAX_MB = 50;
 
 /** Chống dò: số lần sai tối đa trong khoảng khóa (giây). */
 const THROTTLE_MAX = 5;      // theo email / tài khoản

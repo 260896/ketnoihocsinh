@@ -28,7 +28,9 @@ if (is_post()) {
         $priority = in_array(post('priority'), PRIORITIES, true) ? post('priority') : $t['priority'];
         $status = in_array(post('status'), TICKET_STATUSES, true) ? post('status') : $t['status'];
         // Chỉ cán bộ xử lý phiếu mới được phân công (không chọn được tài khoản học sinh / giáo viên)
-        $assignee = in_array(post('assignee'), $handlerIds, true) ? post('assignee') : null;
+        // và không giao cho người có liên quan (xung đột lợi ích)
+        $assignee = in_array(post('assignee'), $handlerIds, true) && !in_array(post('assignee'), $t['conflict'] ?? [], true) ? post('assignee') : null;
+        $reason = mb_substr(post('reason'), 0, 300);
         $deadline = post('deadline') !== '' ? date('c', (int) strtotime(post('deadline'))) : null;
 
         if ($group !== $t['group']) {
@@ -41,7 +43,9 @@ if (is_post()) {
         }
         if ($assignee !== $t['assignee']) {
             $changes[] = 'phân công → ' . staff_name($assignee);
-            audit_log('Phân công', $t['code'], staff_name($t['assignee']) . ' → ' . staff_name($assignee), $me);
+            // Phiếu chuyển (hồ sơ mục 2): lưu người giao, người nhận, thời điểm, lý do
+            audit_log('Phân công', $t['code'], staff_name($t['assignee']) . ' → ' . staff_name($assignee) . ($reason !== '' ? ' · Lý do: ' . $reason : ''), $me);
+            if ($assignee) $t['needs_independent'] = false;
         }
         if ($status !== $t['status']) {
             $changes[] = "đổi trạng thái → $status";
@@ -51,6 +55,15 @@ if (is_post()) {
         $statusChanged = $status !== $t['status'];
         $assigneeChanged = $assignee !== $t['assignee'];
         $t = array_merge($t, compact('group', 'priority', 'status', 'assignee', 'deadline'));
+        // Xung đột lợi ích: chỉ người được chỉ định (NV01, NV05) mới đánh dấu được
+        if (can_reveal($me)) {
+            $conflict = array_values(array_intersect((array) ($_POST['conflict'] ?? []), $handlerIds));
+            if ($conflict !== ($t['conflict'] ?? [])) {
+                $changes[] = 'đánh dấu ' . count($conflict) . ' người có liên quan';
+                audit_log('Xung đột lợi ích', $t['code'], 'Người có liên quan: ' . ($conflict ? implode(', ', array_map('staff_name', $conflict)) : 'không') . ($reason !== '' ? ' · Lý do: ' . $reason : ''), $me);
+                $t = ticket_set_conflict($t, $conflict, $me, $reason);
+            }
+        }
         $t['urgent'] = $priority === PRIORITY_NOW ? true : $t['urgent'];
         if ($changes) array_unshift($t['history'], ['time' => now_iso(), 'text' => $me['name'] . ' ' . implode(', ', $changes)]);
         if ($statusChanged) $t = ticket_acknowledge($t, $me);
@@ -114,7 +127,11 @@ if (is_post()) {
 $canSeeIdentity = !$t['anonymous'] || in_array($me['id'], $t['revealed_to'], true);
 // Chỉ tra liên kết người gửi khi được phép thấy danh tính (liên kết lưu riêng ở ticket_owners.json)
 $owner = $canSeeIdentity ? user_find(ticket_owner_id($t['code'])) : null;
-$staffOpts = ['' => 'Hàng chờ phân loại'] + array_column(array_filter(staff_all(), fn ($u) => in_array($u['id'], $handlerIds, true)), 'name', 'id');
+$staffOpts = ['' => 'Hàng chờ phân loại'];
+foreach (staff_all() as $u) {
+    if (!in_array($u['id'], $handlerIds, true) || in_array($u['id'], $t['conflict'] ?? [], true)) continue;
+    $staffOpts[$u['id']] = $u['name'] . (!empty($u['absent']) ? ' (đang vắng)' : '');
+}
 $templates = array_filter($cfg['templates'], fn ($tpl) => empty($tpl['group']) || $tpl['group'] === $t['group']);
 $similar = ticket_similar($t);
 // Căn cứ mở danh tính: chỉ khi có lý do chính đáng, cần thiết cho xác minh và xử lý vụ việc
@@ -144,6 +161,10 @@ admin_start(
       <?php if ($canSeeIdentity && $owner): ?>
         <div class="info-row"><p>Người gửi</p><p class="t-strong"><?= e($owner['name']) ?> · <?= e($owner['email']) ?></p></div>
       <?php endif; ?>
+      <?php if (!empty($t['needs_independent'])): ?>
+        <div class="panel panel--danger" style="padding:12px"><?= note('alert', 'Phiếu có liên quan cả người tiếp nhận độc lập – cần chỉ định người độc lập khác. Không giao cho người có liên quan.', 'var(--c-danger)') ?></div>
+      <?php endif; ?>
+      <?php if (!empty($t['title'])): ?><div class="info-row"><p>Tiêu đề</p><p class="t-strong"><?= e($t['title']) ?></p></div><?php endif; ?>
       <div class="info-row"><p>Mô tả</p><p class="pre"><?= e($t['description']) ?></p></div>
       <div class="info-row"><p>Nhóm vấn đề</p><p><?= e($t['group']) ?></p></div>
       <div class="info-row"><p>Thời gian</p><p><?= e(fmt_dt($t['occurred_at'] ?: null)) ?></p></div>
@@ -238,6 +259,16 @@ admin_start(
       <?= field_select('status', 'Trạng thái', TICKET_STATUSES, $t['status']) ?>
       <?= field_select('assignee', 'Người phụ trách', $staffOpts, (string) $t['assignee']) ?>
       <?= field_input('deadline', 'Hạn xử lý', $t['deadline'] ? date('Y-m-d\TH:i', strtotime($t['deadline'])) : '', ['type' => 'datetime-local']) ?>
+      <?php if (can_reveal($me)): ?>
+        <fieldset class="stack gap-6" style="border:1px solid var(--c-border);border-radius:10px;padding:10px 12px">
+          <legend class="t-small t-strong">Người có liên quan (xung đột lợi ích)</legend>
+          <?php foreach (staff_all() as $u): if (!in_array($u['id'], $handlerIds, true) || $u['id'] === $me['id']) continue; ?>
+            <label class="row gap-8 t-small"><input type="checkbox" class="checkbox" name="conflict[]" value="<?= e($u['id']) ?>" <?= in_array($u['id'], $t['conflict'] ?? [], true) ? 'checked' : '' ?>> <?= e($u['name']) ?></label>
+          <?php endforeach; ?>
+          <p class="t-small t-muted">Người được đánh dấu không xem, không được giao và không mở danh tính phiếu này. Nếu chính bạn có liên quan, hãy báo người được chỉ định còn lại.</p>
+        </fieldset>
+      <?php endif; ?>
+      <?= field_input('reason', 'Lý do chuyển / thay đổi (ghi nhật ký)', '', ['placeholder' => 'Ví dụ: người phụ trách vắng mặt']) ?>
       <button type="submit" class="btn btn--block">Lưu thay đổi</button>
     </form>
 

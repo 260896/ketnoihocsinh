@@ -1,6 +1,6 @@
 # CLAUDE.md – Dự án KẾT NỐI HỌC SINH
 
-> Đọc file này trước khi sửa hoặc kiểm tra code. Nguồn gốc: `Brief Website.docx` (yêu cầu nghiệp vụ) và `Thông tin giả lập chạy thử` (dữ liệu cấu hình). Khi hai nguồn khác nhau, **dữ liệu giả lập thắng ở phần cấu hình**, **Brief thắng ở phần nguyên tắc**.
+> Đọc file này trước khi sửa hoặc kiểm tra code. Nguồn gốc (thư mục `Khởi nghiệp_Tân Hưng…/`, không đưa lên Git): **Brief kỹ thuật giai đoạn 1** (PDF – nguyên tắc), **Thông tin giả lập chạy thử** (cấu hình), **Bộ câu hỏi trắc nghiệm** + tài liệu thảo luận, infographic, video, PDF 5 chủ đề (học liệu), logo *schoolink*. Bổ sung: **Bộ hồ sơ chạy thử** (`Ho_so_Ket_noi_hoc_sinh…/`, 8 mục – đề xuất chi tiết). Thứ tự ưu tiên: **Brief thắng ở nguyên tắc** → **dữ liệu giả lập thắng ở cấu hình** → bộ hồ sơ chỉ áp dụng khi không trái hai nguồn trên.
 
 ## 1. Dự án là gì
 
@@ -32,8 +32,8 @@ Website giáo dục ngoại khóa cho học sinh trung học, gồm hai phần g
 |---|---|---|
 | Học sinh | Học, làm tình huống, đặt câu hỏi, gửi phiếu, xem **chỉ phiếu của mình**, trả lời yêu cầu bổ sung | Xem phiếu người khác |
 | Giáo viên / quản lý học liệu | Tải lên, nhập câu hỏi–đáp án–giải thích, Nháp → Công bố, trả lời hỏi đáp, xem câu trả lời mở | Xem phiếu phản ánh |
-| Cán bộ xử lý phiếu | Xem phiếu nhóm được giao, sửa phân loại, nâng ưu tiên, trả lời, dùng mẫu | **Xem danh tính phiếu ẩn danh** |
-| Người được mở danh tính | Như cán bộ + mở danh tính (bắt nhập lý do, ghi nhật ký) | – |
+| Cán bộ xử lý phiếu | Xem **phiếu được giao cho mình** (hồ sơ mục 1), sửa phân loại, nâng ưu tiên, trả lời, dùng mẫu | **Xem danh tính phiếu ẩn danh**; xem phiếu mình có liên quan |
+| Người được mở danh tính | Như cán bộ với mọi phiếu + mở danh tính (bắt nhập lý do, ghi nhật ký) + đánh dấu xung đột lợi ích | Phiếu mình có liên quan |
 | Admin kỹ thuật | Cấu hình hệ thống, khóa tài khoản | Mặc định không đọc nội dung phiếu |
 
 ## 4. Quy tắc KHÔNG ĐƯỢC LÀM SAI (bảo mật, ẩn danh)
@@ -67,15 +67,15 @@ Trạng thái phiếu: **Đã tiếp nhận → Cần bổ sung → Đang xem x�
 
 ## 6. Cấu hình định tuyến (dữ liệu giả lập)
 
-**Nhân sự** (email trong tài liệu gốc ghi `abc-trung học.edu.vn`, có dấu cách nên không hợp lệ → dùng `abc-trunghoc.edu.vn` trong code):
+**Nhân sự** (email nguồn `abc-trung học.edu.vn` có dấu cách, không hợp lệ → bản chạy thử đăng nhập bằng `…@example.com` theo bộ hồ sơ mục 1, 8; email nguồn giữ ở `source_email`):
 
 | Người | Vai trò | Email |
 |---|---|---|
-| Nguyễn Minh Anh | Quản trị chính, mở được danh tính | admin@abc-trunghoc.edu.vn |
-| Trần Quốc Bảo | Công tác học sinh | baotq@abc-trunghoc.edu.vn |
-| Lê Thu Hà | Tư vấn, hỗ trợ học sinh | hatl@abc-trunghoc.edu.vn |
-| Phạm Hoàng Nam | Dự phòng | namph@abc-trunghoc.edu.vn |
-| Võ Thanh Tùng | Tiếp nhận độc lập, mở được danh tính | tungvt@abc-trunghoc.edu.vn |
+| NV01 Nguyễn Minh Anh | Quản trị chính, mở được danh tính | admin@example.com |
+| NV02 Trần Quốc Bảo | Công tác học sinh | baotq@example.com |
+| NV03 Lê Thu Hà | Tư vấn, hỗ trợ học sinh | hatl@example.com |
+| NV04 Phạm Hoàng Nam | Dự phòng | namph@example.com |
+| NV05 Võ Thanh Tùng | Tiếp nhận độc lập, mở được danh tính | tungvt@example.com |
 
 **Bảng chuyển phiếu:**
 
@@ -85,26 +85,28 @@ Trạng thái phiếu: **Đã tiếp nhận → Cần bổ sung → Đang xem x�
 | Thuốc lá điện tử | Trần Quốc Bảo | *(chưa có – xem mục 10)* |
 | Vấn đề trên mạng xã hội | Lê Thu Hà | *(chưa có)* |
 | Quấy rối, xâm hại | Lê Thu Hà | Võ Thanh Tùng |
+| Nguy cơ tảo hôn hoặc bị ép kết hôn *(bổ sung theo bộ hồ sơ mục 2)* | Lê Thu Hà | Võ Thanh Tùng |
 | Góp ý hoạt động, môi trường học đường | Trần Quốc Bảo | *(chưa có)* |
-| Liên quan trực tiếp người đang xử lý | **Võ Thanh Tùng** (độc lập) | – |
+| Liên quan trực tiếp người đang xử lý | **Võ Thanh Tùng** (độc lập) | – (nếu Tùng cũng liên quan → *chờ chỉ định người độc lập khác*, không trả về người bị phản ánh) |
 | Khác / chưa rõ | Hàng chờ phân loại | *(chưa có người tiếp nhận chung)* |
 
-Bảng này phải là **cấu hình sửa được trong trang quản trị**, không hard-code trong logic.
+Bảng này phải là **cấu hình sửa được trong trang quản trị**, không hard-code trong logic. Người chính **vắng mặt** (bật ở trang Tài khoản) → phiếu mới chuyển người dự phòng; nhóm chưa có dự phòng không được âm thầm bỏ qua (báo quản trị viên).
 
 ## 7. Thời gian, SLA, tệp
 
 - Giờ trực: **08:00–17:00, Thứ Hai–Thứ Sáu**
 - Phiếu khẩn: đầu mối xác nhận trong **15 phút**. Quá hạn → email nhắc + chuyển dự phòng.
 - Phiếu thường: phản hồi lần đầu trong **2 ngày làm việc**
-- Ngoài giờ: vẫn nhận phiếu, hiển thị thời gian dự kiến xử lý + số hỗ trợ **1900 0000** (giả lập). Không để học sinh hiểu là có người trực 24/7.
-- Tệp: **PDF, JPG, JPEG, PNG, MP4**; tối đa **10 MB/tệp**, **5 tệp/phiếu**. Kiểm tra ở cả client và server, kiểm tra cả MIME thực, không chỉ đuôi file.
+- Ngoài giờ: vẫn nhận phiếu, hiển thị thời gian dự kiến xử lý + số hỗ trợ **1900 0000** (giả lập). Không để học sinh hiểu là có người trực 24/7. Số giả lập **không có nút gọi** (`SITE[phone_click] = false`), kèm lời khuyên tìm người lớn / 113 / 111.
+- Hạn khẩn nhận ngoài giờ: tính 15 phút từ đầu giờ làm việc kế tiếp. Hạn thường nhận ngoài giờ: mốc bắt đầu 08:00 ngày làm việc kế tiếp (thứ Sáu 18:00 → hạn thứ Tư 08:00).
+- Tệp: **PDF, JPG, JPEG, PNG, MP4**; tối đa **10 MB/tệp** (= 10.000.000 byte), **5 tệp/phiếu**, từ chối tệp rỗng. Kiểm tra ở cả client và server, kiểm tra cả MIME thực, không chỉ đuôi file.
 - Nếu dùng WP-Cron cho SLA: cần cron thật trên hosting, vì WP-Cron chỉ chạy khi có lượt truy cập.
 
 ## 8. Học tập
 
 Luồng: đăng nhập → chọn chủ đề → học liệu → tình huống (chọn) → giải thích từng lựa chọn → làm lại. Lưu tiến độ theo tài khoản. Học liệu có trạng thái **Nháp / Đã công bố**, học sinh chỉ thấy bản đã công bố.
 
-5 chủ đề chạy thử:
+5 chủ đề chạy thử – nội dung lấy từ **Bộ câu hỏi trắc nghiệm gốc** (3 câu/chủ đề) và tài liệu thảo luận; mỗi chủ đề có infographic, video, PDF. Đạt khi đúng ≥ 2/3 câu (bộ hồ sơ mục 7); huy hiệu chỉ khi đạt.
 
 | # | Chủ đề | Tình huống | Câu hỏi kiểm tra |
 |---|---|---|---|
@@ -132,9 +134,10 @@ Mỗi chủ đề: tình huống + câu hỏi trắc nghiệm + các phương á
 |---|---|---|
 | Học sinh | E2400249.test@example.com (tên hiển thị E2400249) | `TestHS2026!` |
 | Đăng ký mới | cặp mã + email `DEMO-0001` / `demo1@example.com` … `DEMO-0005` / `demo5@example.com` | mỗi cặp dùng 1 lần (mã chung `HS2026` đã bỏ) |
-| Quản trị (Nguyễn Minh Anh) | admin@abc-trunghoc.edu.vn | `TestHS2026!` (mật khẩu chạy thử) |
-| Cán bộ xử lý | baotq@, hatl@, namph@, tungvt@abc-trunghoc.edu.vn | `TestHS2026!` |
-| Giáo viên học liệu | giaovien@abc-trunghoc.edu.vn | `TestHS2026!` – tài liệu gốc chưa nêu tên người |
+| Quản trị (NV01 Nguyễn Minh Anh) | admin@example.com | `TestHS2026!` – **không hiển thị trên giao diện** (bộ hồ sơ mục 8) |
+| Cán bộ xử lý | baotq@, hatl@, namph@, tungvt@example.com | `TestHS2026!` |
+| Giáo viên học liệu | giaovien@example.com | `TestHS2026!` – tài liệu gốc chưa nêu tên người |
+| Bản ghi danh tính giả lập | hocsinh02@, 04@, 06@, 07@, 11@example.com | gắn với phiếu KN-2026-0002/0004/0006/0007/0011 (lưu tách riêng) |
 
 Mã phiếu mẫu: `KN-2026-0001`.
 
@@ -144,8 +147,14 @@ Trạng thái ngày 11/11/2026. *Giả định* = đã làm trong code để ch�
 
 1. **Cách cấp tài khoản** – *đã chốt với người dùng*: nhà trường **nạp sẵn cặp mã tham gia + email** (trang QT10, tệp `data/codes.json`); học sinh tự đăng ký bằng đúng cặp đó, mỗi cặp dùng 1 lần. Mã chung `HS2026` đã bỏ. Hệ quả: nhà trường biết email nào là của học sinh nào; ẩn danh vẫn giữ ở lớp hiển thị phiếu.
 2. Nhóm **Chất lượng giảng dạy, đào tạo** và **Cơ sở vật chất** – *giả định*: đã thêm vào danh sách nhóm, **chưa có đầu mối** → phiếu vào hàng chờ phân loại (Phạm Hoàng Nam, Võ Thanh Tùng thấy hàng chờ). Vẫn thiếu người **tiếp nhận chung**.
-3. Người dự phòng cho thuốc lá điện tử, mạng xã hội, góp ý – *giả định*: tạm đặt **Phạm Hoàng Nam** để luật quá hạn chạy được. Nhóm "liên quan người xử lý" dự phòng là Nguyễn Minh Anh.
-4. Email có dấu cách – *đã sửa* thành `abc-trunghoc.edu.vn` trong code và dữ liệu.
+3. Người dự phòng cho thuốc lá điện tử, mạng xã hội, góp ý – **để trống đúng như nguồn** (bộ hồ sơ mục 2: "chưa quy định"). Khi quá hạn, hệ thống nhắc đầu mối + quản trị viên thay vì chuyển, không âm thầm bỏ qua. Nhà trường cần chỉ định.
+4. Email có dấu cách – bản chạy thử đăng nhập bằng `…@example.com` (bộ hồ sơ), email nguồn giữ ở `source_email`.
+9. **Ẩn danh** – Brief 2.5 thắng: liên kết danh tính lưu tách riêng (`ticket_owners.json`), chỉ người được chỉ định mở. Đề xuất của bộ hồ sơ mục 4 (ẩn danh không lưu liên kết, theo dõi bằng mã bí mật) **không áp dụng** vì trái Brief.
+10. **Màu** – giữ `#1565C0` / `#C62828` theo Brief; `#1557B0` của bộ hồ sơ chỉ là đề xuất.
+11. **Câu hỏi học tập** – dùng *Bộ câu hỏi trắc nghiệm gốc*; bộ câu hỏi trong hồ sơ mục 7 là bản soạn lại, không dùng.
+12. **Tên hiển thị quản trị** – nguồn mục 8 ghi "Admin", mục 1 ghi Nguyễn Minh Anh; dùng Nguyễn Minh Anh.
+13. Brief mục 3 xếp **hỏi đáp, huy hiệu, gợi ý phiếu trùng** vào giai đoạn sau – đã làm trước theo task list; có thể ẩn nếu khách hàng muốn đúng phạm vi giai đoạn 1.
+14. Brief mục 8 còn **12 câu hỏi khách hàng chưa trả lời** (đơn vị quản lý, thời hạn lưu dữ liệu, khi nào báo cơ quan chức năng, tên miền gửi email, máy chủ…).
 5. Mật khẩu cán bộ – *chạy thử* dùng `TestHS2026!`. Tài khoản cán bộ tạo mới nhận email đặt mật khẩu lần đầu (không có mật khẩu biết trước).
 6. Brief nêu 8 chủ đề, bản thử có 5 (thiếu: tin sai sự thật, tiêu cực trong trường, chất lượng đào tạo) – **chưa làm**, chờ nhóm nội dung.
 7. Quy tắc **khi nào chuyển thông tin cho gia đình / cơ quan chức năng** – *bản nháp* trong `trang.php?p=an-danh` và bước 5 gửi phiếu, chờ nhà trường duyệt (task #4).

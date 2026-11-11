@@ -6,7 +6,7 @@ $me = require_student();
 
 $step = (int) get('buoc', '0');
 $draft = $_SESSION['draft'] ?? [
-    'type' => '', 'group' => '', 'urgent' => '', 'description' => '',
+    'type' => '', 'group' => '', 'urgent' => '', 'title' => '', 'description' => '',
     'occurred_at' => '', 'location' => '', 'files' => [], 'anonymous' => '1',
 ];
 $cfg = config();
@@ -46,6 +46,7 @@ if (is_post()) {
             $error = 'Chọn Có hoặc Không.';
             break;
         case 4:
+            $draft['title'] = mb_substr(post('title'), 0, 150);
             $draft['description'] = post('description');
             $draft['occurred_at'] = post('occurred_at');
             $draft['location'] = post('location');
@@ -55,7 +56,7 @@ if (is_post()) {
             $maxFiles = (int) ($cfg['max_files'] ?? 5);
             foreach (files_list('files') as $f) {
                 if (count($draft['files']) >= $maxFiles) {
-                    $error = 'Mỗi phản ánh được đính kèm tối đa ' . $maxFiles . ' tệp.';
+                    $error = 'Mỗi phản ánh tối đa ' . $maxFiles . ' tệp.';
                     break;
                 }
                 $r = save_ticket_upload($f, $cfg['file_types'], (int) $cfg['max_file_mb']);
@@ -124,7 +125,7 @@ elseif ($step === 3): ?>
         <p class="t-h2 t-danger">Gọi ngay để được hỗ trợ</p>
       </div>
       <p>Nếu bạn đang gặp nguy hiểm, đừng chờ phiếu được xử lý.</p>
-      <a href="<?= e(tel_href()) ?>" class="btn btn--danger btn--block">Gọi <?= e(hotline()) ?></a>
+      <?= hotline_action() ?>
       <p class="t-small t-muted">Bạn vẫn có thể gửi phiếu. Phiếu được đánh dấu "Cần phản hồi ngay" và hệ thống báo ngay cho cán bộ phụ trách (trong giờ trực <?= e(duty_label()) ?>).</p>
     </div>
   <?php endif; ?>
@@ -135,10 +136,12 @@ elseif ($step === 4): ?>
   <h2 class="t-h1">Mô tả sự việc</h2>
   <form method="post" id="step" enctype="multipart/form-data" class="stack gap-16">
     <?= csrf_field() ?>
-    <?= field_textarea('description', 'Mô tả *', $draft['description'], ['placeholder' => 'Chuyện gì đã xảy ra? Ai liên quan? (không bắt buộc ghi tên)', 'required' => true]) ?>
+    <?= field_input('title', 'Tiêu đề (không bắt buộc)', $draft['title'] ?? '', ['maxlength' => 150, 'placeholder' => 'Ví dụ: Bị chặn đường sau giờ học']) ?>
+    <?= field_textarea('description', 'Mô tả *', $draft['description'], ['placeholder' => 'Chuyện gì đã xảy ra? Em không cần kể chi tiết nhạy cảm hay dùng đúng thuật ngữ pháp lý.', 'required' => true]) ?>
     <?= field_input('occurred_at', 'Thời gian (nếu nhớ)', $draft['occurred_at'], ['type' => 'datetime-local']) ?>
     <?= field_input('location', 'Địa điểm', $draft['location'], ['placeholder' => 'Ví dụ: khu B, nhóm chat lớp…']) ?>
-    <p class="t-small t-strong">Tệp đính kèm</p>
+    <p class="t-small t-strong">Tệp đính kèm (không bắt buộc)</p>
+    <p class="t-small t-muted">Em có thể gửi tệp nếu thấy cần và an toàn. Không cần có tệp mới được gửi phản ánh. Tránh đính kèm mật khẩu, giấy tờ định danh hoặc dữ liệu của người không liên quan. Không gửi nội dung tình dục liên quan trẻ em; em có thể mô tả sự việc để người có trách nhiệm hướng dẫn. Ảnh và tài liệu có thể tự tiết lộ danh tính (khuôn mặt, tên, vị trí) – hãy kiểm tra trước khi gửi.</p>
     <?= dropzone('files[]', 'Chọn tệp để tải lên', strtoupper(implode(', ', $cfg['file_types'])) . ' · tối đa ' . $cfg['max_file_mb'] . ' MB/tệp, ' . ($cfg['max_files'] ?? 5) . ' tệp/phản ánh (đã có ' . count($draft['files']) . ')', [
         'multiple' => true, 'accept' => '.' . implode(',.', $cfg['file_types']), 'icon' => 24,
         'data-exts' => implode(',', $cfg['file_types']), 'data-max-mb' => $cfg['max_file_mb'],
@@ -166,6 +169,7 @@ else:
         'Loại yêu cầu'         => $draft['type'],
         'Nhóm vấn đề'          => $draft['group'],
         'Cần hỗ trợ ngay'      => $draft['urgent'] === '1' ? 'Có – phiếu khẩn' : 'Không',
+        'Tiêu đề'              => ($draft['title'] ?? '') ?: '—',
         'Mô tả'                => $draft['description'],
         'Thời gian · Địa điểm' => fmt_dt($draft['occurred_at'] ?: null) . ' · ' . ($draft['location'] ?: '—'),
         'Tệp'                  => $draft['files'] ? count($draft['files']) . ' tệp' : 'Không có',

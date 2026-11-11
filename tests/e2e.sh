@@ -16,7 +16,8 @@ cp "${D:?}"/*.json "${S:?}/bak/"; touch "${S:?}/marker"; echo '[]' > "${D:?}/thr
 cleanup() {
   kill "$SRV" 2>/dev/null
   cp "${S:?}/bak/"*.json "${D:?}/"
-  for f in questions outbox; do [ -f "${S:?}/bak/${f:?}.json" ] || rm -f "${D:?}/${f:?}.json"; done
+  # Xóa mọi tệp dữ liệu test tạo ra mà trước đó chưa có (throttle, outbox, questions…)
+  for p in "${D:?}"/*.json; do f="$(basename "$p")"; [ -f "${S:?}/bak/${f:?}" ] || rm -f "${D:?}/${f:?}"; done
   find "${D:?}/uploads/tickets" -type f -newer "${S:?}/marker" -delete 2>/dev/null
   rm -rf "${S:?}"
   echo "(đã khôi phục dữ liệu)"
@@ -30,7 +31,12 @@ file_put_contents("$d/anh-gps.jpg", "\xFF\xD8\xFF\xE1" . pack("n", strlen($app1)
 file_put_contents("$d/gia-mao.jpg", "day la van ban, khong phai anh");
 file_put_contents("$d/lon.pdf", "%PDF-1.4\n" . str_repeat("A", 11 * 1048576));
 file_put_contents("$d/x.exe", "MZ...");
-file_put_contents("$d/nho.pdf", "%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF");' "$F"
+file_put_contents("$d/nho.pdf", "%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF");
+// Ca biên hồ sơ mục 5: 10.000.000 byte nhận, 10.000.001 byte từ chối, tệp rỗng từ chối
+$pdf = "%PDF-1.4\n1 0 obj<<>>endobj\n%";
+file_put_contents("$d/dung10mb.pdf", $pdf . str_repeat("A", 10000000 - strlen($pdf)));
+file_put_contents("$d/qua10mb.pdf", $pdf . str_repeat("A", 10000001 - strlen($pdf)));
+file_put_contents("$d/rong.pdf", "");' "$F"
 
 csrf() { grep -o 'name="_csrf" value="[^"]*"' | head -1 | sed 's/.*value="//;s/"//'; }
 login() { local j="$S/$1.jar"; : > "$j"; local t=$(curl -s -c "$j" -b "$j" "$B/$2/dang-nhap.php" | csrf);
@@ -85,7 +91,7 @@ echo "2. Đăng nhập, đặt lại mật khẩu"
 t=$(get wrong sv/dang-nhap.php | csrf)
 r=$(curl -s -c "$S/wrong.jar" -b "$S/wrong.jar" --data-urlencode "_csrf=$t" --data-urlencode email=E2400249.test@example.com --data-urlencode pw=sai "$B/sv/dang-nhap.php")
 ok "Sai mật khẩu báo lỗi rõ" 'echo "$r" | grep -q "Email hoặc mật khẩu không đúng"'
-r=$(postd rs sv/quen-mat-khau.php --data-urlencode email=admin@abc-trunghoc.edu.vn)
+r=$(postd rs sv/quen-mat-khau.php --data-urlencode email=admin@example.com)
 ok "Quên mật khẩu admin: KHÔNG hiện liên kết trên trang" '! echo "$r" | grep -q "mat-khau-moi.php?token"'
 r=$(postd rs2 sv/quen-mat-khau.php --data-urlencode email=E2400249.test@example.com)
 ok "Học sinh (bản chạy thử): có liên kết đặt lại" 'echo "$r" | grep -q "mat-khau-moi.php?token"'
@@ -103,7 +109,7 @@ ok "Gửi 'Vì sao em chọn'" 'grep -q "Vì từ chối là an toàn" $D/questi
 postd hs "$P" --data-urlencode action=reset >/dev/null; r=$(get hs "$P")
 ok "Làm lại được" '! echo "$r" | grep -q "Giải thích cho lựa chọn"'
 postd hs "sv/chu-de.php?id=thuoc-la-dien-tu" --data-urlencode action=ask --data-urlencode "question=Thuốc lá điện tử có gây nghiện không ạ?" >/dev/null
-login gv qt giaovien@abc-trunghoc.edu.vn >/dev/null
+login gv qt giaovien@example.com >/dev/null
 r=$(get gv qt/hoi-dap.php); qid=$(echo "$r" | grep -o 'name="id" value="q[0-9a-f]*"' | head -1 | sed 's/.*value="//;s/"//')
 ok "Giáo viên thấy câu hỏi chờ" '[ -n "$qid" ]'
 postd gv qt/hoi-dap.php --data-urlencode action=answer --data-urlencode id=$qid --data-urlencode "answer=Có, nicotine gây nghiện." --data-urlencode published=1 >/dev/null
@@ -120,9 +126,9 @@ DESC="Nhóm bạn <script>alert(1)</script> chặn đường em ở cổng sau"
 r=$(post hs "sv/gui-phieu.php?buoc=4" -F "description=$DESC" -F occurred_at= -F location=Cong -F action=upload -F "files[]=@$F/gia-mao.jpg")
 ok "Ảnh giả (văn bản đổi đuôi .jpg) bị chặn theo MIME thực" 'echo "$r" | grep -q "không đúng định dạng JPG"'
 r=$(post hs "sv/gui-phieu.php?buoc=4" -F "description=$DESC" -F occurred_at= -F location=Cong -F action=upload -F "files[]=@$F/x.exe")
-ok "Tệp .exe bị chặn" 'echo "$r" | grep -q "không được phép"'
+ok "Tệp .exe bị chặn" 'echo "$r" | grep -q "Hệ thống chỉ nhận"'
 r=$(post hs "sv/gui-phieu.php?buoc=4" -F "description=$DESC" -F occurred_at= -F location=Cong -F action=upload -F "files[]=@$F/lon.pdf")
-ok "Tệp > 10 MB bị chặn" 'echo "$r" | grep -q "vượt quá\|không thành công"'
+ok "Tệp > 10 MB bị chặn" 'echo "$r" | grep -q "tối đa 10 MB\|không thành công"'
 r=$(post hs "sv/gui-phieu.php?buoc=4" -F "description=$DESC" -F occurred_at= -F location=Cong -F action=upload -F "files[]=@$F/anh-gps.jpg" -F "files[]=@$F/nho.pdf" -F "files[]=@$F/nho.pdf" -F "files[]=@$F/nho.pdf" -F "files[]=@$F/nho.pdf" -F "files[]=@$F/nho.pdf")
 ok "Quá 5 tệp/phiếu bị chặn" 'echo "$r" | grep -q "tối đa 5 tệp"'
 ok "Kiểm tra phía trình duyệt có trên form (data-max-mb, data-exts)" 'echo "$r" | grep -q "data-max-mb=\"10\"" && echo "$r" | grep -q "data-exts="'
@@ -138,7 +144,7 @@ ok "Ảnh có bản đã xóa GPS (bản gốc vẫn còn GPS)" '[ -n "$clean" ]
 ok "Báo cán bộ phụ trách qua email, thư không chứa mô tả" 'grep -q "\"ticket\": \"$code1\"" $D/outbox.json && ! grep -q "chặn đường em" $D/outbox.json'
 
 echo "5. Cán bộ xử lý phiếu ẩn danh"
-login bao qt baotq@abc-trunghoc.edu.vn >/dev/null
+login bao qt baotq@example.com >/dev/null
 r=$(get bao "qt/xu-ly-phieu.php?id=$code1")
 ok "Bảo (đầu mối nhóm bắt nạt) mở được phiếu" 'echo "$r" | grep -q "Phiếu #$code1"'
 ok "Không lộ tên/email/id người gửi trong HTML" '! echo "$r" | grep -qi "E2400249\|u_hs1"'
@@ -154,7 +160,7 @@ postd bao "qt/xu-ly-phieu.php?id=$code1" --data-urlencode action=save --data-url
 ok "Không phân công được cho tài khoản học sinh" '! tk $code1 | grep -q "\"assignee\": \"u_hs1\""'
 
 echo "6. Mở danh tính (Võ Thanh Tùng)"
-login tung qt tungvt@abc-trunghoc.edu.vn >/dev/null
+login tung qt tungvt@example.com >/dev/null
 r=$(postd tung "qt/xu-ly-phieu.php?id=$code1" --data-urlencode action=reveal --data-urlencode basis= --data-urlencode reason=)
 ok "Thiếu căn cứ/lý do bị chặn" 'echo "$r" | grep -q "Nhập lý do cụ thể"'
 r=$(postd tung "qt/xu-ly-phieu.php?id=$code1" --data-urlencode action=reveal --data-urlencode "basis=Cần thiết để xác minh sự việc" --data-urlencode "reason=Cần gặp trực tiếp để xác minh" --data-urlencode confirm=1)
@@ -163,7 +169,7 @@ ok "Nhật ký ghi ai / phiếu / lý do" 'grep -B4 -A3 "Cần gặp trực ti�
 oc=$(curl -s -o /dev/null -w "%{http_code}" -b "$S/tung.jar" "$B/tep.php?k=att&t=$code1&i=0&goc=1")
 ok "Tùng tải bản gốc được và có nhật ký" '[ "$oc" = "200" ] && grep -q "Tải tệp gốc" $D/audit.json'
 r=$(get bao "qt/xu-ly-phieu.php?id=$code1"); ok "Bảo vẫn không thấy danh tính sau khi Tùng mở" '! echo "$r" | grep -q "E2400249"'
-login ad qt admin@abc-trunghoc.edu.vn >/dev/null
+login ad qt admin@example.com >/dev/null
 r=$(postd ad qt/tai-khoan.php --data-urlencode action=staff_edit --data-urlencode id=u_bao --data-urlencode "role=Xử lý phiếu" --data-urlencode reveal=1)
 ok "Không cấp được quyền mở danh tính cho người thứ 3" '! grep -A12 "\"id\": \"u_bao\"" $D/users.json | grep -q "\"can_reveal\": true"'
 
@@ -171,13 +177,15 @@ echo "7. Định tuyến, hàng chờ, SLA"
 code2=$(send_ticket hs "Phản ánh" "Chưa rõ / Khác" 0 "Em không biết báo ai" 0)
 ok "Phiếu chưa rõ nhóm vào hàng chờ phân loại ($code2)" 'tk $code2 | grep -q "\"assignee\": null"'
 postd hs "sv/gui-phieu.php?buoc=1" --data-urlencode "type=Phản ánh" >/dev/null; postd hs "sv/gui-phieu.php?buoc=2" --data-urlencode "group=Phản ánh liên quan trực tiếp đến người đang xử lý" >/dev/null
-r=$(postd hs "sv/gui-phieu.php?buoc=3" --data-urlencode urgent=1); ok "Chọn 'cần hỗ trợ ngay' hiện ngay số 1900 0000" 'echo "$r" | grep -q "Gọi 1900 0000"'
+r=$(postd hs "sv/gui-phieu.php?buoc=3" --data-urlencode urgent=1); ok "Chọn 'cần hỗ trợ ngay' hiện ngay số 1900 0000, ghi rõ số giả lập, KHÔNG có nút gọi" 'echo "$r" | grep -q "1900 0000" && echo "$r" | grep -q "số giả lập" && ! echo "$r" | grep -q "href=\"tel:"'
 code3=$(send_ticket hs "Phản ánh" "Phản ánh liên quan trực tiếp đến người đang xử lý" 1 "Liên quan thầy phụ trách" 1)
 ok "Phiếu liên quan người xử lý → Võ Thanh Tùng, mức Cần phản hồi ngay ($code3)" 'tk $code3 | grep -q "\"assignee\": \"u_tung\"" && tk $code3 | grep -q "Cần phản hồi ngay"'
 ok "Bảo không mở được phiếu liên quan cán bộ" '[ "$(code bao qt/xu-ly-phieu.php?id=$code3)" != "200 " ]'
-"$PHP" -r '$f="'$D'/tickets.json"; $a=json_decode(file_get_contents($f),true); foreach($a as &$t) if($t["code"]==="'$code3'") $t["deadline"]=date("c", time()-60); file_put_contents($f, json_encode($a, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));'
+code4=$(send_ticket hs "Phản ánh" "Bạo lực học đường, bắt nạt" 1 "Đang bị chặn ở cổng sau" 1)
+ok "Phiếu khẩn: email ngay cho đầu mối VÀ người dự phòng (Brief 2.8)" 'grep -B1 -A2 "\"ticket\": \"$code4\"" $D/outbox.json >/dev/null; [ "$(grep -c "$code4" $D/outbox.json)" -ge 2 ] && grep -q "namph@example.com" $D/outbox.json'
+"$PHP" -r '$f="'$D'/tickets.json"; $a=json_decode(file_get_contents($f),true); foreach($a as &$t) if($t["code"]==="'$code4'") $t["deadline"]=date("c", time()-60); file_put_contents($f, json_encode($a, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));'
 "$PHP" $ROOTD/cron.php >/dev/null
-ok "Quá 15 phút chưa xác nhận → chuyển dự phòng + nhắc (cron)" 'tk $code3 | grep -q "\"assignee\": \"u_admin\"" && grep -q "Chuyển dự phòng" $D/audit.json && grep -q "quá hạn xác nhận" $D/outbox.json'
+ok "Quá 15 phút chưa xác nhận → chuyển dự phòng Phạm Hoàng Nam + nhắc (cron)" 'tk $code4 | grep -q "\"assignee\": \"u_nam\"" && grep -q "Chuyển dự phòng" $D/audit.json && grep -q "quá hạn xác nhận" $D/outbox.json'
 r=$(curl -s "$B/?ngoaigio=1"); ok "Ngoài giờ: hiện giờ tiếp nhận và 1900 0000" 'echo "$r" | grep -q "Ngoài giờ trực" && echo "$r" | grep -q "1900 0000"'
 
 echo "8. Học sinh chỉ thấy phiếu của mình"
@@ -189,14 +197,44 @@ echo "9. Trang công khai, giao diện, bảo mật chung"
 for p in chinh-sach quy-tac an-danh gio-tiep-nhan; do ok "trang.php?p=$p tải được" '[ "$(curl -s -o /dev/null -w "%{http_code}" "$B/trang.php?p=$p")" = "200" ]'; done
 ok "Không trang nào hứa 'bảo mật/an toàn tuyệt đối'" '! curl -s "$B/" "$B/trang.php?p=chinh-sach" "$B/trang.php?p=quy-tac" | grep -qi "bảo mật tuyệt đối\|đảm bảo an toàn tuyệt đối"'
 r=$(curl -s "$B/"); ok "Header: Trang chủ, Tài liệu, tìm kiếm, nút đỏ Em cần hỗ trợ" 'echo "$r" | grep -q "Trang chủ" && echo "$r" | grep -q ">Tài liệu<" && echo "$r" | grep -q "lp-search" && echo "$r" | grep -q "lp-nav__sos"'
-ok "3 lối vào chính" 'echo "$r" | grep -q "Khám phá tình huống" && echo "$r" | grep -q "Gửi góp ý hoặc phản ánh" && echo "$r" | grep -q "lp-cta--danger\">Em cần hỗ trợ"'
+ok "Lối vào chính (hồ sơ mục 6): Gửi phản ánh, Khám phá chủ đề, Em cần hỗ trợ, Theo dõi phản ánh" 'echo "$r" | grep -q ">Gửi phản ánh<" && echo "$r" | grep -q "Khám phá chủ đề" && echo "$r" | grep -q "lp-cta--danger\">Em cần hỗ trợ" && echo "$r" | grep -q "Theo dõi phản ánh"'
 ok "Màu #1565C0 và #C62828" 'grep -qi "c-primary: #1565c0" $ROOTD/assets/css/app.css && grep -qi "c-danger: #c62828" $ROOTD/assets/css/app.css'
 ok "POST không có CSRF bị chặn (419)" '[ "$(curl -s -o /dev/null -w "%{http_code}" -b "$S/hs.jar" -d "type=x" "$B/sv/gui-phieu.php?buoc=1")" = "419" ]'
 ok "data/ và includes/ bị chặn truy cập trực tiếp" '[ "$(curl -s -o /dev/null -w "%{http_code}" "$B/data/ticket_owners.json")" = "403" ] && [ "$(curl -s -o /dev/null -w "%{http_code}" "$B/includes/config.php")" = "403" ]'
 ok "Không có huy hiệu/điểm ở luồng gửi phiếu" '! grep -qi "huy hiệu\|điểm thưởng" $ROOTD/sv/gui-phieu.php $ROOTD/sv/gui-thanh-cong.php'
-r=$(get hs "sv/tai-lieu.php?q=OTP"); ok "Tìm học liệu ra tình huống" 'echo "$r" | grep -q "Nhận đường link lạ"'
-for i in 1 2 3 4 5; do t=$(get bf qt/dang-nhap.php | csrf); curl -s -o /dev/null -c "$S/bf.jar" -b "$S/bf.jar" --data-urlencode "_csrf=$t" --data-urlencode email=namph@abc-trunghoc.edu.vn --data-urlencode pw=sai$i "$B/qt/dang-nhap.php"; done
-t=$(get bf2 qt/dang-nhap.php | csrf); r=$(curl -s -c "$S/bf2.jar" -b "$S/bf2.jar" --data-urlencode "_csrf=$t" --data-urlencode email=namph@abc-trunghoc.edu.vn --data-urlencode "pw=TestHS2026!" "$B/qt/dang-nhap.php")
+r=$(get hs "sv/tai-lieu.php?q=%C4%91%C6%B0%E1%BB%9Dng+link"); ok "Tìm học liệu ra tình huống" 'echo "$r" | grep -q "đường link đáng ngờ"'
+echo "10. Bộ hồ sơ chạy thử (phân quyền, xung đột lợi ích, vắng mặt, tệp, học liệu)"
+login bao2 qt baotq@example.com >/dev/null; login nam qt namph@example.com >/dev/null; login ha qt hatl@example.com >/dev/null; login ad2 qt admin@example.com >/dev/null; login tung2 qt tungvt@example.com >/dev/null
+ok "KN-0006 liên quan NV02: Bảo không mở được" '[ "$(code bao2 qt/xu-ly-phieu.php?id=KN-2026-0006)" != "200 " ]'
+ok "KN-0008 đã giao NV04: Bảo không thấy, Nam thấy" '[ "$(code bao2 qt/xu-ly-phieu.php?id=KN-2026-0008)" != "200 " ] && [ "$(code nam qt/xu-ly-phieu.php?id=KN-2026-0008)" = "200 " ]'
+ok "NV04 chỉ thấy hồ sơ sau khi được giao (không thấy KN-0001)" '[ "$(code nam qt/xu-ly-phieu.php?id=KN-2026-0001)" != "200 " ]'
+ok "KN-0011 liên quan NV03, NV05: cả hai không mở được" '[ "$(code ha qt/xu-ly-phieu.php?id=KN-2026-0011)" != "200 " ] && [ "$(code tung2 qt/xu-ly-phieu.php?id=KN-2026-0011)" != "200 " ]'
+r=$(get ad2 "qt/phieu.php?q=KN-2026-0011"); ok "KN-0011 hiện 'Chờ chỉ định độc lập' cho NV01" 'echo "$r" | grep -q "Chờ chỉ định độc lập"'
+postd ad2 qt/tai-khoan.php --data-urlencode action=staff_edit --data-urlencode id=u_bao --data-urlencode "role=Xử lý phiếu" --data-urlencode absent=1 >/dev/null
+c5=$(send_ticket hs "Phản ánh" "Bạo lực học đường, bắt nạt" 0 "Bị xô đẩy ở hành lang" 1)
+ok "NV02 vắng mặt → phiếu bắt nạt mới chuyển NV04 ($c5)" 'tk $c5 | grep -q "\"assignee\": \"u_nam\""'
+postd ad2 qt/tai-khoan.php --data-urlencode action=staff_edit --data-urlencode id=u_bao --data-urlencode "role=Xử lý phiếu" >/dev/null
+c6=$(send_ticket hs "Phản ánh" "Bạo lực học đường, bắt nạt" 0 "Phản ánh liên quan thầy Bảo" 1)
+postd tung2 "qt/xu-ly-phieu.php?id=$c6" --data-urlencode action=save --data-urlencode "group=Bạo lực học đường, bắt nạt" --data-urlencode "priority=Phản hồi sau" --data-urlencode "status=Đã tiếp nhận" --data-urlencode assignee=u_bao --data-urlencode deadline= --data-urlencode "conflict[]=u_bao" --data-urlencode "reason=Nội dung liên quan NV02" >/dev/null
+ok "Đánh dấu xung đột lợi ích → chuyển NV05, Bảo bị chặn, có lý do trong nhật ký ($c6)" 'tk $c6 | grep -q "\"assignee\": \"u_tung\"" && [ "$(code bao2 qt/xu-ly-phieu.php?id=$c6)" != "200 " ] && grep -q "Nội dung liên quan NV02" $D/audit.json'
+postd hs "sv/gui-phieu.php?buoc=1" --data-urlencode "type=Góp ý" >/dev/null; postd hs "sv/gui-phieu.php?buoc=2" --data-urlencode "group=Cơ sở vật chất" >/dev/null; postd hs "sv/gui-phieu.php?buoc=3" --data-urlencode urgent=0 >/dev/null
+r=$(post hs "sv/gui-phieu.php?buoc=4" -F "description=Đèn hỏng" -F occurred_at= -F location= -F action=upload -F "files[]=@$F/qua10mb.pdf")
+ok "10.000.001 byte bị từ chối" 'echo "$r" | grep -q "tối đa 10 MB"'
+r=$(post hs "sv/gui-phieu.php?buoc=4" -F "description=Đèn hỏng" -F occurred_at= -F location= -F action=upload -F "files[]=@$F/rong.pdf")
+ok "Tệp rỗng bị từ chối" 'echo "$r" | grep -q "Tệp rỗng"'
+r=$(post hs "sv/gui-phieu.php?buoc=4" -F "description=Đèn hỏng" -F occurred_at= -F location= -F action=upload -F "files[]=@$F/dung10mb.pdf")
+ok "Đúng 10.000.000 byte được nhận, mô tả đã nhập được giữ" 'echo "$r" | grep -q "dung10mb.pdf" && echo "$r" | grep -q "Đèn hỏng"'
+r=$(get hs "sv/chu-de.php?id=bao-luc-hoc-duong"); ok "Chủ đề có infographic, video, nội dung pháp lý từ tài liệu thảo luận" 'echo "$r" | grep -q "Infographic" && echo "$r" | grep -q "<video" && echo "$r" | grep -q "Nghị định 80/2017"'
+vid=$(echo "$r" | grep -o 'tep.php?k=doc&amp;id=d-bao-luc-hoc-duong-video' | head -1 | sed 's/&amp;/\&/')
+ok "Video phát được (video/mp4, inline)" '[ -n "$vid" ] && curl -s -D - -o /dev/null -b "$S/hs.jar" "$B/$vid" | grep -qi "content-type: video/mp4"'
+for n in 1 2 3; do postd hs "sv/tinh-huong.php?chu-de=bao-luc-hoc-duong&so=$n" --data-urlencode choice=$([ $n = 1 ] && echo 2 || ([ $n = 2 ] && echo 1 || echo 0)) >/dev/null; done
+r=$(get hs "sv/hoan-thanh.php?chu-de=bao-luc-hoc-duong"); ok "Đúng 2/3 câu → Đạt + huy hiệu" 'echo "$r" | grep -q "2/3" && echo "$r" | grep -q ">Đạt<"'
+r=$(curl -s "$B/sv/dang-nhap.php")$(curl -s "$B/qt/dang-nhap.php"); ok "Trang đăng nhập không hiển thị mật khẩu chạy thử" '! echo "$r" | grep -q "TestHS2026"'
+r=$(curl -s "$B/"); ok "Trang chủ không có nút gọi số giả lập (tel:)" '! echo "$r" | grep -q "href=\"tel:"'
+ok "Chân trang: không dùng website thử nghiệm cho khẩn cấp có thật" 'echo "$r" | grep -q "Không dùng website thử nghiệm để gửi tình huống khẩn cấp có thật"'
+ok "Có logo khách hàng" 'echo "$r" | grep -q "logo-schoolink.png"'
+for i in 1 2 3 4 5; do t=$(get bf qt/dang-nhap.php | csrf); curl -s -o /dev/null -c "$S/bf.jar" -b "$S/bf.jar" --data-urlencode "_csrf=$t" --data-urlencode email=namph@example.com --data-urlencode pw=sai$i "$B/qt/dang-nhap.php"; done
+t=$(get bf2 qt/dang-nhap.php | csrf); r=$(curl -s -c "$S/bf2.jar" -b "$S/bf2.jar" --data-urlencode "_csrf=$t" --data-urlencode email=namph@example.com --data-urlencode "pw=TestHS2026!" "$B/qt/dang-nhap.php")
 ok "Dò mật khẩu: sai 5 lần → khóa 15 phút" 'echo "$r" | grep -q "quá nhiều lần"'
 errs=$(grep -iE "Fatal|Warning:|Deprecated:|Uncaught" "$S/server.log" | head -3)
 ok "Không có lỗi/cảnh báo PHP trong log máy chủ" '[ -z "$errs" ]'

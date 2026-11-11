@@ -1,0 +1,908 @@
+{
+    "nguon": "Bộ hồ sơ chạy thử Kết nối học sinh – phiên bản 1.0, ngày 2026-11-10",
+    "pass_threshold": 2,
+    "staff": [
+        {
+            "id": "NV01",
+            "name": "Nguyễn Minh Anh",
+            "role": "admin",
+            "source_email": "admin@abc-trung học.edu.vn",
+            "test_email": "admin@example.com"
+        },
+        {
+            "id": "NV02",
+            "name": "Trần Quốc Bảo",
+            "role": "student_affairs",
+            "source_email": "baotq@abc-trung học.edu.vn",
+            "test_email": "baotq@example.com"
+        },
+        {
+            "id": "NV03",
+            "name": "Lê Thu Hà",
+            "role": "counselor",
+            "source_email": "hatl@abc-trung học.edu.vn",
+            "test_email": "hatl@example.com"
+        },
+        {
+            "id": "NV04",
+            "name": "Phạm Hoàng Nam",
+            "role": "backup",
+            "source_email": "namph@abc-trung học.edu.vn",
+            "test_email": "namph@example.com"
+        },
+        {
+            "id": "NV05",
+            "name": "Võ Thanh Tùng",
+            "role": "independent",
+            "source_email": "tungvt@abc-trung học.edu.vn",
+            "test_email": "tungvt@example.com"
+        }
+    ],
+    "student_account": {
+        "participation_code": "HS2026",
+        "display_name": "E2400249",
+        "email": "E2400249.test@example.com",
+        "test_only": true
+    },
+    "reports": [
+        {
+            "id": "KN-2026-0001",
+            "category": "BLHD",
+            "mode": "anonymous",
+            "title": "Phản ánh giả lập số 01",
+            "body": "Học sinh bị chặn lối đi và xúc phạm sau giờ học.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV02",
+            "status": "received",
+            "identity_ref": null,
+            "attachments": [],
+            "conflict_of_interest": false
+        },
+        {
+            "id": "KN-2026-0002",
+            "category": "TLDT",
+            "mode": "confidential_identity",
+            "title": "Phản ánh giả lập số 02",
+            "body": "Một nhóm rủ học sinh dùng thiết bị thuốc lá điện tử ở giờ nghỉ.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV02",
+            "status": "received",
+            "identity_ref": "DD-0002",
+            "attachments": [],
+            "conflict_of_interest": false
+        },
+        {
+            "id": "KN-2026-0003",
+            "category": "MXH",
+            "mode": "anonymous",
+            "title": "Phản ánh giả lập số 03",
+            "body": "Tin nhắn mạo danh học bổng yêu cầu mật khẩu và OTP.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV03",
+            "status": "received",
+            "identity_ref": null,
+            "attachments": [],
+            "conflict_of_interest": false
+        },
+        {
+            "id": "KN-2026-0004",
+            "category": "QRTD",
+            "mode": "confidential_identity",
+            "title": "Phản ánh giả lập số 04",
+            "body": "Học sinh muốn được hỗ trợ riêng vì nhận tin nhắn tình dục không mong muốn.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV03",
+            "status": "received",
+            "identity_ref": "DD-0004",
+            "attachments": [],
+            "conflict_of_interest": false
+        },
+        {
+            "id": "KN-2026-0005",
+            "category": "GOPY",
+            "mode": "anonymous",
+            "title": "Phản ánh giả lập số 05",
+            "body": "Học sinh đề nghị bổ sung đèn tại lối đi sân sau.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV02",
+            "status": "received",
+            "identity_ref": null,
+            "attachments": [],
+            "conflict_of_interest": false
+        },
+        {
+            "id": "KN-2026-0006",
+            "category": "BLHD",
+            "mode": "confidential_identity",
+            "title": "Phản ánh giả lập số 06",
+            "body": "Nội dung phản ánh liên quan người phụ trách NV02.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV05",
+            "status": "received",
+            "identity_ref": "DD-0006",
+            "attachments": [],
+            "conflict_of_interest": true,
+            "conflicted_staff": [
+                "NV02"
+            ]
+        },
+        {
+            "id": "KN-2026-0007",
+            "category": "TAOHON",
+            "mode": "confidential_identity",
+            "title": "Phản ánh giả lập số 07",
+            "body": "Học sinh 16 tuổi lo bị ép nghỉ học để kết hôn.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV03",
+            "status": "received",
+            "identity_ref": "DD-0007",
+            "attachments": [],
+            "conflict_of_interest": false
+        },
+        {
+            "id": "KN-2026-0008",
+            "category": "BLHD",
+            "mode": "anonymous",
+            "title": "Phản ánh giả lập số 08",
+            "body": "Người chính NV02 vắng mặt, cần giao người dự phòng.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV04",
+            "status": "received",
+            "identity_ref": null,
+            "attachments": [],
+            "conflict_of_interest": false,
+            "unavailable_staff": [
+                "NV02"
+            ]
+        },
+        {
+            "id": "KN-2026-0009",
+            "category": "QRTD",
+            "mode": "anonymous",
+            "title": "Phản ánh giả lập số 09",
+            "body": "NV03 vắng mặt, nội dung cần chuyển người dự phòng độc lập.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV05",
+            "status": "received",
+            "identity_ref": null,
+            "attachments": [],
+            "conflict_of_interest": false,
+            "unavailable_staff": [
+                "NV03"
+            ]
+        },
+        {
+            "id": "KN-2026-0010",
+            "category": "GOPY",
+            "mode": "anonymous",
+            "title": "Phản ánh giả lập số 10",
+            "body": "Phản ánh gửi ngoài giờ về việc bố trí lịch hoạt động.",
+            "received_at": "2026-11-13T18:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": "NV02",
+            "status": "received",
+            "identity_ref": null,
+            "attachments": [],
+            "conflict_of_interest": false,
+            "expected_first_response_due": "2026-11-18T08:00:00+07:00"
+        },
+        {
+            "id": "KN-2026-0011",
+            "category": "QRTD",
+            "mode": "confidential_identity",
+            "title": "Phản ánh giả lập số 11",
+            "body": "Phản ánh có liên quan NV03 và NV05, cần chỉ định người độc lập khác.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "normal",
+            "assigned_to": null,
+            "status": "pending_independent_assignment",
+            "identity_ref": "DD-0011",
+            "attachments": [],
+            "conflict_of_interest": true,
+            "conflicted_staff": [
+                "NV03",
+                "NV05"
+            ]
+        },
+        {
+            "id": "KN-2026-0012",
+            "category": "BLHD",
+            "mode": "anonymous",
+            "title": "Phản ánh giả lập số 12",
+            "body": "Học sinh báo nguy cơ xô xát đang xảy ra và cần người lớn hỗ trợ trực tiếp.",
+            "received_at": "2026-11-10T09:00:00+07:00",
+            "priority": "urgent",
+            "assigned_to": "NV02",
+            "status": "received",
+            "identity_ref": null,
+            "attachments": [],
+            "conflict_of_interest": false
+        }
+    ],
+    "identities": [
+        {
+            "id": "DD-0002",
+            "name": "Học sinh giả lập 02",
+            "contact": "hocsinh02@example.com",
+            "access_scope": "identity_authorized_only"
+        },
+        {
+            "id": "DD-0004",
+            "name": "Học sinh giả lập 04",
+            "contact": "hocsinh04@example.com",
+            "access_scope": "identity_authorized_only"
+        },
+        {
+            "id": "DD-0006",
+            "name": "Học sinh giả lập 06",
+            "contact": "hocsinh06@example.com",
+            "access_scope": "identity_authorized_only"
+        },
+        {
+            "id": "DD-0007",
+            "name": "Học sinh giả lập 07",
+            "contact": "hocsinh07@example.com",
+            "access_scope": "identity_authorized_only"
+        },
+        {
+            "id": "DD-0011",
+            "name": "Học sinh giả lập 11",
+            "contact": "hocsinh11@example.com",
+            "access_scope": "identity_authorized_only"
+        }
+    ],
+    "topics": [
+        {
+            "id": "bao-luc-hoc-duong",
+            "name": "Bạo lực học đường",
+            "icon": "shield",
+            "order": 1,
+            "description": "Nhận biết hành vi bắt nạt, cách ứng xử và hướng tìm kiếm sự hỗ trợ.",
+            "situation": "Một học sinh thường xuyên bị bạn bè trêu chọc, cô lập và xúc phạm trên mạng xã hội.",
+            "learn": "Nhận biết hành vi bắt nạt, cách ứng xử và hướng tìm kiếm sự hỗ trợ.",
+            "image": "images/hoc-lieu/bao-luc-hoc-duong-infographic.png",
+            "video_file": "docs/hoc-lieu/bao-luc-hoc-duong.mp4",
+            "content": "Tình huống: Một học sinh thường xuyên bị bạn bè trêu chọc, cô lập và xúc phạm trên mạng xã hội.\n\nNội dung học tập: Nhận biết hành vi bắt nạt, cách ứng xử và hướng tìm kiếm sự hỗ trợ.\n\nTài liệu giáo dục pháp luật dành cho học sinh THCS và THPT. Đối chiếu quy định đến ngày 10/11/2026.\n\nNhận biết bạo lực về thể chất, tinh thần và trên môi trường mạng; biết cách tìm trợ giúp, bảo vệ người bị hại và thông báo đúng nơi. Bạo lực học đường có thể xảy ra trong lớp, ngoài cổng trường hoặc thông qua nhóm chat liên quan đến học sinh.\n\n1 Nhận diện tình huống điển hình\n\nĐánh đập và đe dọa\n\nTát, đá, giật tóc, ép quỳ, chặn đường, dọa đánh hoặc ép đưa tiền. Không cần chờ có thương tích nặng mới báo tin. Vụ việc xảy ra ngoài trường vẫn cần nhà trường phối hợp bảo vệ học sinh.\n\nLàm nhục và cô lập có chủ đích\n\nĐặt biệt danh hạ nhục, bêu xấu hoàn cảnh gia đình, ép cả lớp tẩy chay, liên tục chế giễu ngoại hình để làm bạn sợ hãi. Cần phân biệt bắt nạt với bất đồng thông thường; xem xét tính chất, tần suất, tương quan quyền lực và tác động thực tế.\n\nBạo lực trên môi trường mạng\n\nLập nhóm công kích, ghép ảnh chế nhạo, đăng clip hành hung hoặc phát tán bí mật để gây áp lực. Người đăng lại nội dung có thể làm tổn hại tiếp tục lan rộng.\n\nDấu hiệu người bị hại cần hỗ trợ\n\nSợ đi học, thường mất đồ, có vết thương không giải thích được, né tránh nhóm bạn hoặc lo lắng khi nhận tin nhắn. Đây là dấu hiệu cần hỏi han, không phải chứng cứ tự thân để kết luận ai vi phạm.\n\nỨng phó ban đầu\n\nĐến nơi an toàn, gọi người lớn hỗ trợ; không kéo thêm người đánh trả. Nếu có nguy hiểm tức thời, liên hệ công an; nếu bị thương, ưu tiên y tế. Giữ tin nhắn, thông tin người chứng kiến và đề nghị bảo toàn camera, không đăng công khai hình ảnh nạn nhân.\n\n2 Cơ sở pháp lý\n\nCác quy định dưới đây được tóm lược để áp dụng vào tình huống. Việc xác định vi phạm, mức xử lý và trách nhiệm của từng người phải căn cứ độ tuổi, chứng cứ, lỗi và điều kiện của điều luật; không áp chung một mức xử lý cho mọi học sinh.\n\nKhoản 5 Điều 2 và Điều 6 Nghị định 80/2017/NĐ-CP\n\nBạo lực học đường bao gồm hành vi gây tổn hại thể chất, tinh thần của người học. Cơ sở giáo dục phải phòng ngừa, hỗ trợ và can thiệp; khi vượt khả năng giải quyết phải phối hợp cơ quan công an, UBND cấp xã và cơ quan liên quan. [1]\n\nĐiều 21 và Điều 27 Luật Trẻ em\n\nTrẻ em được bảo vệ về đời sống riêng tư và khỏi bạo lực. Việc đăng lại hình ảnh bị làm nhục có thể tiếp tục xâm hại quyền của trẻ. Trẻ em trong luật này là người dưới 16 tuổi; học sinh từ 16 đến dưới 18 tuổi vẫn được pháp luật khác bảo vệ. [2]\n\nĐiều 32, Điều 34, Điều 584, Điều 586 và Điều 590 Bộ luật Dân sự\n\nBảo vệ hình ảnh, danh dự, nhân phẩm; bồi thường thiệt hại phải căn cứ thiệt hại và điều kiện luật định. Trách nhiệm của người chưa thành niên, cha mẹ và chủ thể liên quan được xác định theo độ tuổi, tài sản, lỗi và hoàn cảnh cụ thể. [3]\n\nĐiều 134, Điều 155, Điều 156 và Điều 170 Bộ luật Hình sự\n\nCó thể xem xét các tội cố ý gây thương tích, làm nhục, vu khống hoặc cưỡng đoạt tài sản khi đủ yếu tố. Không được suy ra rằng thương tích dưới 11% luôn không phải tội phạm; Điều 134 còn có những trường hợp khác. [4]\n\nĐiểm a khoản 5 Điều 8 Nghị định 282/2025/NĐ-CP\n\nHành vi cố ý gây thương tích chưa đến mức truy cứu trách nhiệm hình sự có thể bị xử phạt hành chính theo quy định này và các ngoại lệ được dẫn chiếu. Phải xác minh hành vi và độ tuổi người thực hiện. [5]\n\nThông tư 19/2025/TT-BGDĐT và Điều 5, Điều 22, Điều 134 Luật Xử lý vi phạm hành chính\n\nKỷ luật học sinh phải mang tính giáo dục, không dùng bạo lực hoặc xúc phạm. Người từ đủ 14 đến dưới 16 tuổi chỉ bị xử phạt hành chính đối với vi phạm cố ý và không bị phạt tiền; nhóm từ đủ 16 đến dưới 18 tuổi có chế độ riêng. Không đồng nhất kỷ luật học sinh với xử phạt hành chính. [6][7]\n\n3 Cơ quan tiếp nhận và giải quyết\n\nCó thể liên hệ đầu mối gần nhất và an toàn nhất. Không phải lần lượt đi qua mọi nơi trong bảng; việc chăm sóc, bảo vệ và trình báo có thể thực hiện song song.\n\nNơi tiếp nhận hoặc giải quyết\n\nVai trò và căn cứ\n\nGiáo viên và ban giám hiệu\n\nTiếp nhận thông tin, tổ chức bảo vệ, chăm sóc, xác minh trong phạm vi giáo dục; phối hợp gia đình và chuyển thông tin khi vượt khả năng.\n\nCăn cứ: Khoản 3 Điều 6 NĐ 80; TT 19.\n\nUBND xã phường và người làm công tác bảo vệ trẻ em\n\nĐánh giá nguy cơ, phối hợp hỗ trợ, can thiệp và kết nối dịch vụ bảo vệ trẻ em.\n\nCăn cứ: Luật Trẻ em, Chương IV.\n\nCông an xã phường hoặc cơ quan công an gần nhất\n\nTiếp nhận trình báo, tố giác; bảo đảm an toàn, xác minh hoặc chuyển đúng cơ quan. Xử phạt chỉ do người có thẩm quyền thực hiện.\n\nCăn cứ: Điều 145, 146 BLTTHS; NĐ 282.\n\nCơ sở y tế và người tư vấn tâm lý\n\nKhám, điều trị, ghi nhận tổn thương và hỗ trợ phục hồi; không thay cơ quan tố tụng kết luận tội danh.\n\nCăn cứ: Khoản 3 Điều 6 NĐ 80.\n\nViện kiểm sát và Tòa án có thẩm quyền\n\nViện kiểm sát thực hiện chức năng tố tụng; Tòa án xét xử hoặc giải quyết yêu cầu dân sự theo thẩm quyền.\n\nCăn cứ: BLTTHS; BLDS.\n\nTổng đài bảo vệ trẻ em 111\n\nTư vấn, tiếp nhận thông tin và kết nối hỗ trợ đối với vụ việc liên quan trẻ em; không phải cơ quan xét xử.\n\nCăn cứ: Luật Trẻ em; nguồn [9].\n\nThông tin cần cung cấp khi phản ánh\n\nGhi thời gian, địa điểm, diễn biến, người liên quan, nguy cơ hiện tại và yêu cầu bảo vệ. Đính kèm tin nhắn hoặc thông tin camera nếu có. Không phải tự thu thập đủ chứng cứ mới được báo tin; có thể trình bày bằng lời nói. Nếu người được phản ánh là giáo viên hoặc người thân, chọn đầu mối an toàn khác hoặc báo trực tiếp công an, UBND cấp xã, 111. [8][9]\n\nTại TP.HCM: dùng đầu mối công an và UBND xã, phường nơi xảy ra vụ việc hoặc nơi gần nhất; nhà trường cập nhật tên, số liên hệ của cán bộ phụ trách. Người tiếp nhận thông tin không mặc nhiên là người có thẩm quyền ra quyết định xử phạt hoặc xét xử.\n\n4 Những hành vi thường bị hiểu nhầm\n\nMỗi nhận định dưới đây cần được kiểm tra bằng quy định cụ thể. Một hành vi bị cấm hoặc xâm phạm quyền không đồng nghĩa mọi trường hợp đều bị xử lý hình sự.\n\n1 Chỉ tát một cái nên không vi phạm\n\nTát bạn vẫn xâm phạm thân thể; hậu quả nhẹ không tự loại trừ xử lý. Căn cứ: Điều 27 Luật Trẻ em; Điều 8 NĐ 282; Điều 134 BLHS khi đủ yếu tố.\n\n2 Không đánh mà chỉ giữ bạn cho người khác đánh\n\nNếu cố ý hỗ trợ việc hành hung, người giữ có thể phải chịu trách nhiệm tương ứng; đồng phạm hình sự phải đáp ứng Điều 17 BLHS và điều kiện về tuổi chịu trách nhiệm hình sự.\n\n3 Chỉ đăng clip để mọi người biết\n\nĐăng clip làm nhục và để lộ danh tính có thể xâm phạm hình ảnh, danh dự, đời tư. Gửi riêng cho cơ quan tiếp nhận khác với phát tán công khai. Căn cứ: Điều 32, 34, 38 BLDS; Điều 21 Luật Trẻ em.\n\n4 Ép bạn đưa tiền ăn vặt chỉ là trêu\n\nDùng đe dọa để chiếm đoạt tài sản có thể mang dấu hiệu cưỡng đoạt, không phụ thuộc cách gọi là trêu. Căn cứ: Điều 170 BLHS; kết luận phải dựa trên chứng cứ.\n\n5 Giáo viên đánh học sinh là quyền dạy dỗ\n\nKhông có quyền dùng bạo lực để giáo dục. Căn cứ: Điều 6 NĐ 80; TT 19; Điều 27 Luật Trẻ em; tùy hành vi còn áp dụng chế tài khác.\n\n6 Xin lỗi xong thì mọi trách nhiệm chấm dứt\n\nXin lỗi giúp khắc phục nhưng không tự thay thế nghĩa vụ bồi thường hoặc làm mất trách nhiệm pháp lý. Việc khởi tố theo yêu cầu bị hại chỉ áp dụng trong trường hợp luật định, không phải mọi vụ đánh nhau.\n\n5 Tình huống thực tế và thảo luận\n\nVụ việc đã được công bố\n\nVTV ngày 31/3/2019 phản ánh vụ một nữ sinh Trường THCS Phù Ủng tại Hưng Yên bị nhóm năm học sinh đánh và quay video. Tại buổi làm việc, người đứng đầu nhà trường thừa nhận cách xử lý ban đầu chưa tương xứng với mức độ nghiêm trọng. Vụ việc cho thấy ngoài can thiệp khẩn cấp, cần xem xét trách nhiệm phối hợp và bảo vệ người học. Tài liệu không suy đoán kết quả tố tụng từ bản tin này. [10]\n\nBài học: Phản ánh sớm, bảo vệ an toàn và giữ thông tin quan trọng; tránh thỏa hiệp để che giấu hoặc tiếp tục phát tán hình ảnh người bị hại.\n\nTình huống giả định để vận dụng\n\nTại một trường THCS ở TP.HCM, A 15 tuổi bị ba bạn chặn sau giờ học. Một bạn tát A, một bạn giữ tay, một bạn quay clip rồi đăng lên nhóm lớp. A đề nghị gỡ nhưng bị dọa đánh tiếp nếu báo giáo viên. B chứng kiến và còn giữ tin nhắn đe dọa.\n\nCâu 1: B nên làm gì ngay?\n\nGợi ý xử lý: Đưa A đến nơi an toàn nếu có thể; báo người lớn và nhà trường, đồng thời báo công an khi có nguy cơ tiếp diễn. Giữ tin nhắn và thông tin clip, không phát tán. Căn cứ: khoản 3 Điều 6 NĐ 80.\n\nCâu 2: Có thể kết luận tất cả đều phạm một tội không?\n\nGợi ý xử lý: Không. Phải xác minh vai trò, ý chí, độ tuổi, mức độ xâm phạm và hậu quả của từng người. Căn cứ: Điều 12, 17, 134, 155 BLHS; chế độ xử lý người chưa thành niên.\n\nCâu 3: Nhà trường chỉ yêu cầu xin lỗi đã đủ chưa?\n\nGợi ý xử lý: Cần đánh giá an toàn, chăm sóc, bảo toàn thông tin và phối hợp cơ quan liên quan. Xin lỗi không thay thế những nhiệm vụ đó. Căn cứ: Điều 6 NĐ 80; TT 19.\n\n6 Nguồn tra cứu\n\nCác số trong ngoặc vuông dẫn đến nguồn tương ứng dưới đây. Có thể bấm tên tài liệu để mở nguồn; cần đọc toàn văn điều khoản trước khi dùng để giải quyết một vụ việc cụ thể.\n\n[1] Nghị định 80/2017/NĐ-CP về môi trường giáo dục an toàn và phòng chống bạo lực học đường\n\n[2] Luật Trẻ em 2016 đã được sửa đổi bổ sung, xem Văn bản hợp nhất 108/VBHN-VPQH năm 2025\n\n[3] Bộ luật Dân sự 2015 số 91/2015/QH13\n\n[4] Bộ luật Hình sự 2015 đã được sửa đổi bổ sung, xem Văn bản hợp nhất 135/VBHN-VPQH năm 2025\n\n[5] Nghị định 282/2025/NĐ-CP về xử phạt vi phạm hành chính trong lĩnh vực an ninh trật tự\n\n[6] Thông tư 19/2025/TT-BGDĐT quy định về khen thưởng và kỷ luật học sinh\n\n[7] Luật Xử lý vi phạm hành chính 2012, đọc cùng các luật sửa đổi bổ sung, trong đó có Luật 88/2025/QH15\n\n[8] Bộ luật Tố tụng hình sự 2015 đã được sửa đổi bổ sung, xem Văn bản hợp nhất 104/VBHN-VPQH năm 2025\n\n[9] Cơ quan chuyên môn thuộc Bộ Y tế giới thiệu kênh tiếp nhận bảo vệ trẻ em trên môi trường mạng, gồm Tổng đài 111\n\n[10] VTV, ngày 31/3/2019, Nữ sinh bị đánh hội đồng ở Hưng Yên sẽ xử lý nghiêm cá nhân tập thể liên quan\n\nGợi ý tổ chức buổi thảo luận 45 phút\n\nNhận diện tình huống 10 phút; tra cứu cơ sở pháp lý 10 phút; xử lý tình huống nhóm 15 phút; trình bày và phản hồi 10 phút. Không yêu cầu học sinh công khai trải nghiệm bị xâm hại của bản thân. Nếu phát sinh phản ánh thật, chuyển sang tiếp nhận riêng và hỗ trợ an toàn.\n\nCách sử dụng tình huống\n\nVụ việc thực tế được tóm tắt từ nguồn đã công bố, giữ kín thông tin nhận diện trẻ bị hại. Tình huống giả định là bài tập độc lập, không bổ sung dữ kiện vào vụ việc thật. Phần gợi ý là định hướng thảo luận, không thay kết luận của cơ quan có thẩm quyền.",
+            "situations": [
+                {
+                    "id": "bao-luc-hoc-duong-1",
+                    "title": "Khi chứng kiến bạn học bị bắt nạt, học sinh nên làm gì?",
+                    "question": "Tình huống: Một học sinh thường xuyên bị bạn bè trêu chọc, cô lập và xúc phạm trên mạng xã hội.\n\nKhi chứng kiến bạn học bị bắt nạt, học sinh nên làm gì?",
+                    "image": "images/hoc-lieu/bao-luc-hoc-duong-anh-1.jpg",
+                    "video": "",
+                    "choices": [
+                        {
+                            "text": "Quay video rồi đăng lên mạng để mọi người cùng bình luận.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Người chứng kiến có vai trò rất lớn. Không cổ vũ, không chia sẻ nội dung xúc phạm, ở bên cạnh bạn và báo cho người lớn giúp chấm dứt bắt nạt mà không tạo thêm bạo lực. Quay video đăng lên mạng hay trả đũa chỉ làm bạn bị tổn thương nhiều hơn."
+                        },
+                        {
+                            "text": "Đứng ngoài, vì đó không phải việc của mình.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Người chứng kiến có vai trò rất lớn. Không cổ vũ, không chia sẻ nội dung xúc phạm, ở bên cạnh bạn và báo cho người lớn giúp chấm dứt bắt nạt mà không tạo thêm bạo lực. Quay video đăng lên mạng hay trả đũa chỉ làm bạn bị tổn thương nhiều hơn."
+                        },
+                        {
+                            "text": "Không cổ vũ hay tiếp tay cho hành vi sai trái, quan tâm động viên bạn và báo cho thầy cô hoặc người phụ trách.",
+                            "explanation": "Phù hợp nhất. Người chứng kiến có vai trò rất lớn. Không cổ vũ, không chia sẻ nội dung xúc phạm, ở bên cạnh bạn và báo cho người lớn giúp chấm dứt bắt nạt mà không tạo thêm bạo lực. Quay video đăng lên mạng hay trả đũa chỉ làm bạn bị tổn thương nhiều hơn."
+                        },
+                        {
+                            "text": "Rủ nhóm bạn đến “dạy dỗ” lại người bắt nạt.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Người chứng kiến có vai trò rất lớn. Không cổ vũ, không chia sẻ nội dung xúc phạm, ở bên cạnh bạn và báo cho người lớn giúp chấm dứt bắt nạt mà không tạo thêm bạo lực. Quay video đăng lên mạng hay trả đũa chỉ làm bạn bị tổn thương nhiều hơn."
+                        }
+                    ],
+                    "best": 2,
+                    "status": "Đã công bố",
+                    "order": 1,
+                    "allow_retry": true
+                },
+                {
+                    "id": "bao-luc-hoc-duong-2",
+                    "title": "Trường hợp nào sau đây là hành vi bắt nạt?",
+                    "question": "Tình huống: Một học sinh thường xuyên bị bạn bè trêu chọc, cô lập và xúc phạm trên mạng xã hội.\n\nTrường hợp nào sau đây là hành vi bắt nạt?",
+                    "image": "images/hoc-lieu/bao-luc-hoc-duong-anh-2.jpg",
+                    "video": "",
+                    "choices": [
+                        {
+                            "text": "Hai bạn tranh luận bài tập một lần, sau đó bắt tay làm hòa.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là B. Bắt nạt là hành vi cố ý, lặp đi lặp lại và khiến người bị hại tổn thương hoặc bị cô lập, kể cả khi diễn ra trên mạng. Một lần tranh luận, lời nhắc nhở hay góp ý thiện chí thì không phải bắt nạt."
+                        },
+                        {
+                            "text": "Một nhóm bạn liên tục đặt biệt danh xúc phạm một bạn và loại bạn đó khỏi nhóm chat của lớp.",
+                            "explanation": "Phù hợp nhất. Bắt nạt là hành vi cố ý, lặp đi lặp lại và khiến người bị hại tổn thương hoặc bị cô lập, kể cả khi diễn ra trên mạng. Một lần tranh luận, lời nhắc nhở hay góp ý thiện chí thì không phải bắt nạt."
+                        },
+                        {
+                            "text": "Giáo viên nhắc nhở học sinh vì nói chuyện riêng trong giờ.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là B. Bắt nạt là hành vi cố ý, lặp đi lặp lại và khiến người bị hại tổn thương hoặc bị cô lập, kể cả khi diễn ra trên mạng. Một lần tranh luận, lời nhắc nhở hay góp ý thiện chí thì không phải bắt nạt."
+                        },
+                        {
+                            "text": "Một bạn góp ý nhẹ nhàng về cách trình bày bài của bạn khác.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là B. Bắt nạt là hành vi cố ý, lặp đi lặp lại và khiến người bị hại tổn thương hoặc bị cô lập, kể cả khi diễn ra trên mạng. Một lần tranh luận, lời nhắc nhở hay góp ý thiện chí thì không phải bắt nạt."
+                        }
+                    ],
+                    "best": 1,
+                    "status": "Đã công bố",
+                    "order": 2,
+                    "allow_retry": true
+                },
+                {
+                    "id": "bao-luc-hoc-duong-3",
+                    "title": "Nếu em là người đang bị bạn bè xúc phạm và cô lập trên mạng xã hội, cách xử lý nào phù hợp nhất?",
+                    "question": "Tình huống: Một học sinh thường xuyên bị bạn bè trêu chọc, cô lập và xúc phạm trên mạng xã hội.\n\nNếu em là người đang bị bạn bè xúc phạm và cô lập trên mạng xã hội, cách xử lý nào phù hợp nhất?",
+                    "image": "images/hoc-lieu/bao-luc-hoc-duong-anh-1.jpg",
+                    "video": "",
+                    "choices": [
+                        {
+                            "text": "Đáp trả bằng những lời lẽ xúc phạm tương tự.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là D. Bằng chứng giúp nhà trường xác minh và xử lý đúng. Em không có lỗi và không phải đối mặt một mình: chia sẻ với thầy cô, cha mẹ hoặc bộ phận tiếp nhận phản ánh (có thể gửi ẩn danh) để được hỗ trợ kịp thời."
+                        },
+                        {
+                            "text": "Im lặng chịu đựng và xóa hết tin nhắn để mọi chuyện chìm xuống.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là D. Bằng chứng giúp nhà trường xác minh và xử lý đúng. Em không có lỗi và không phải đối mặt một mình: chia sẻ với thầy cô, cha mẹ hoặc bộ phận tiếp nhận phản ánh (có thể gửi ẩn danh) để được hỗ trợ kịp thời."
+                        },
+                        {
+                            "text": "Nghỉ học vài ngày để tránh mặt các bạn.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là D. Bằng chứng giúp nhà trường xác minh và xử lý đúng. Em không có lỗi và không phải đối mặt một mình: chia sẻ với thầy cô, cha mẹ hoặc bộ phận tiếp nhận phản ánh (có thể gửi ẩn danh) để được hỗ trợ kịp thời."
+                        },
+                        {
+                            "text": "Lưu lại bằng chứng như ảnh chụp màn hình, chặn hoặc báo cáo tài khoản, rồi kể với người em tin tưởng hoặc gửi phản ánh trên website.",
+                            "explanation": "Phù hợp nhất. Bằng chứng giúp nhà trường xác minh và xử lý đúng. Em không có lỗi và không phải đối mặt một mình: chia sẻ với thầy cô, cha mẹ hoặc bộ phận tiếp nhận phản ánh (có thể gửi ẩn danh) để được hỗ trợ kịp thời."
+                        }
+                    ],
+                    "best": 3,
+                    "status": "Đã công bố",
+                    "order": 3,
+                    "allow_retry": true
+                }
+            ]
+        },
+        {
+            "id": "thuoc-la-dien-tu",
+            "name": "Phòng tránh thuốc lá điện tử",
+            "icon": "vapeOff",
+            "order": 2,
+            "description": "Nhận biết tác hại, quy định liên quan và cách từ chối.",
+            "situation": "Trong giờ nghỉ, một học sinh được bạn bè rủ dùng thử thuốc lá điện tử và nói “chỉ một hơi thôi, ai cũng thử rồi”.",
+            "learn": "Nhận biết tác hại, quy định liên quan và cách từ chối.",
+            "image": "images/hoc-lieu/thuoc-la-dien-tu-infographic.png",
+            "video_file": "docs/hoc-lieu/thuoc-la-dien-tu.mp4",
+            "content": "Tình huống: Trong giờ nghỉ, một học sinh được bạn bè rủ dùng thử thuốc lá điện tử và nói “chỉ một hơi thôi, ai cũng thử rồi”.\n\nNội dung học tập: Nhận biết tác hại, quy định liên quan và cách từ chối.\n\nTài liệu giáo dục pháp luật dành cho học sinh THCS và THPT. Đối chiếu quy định đến ngày 10/11/2026.\n\nGiúp học sinh nhận ra thuốc lá điện tử và lời mời sử dụng, hiểu phạm vi cấm, biết từ chối và tìm hỗ trợ y tế. Việc xử lý cần đồng thời bảo vệ sức khỏe và áp dụng đúng chế độ pháp lý theo độ tuổi.\n\n1 Nhận diện tình huống điển hình\n\nThiết bị ngụy trang\n\nSản phẩm có thể giống bút, USB, thỏi son hoặc đồ chơi. Không kết luận một đồ vật là thuốc lá điện tử chỉ dựa vào hình dáng; cần người có trách nhiệm kiểm tra, không tự tháo hay thử hút.\n\nLời mời nghe có vẻ vô hại\n\nCác câu như không nicotine, chỉ hương trái cây, thử một hơi hoặc dùng để giảm căng thẳng không làm cho sản phẩm được phép sử dụng. Pháp luật định nghĩa dung dịch thuốc lá điện tử có thể có hoặc không có nicotine. [2]\n\nMua hộ và giao hàng trong trường\n\nNhận đặt hàng qua nhóm chat, chia nhỏ bán cho bạn hoặc nhận mang hộ từ cổng trường vào lớp có thể liên quan hoạt động bị cấm. Cần làm rõ nhận thức và hành vi; không áp một mức phạt sử dụng cho mọi vai trò.\n\nCho bạn sử dụng tại địa điểm mình quản lý\n\nChủ hoặc người quản lý một địa điểm cho người khác dùng thuốc lá điện tử có thể bị xem xét về hành vi chứa chấp. Không đồng nhất việc vô tình có mặt với hành vi chứa chấp.\n\nKhi có dấu hiệu bất thường\n\nNếu người vừa sử dụng chóng mặt, nôn, lơ mơ, co giật hoặc khó thở, cần báo ngay người lớn và nhân viên y tế, đưa đi cấp cứu. Không trì hoãn vì sợ bị kỷ luật, không tự cho dùng thêm chất khác để giải độc. [7]\n\n2 Cơ sở pháp lý\n\nCác quy định dưới đây được tóm lược để áp dụng vào tình huống. Việc xác định vi phạm, mức xử lý và trách nhiệm của từng người phải căn cứ độ tuổi, chứng cứ, lỗi và điều kiện của điều luật; không áp chung một mức xử lý cho mọi học sinh.\n\nNghị quyết 173/2024/QH15\n\nQuốc hội thống nhất cấm sản xuất, kinh doanh, nhập khẩu, chứa chấp, vận chuyển và sử dụng thuốc lá điện tử, thuốc lá nung nóng từ năm 2025. Không có ngoại lệ chung cho việc dùng ngoài trường, dùng thử hoặc không bán thu tiền. [1]\n\nKhoản 3 Điều 2 Nghị định 77/2013/NĐ-CP được bổ sung bởi Nghị định 371/2025/NĐ-CP\n\nKhái niệm bao gồm thiết bị, bộ phận chứa và dung dịch dùng cho thuốc lá điện tử; dung dịch có thể chứa hoặc không chứa nicotine. Vì vậy quảng cáo không nicotine không đủ để xác định được phép sử dụng. [2]\n\nKhoản 1 và khoản 3 Điều 26a Nghị định 117/2020/NĐ-CP được bổ sung bởi Nghị định 371/2025/NĐ-CP\n\nHành vi sử dụng có khung phạt tiền 3 đến 5 triệu đồng đối với cá nhân và biện pháp buộc tiêu hủy theo quy định. Đây là khung chung; không áp nguyên mức cho học sinh chưa thành niên. Nghị định 371 có hiệu lực từ 31/12/2025. [2]\n\nKhoản 2 Điều 26a nêu trên\n\nHành vi chứa chấp người khác sử dụng tại địa điểm thuộc quyền sở hữu hoặc quản lý có khung phạt 5 đến 10 triệu đồng đối với cá nhân. Cần chứng minh hành vi và mối liên hệ với địa điểm, không suy đoán trách nhiệm chỉ vì là người cùng phòng. [2]\n\nĐiều 5, Điều 22 và Điều 134 Luật Xử lý vi phạm hành chính\n\nNgười dưới 14 tuổi không thuộc đối tượng bị xử phạt hành chính. Người từ đủ 14 đến dưới 16 tuổi chỉ bị xử phạt về vi phạm cố ý và không bị phạt tiền. Người từ đủ 16 đến dưới 18 tuổi được áp dụng giới hạn phạt tiền và các nguyên tắc riêng. Không phải không bị phạt tiền thì được phép sử dụng. [3]\n\nThông tư 19/2025/TT-BGDĐT\n\nNhà trường áp dụng biện pháp giáo dục và kỷ luật đúng quy định, phối hợp gia đình và hỗ trợ sức khỏe. Kỷ luật trong trường không thay thế xử phạt do người có thẩm quyền thực hiện. Không tự kết luận có ma túy nếu chưa có căn cứ chuyên môn. [4]\n\n3 Cơ quan tiếp nhận và giải quyết\n\nCó thể liên hệ đầu mối gần nhất và an toàn nhất. Không phải lần lượt đi qua mọi nơi trong bảng; việc chăm sóc, bảo vệ và trình báo có thể thực hiện song song.\n\nNơi tiếp nhận hoặc giải quyết\n\nVai trò và căn cứ\n\nGiáo viên và ban giám hiệu\n\nTiếp nhận phản ánh, ngăn nguy cơ trong trường, phối hợp gia đình, quản lý vật phát hiện theo quy định và liên hệ cơ quan chức năng.\n\nCăn cứ: TT 19; lệnh cấm [1].\n\nNhân viên y tế trường và cơ sở khám chữa bệnh\n\nĐánh giá và cấp cứu, điều trị, tư vấn ngừng sử dụng; cần biết trung thực đã dùng chất gì và thời điểm nào.\n\nCăn cứ: Hướng dẫn chuyên môn nguồn [7].\n\nCông an xã phường hoặc cơ quan công an gần nhất\n\nTiếp nhận phản ánh, xác minh hành vi vi phạm, chuyển hoặc giải quyết theo thẩm quyền; tiếp nhận tố giác nếu có dấu hiệu tội phạm.\n\nCăn cứ: NĐ 117 được sửa đổi; Điều 145, 146 BLTTHS.\n\nUBND cấp xã và cơ quan y tế có thẩm quyền\n\nPhối hợp quản lý địa bàn; người có thẩm quyền xử phạt theo lĩnh vực và mức xử phạt được pháp luật quy định.\n\nCăn cứ: NĐ 117 được sửa đổi; Luật XLVPHC.\n\nCơ quan quản lý thị trường\n\nTiếp nhận thông tin hoạt động kinh doanh thuốc lá điện tử, phối hợp kiểm tra và xử lý trong phạm vi chức năng.\n\nCăn cứ: Nghị quyết 173; pháp luật xử lý hàng cấm.\n\nGia đình và Tổng đài 111\n\nHỗ trợ người học, kết nối bảo vệ trẻ em khi có ép buộc, dụ dỗ hoặc nguy cơ xâm hại. Gia đình không phải cơ quan xử phạt.\n\nCăn cứ: Nguồn [6].\n\nThông tin cần cung cấp khi phản ánh\n\nPhản ánh rõ ai đang sử dụng hoặc bán, thời gian, địa điểm, tên tài khoản bán hàng và nguy cơ sức khỏe. Có thể cung cấp ảnh chụp màn hình đã có, không đặt mua để tự điều tra. Không tự mang sản phẩm qua nhiều nơi hoặc thử đốt, nếm, pha chế. Nếu có vật nghi vấn, báo người có trách nhiệm để được hướng dẫn bảo quản và bàn giao. [5]\n\nTại TP.HCM: dùng đầu mối công an và UBND xã, phường nơi xảy ra vụ việc hoặc nơi gần nhất; nhà trường cập nhật tên, số liên hệ của cán bộ phụ trách. Người tiếp nhận thông tin không mặc nhiên là người có thẩm quyền ra quyết định xử phạt hoặc xét xử.\n\n4 Những hành vi thường bị hiểu nhầm\n\nMỗi nhận định dưới đây cần được kiểm tra bằng quy định cụ thể. Một hành vi bị cấm hoặc xâm phạm quyền không đồng nghĩa mọi trường hợp đều bị xử lý hình sự.\n\n1 Không nicotine thì được hút\n\nDung dịch không chứa nicotine vẫn có thể thuộc định nghĩa thuốc lá điện tử. Lệnh cấm không được giới hạn thành chỉ cấm nicotine. Căn cứ: Nghị quyết 173; khoản 3 Điều 2 NĐ 77 được bổ sung.\n\n2 Hút ở nhà không liên quan đến trường thì hợp pháp\n\nPhạm vi cấm sử dụng không chỉ trong trường hoặc nơi công cộng. Căn cứ: Nghị quyết 173; khoản 1 Điều 26a NĐ 117 được bổ sung.\n\n3 Chỉ thử một hơi nên không bị xem là sử dụng\n\nViệc dùng thử vẫn có thể là sử dụng; cần xác minh hành vi thực tế. Số lần ít không tự tạo ngoại lệ. Căn cứ: khoản 1 Điều 26a.\n\n4 Nhận giao hộ miễn phí thì không vi phạm\n\nMiễn phí không loại trừ khả năng là vận chuyển sản phẩm bị cấm. Phải làm rõ biết hay không biết và vai trò cụ thể; không mặc nhiên áp mức phạt hút thuốc cho người giao. Căn cứ: Nghị quyết 173.\n\n5 Cho bạn hút tại phòng mình quản lý chỉ là chiều bạn\n\nHành vi chứa chấp có chế tài riêng nếu đủ điều kiện; lời giải thích không lấy tiền không tự loại trừ trách nhiệm. Căn cứ: khoản 2 Điều 26a.\n\n6 Chưa 16 tuổi thì được dùng vì không bị phạt tiền\n\nKhông phạt tiền đối với nhóm tuổi này là nguyên tắc bảo vệ người chưa thành niên, không phải quyền sử dụng. Vẫn có thể xử lý, giáo dục theo điều kiện luật định. Căn cứ: Điều 5, 22, 134 Luật XLVPHC.\n\n5 Tình huống thực tế và thảo luận\n\nVụ việc đã được công bố\n\nNgày 06/6/2025, Bệnh viện Nhi Trung ương thông tin về một bệnh nhi nam 15 tuổi nhập viện sau khi tái sử dụng thuốc lá điện tử do bạn rủ rê. Trẻ có biểu hiện bất thường và được chuyển đến bệnh viện điều trị; sau hai ngày tình trạng ổn định, được xuất viện. Nguồn không phải quyết định xử phạt và không đủ để kết luận mọi sản phẩm tương tự đều chứa ma túy. [7]\n\nBài học: Sức khỏe cần được ưu tiên; lời rủ rê từ bạn bè có thể khiến việc ngừng sử dụng thất bại. Cần hỗ trợ và tư vấn thay vì chỉ làm người học sợ bị phạt.\n\nTình huống giả định để vận dụng\n\nA 15 tuổi được rủ dùng một thiết bị ghi không nicotine tại phòng trọ do B 18 tuổi quản lý. B đồng ý để nhóm dùng. C nhận mang hai thiết bị từ người bán đến phòng nhưng nói mình không biết đó là gì. Sau khi dùng, A chóng mặt và nôn. Các bạn định giấu vì sợ trường biết.\n\nCâu 1: Việc cần làm trước tiên là gì?\n\nGợi ý xử lý: Báo ngay người lớn và y tế, đưa A đi cấp cứu khi cần, cung cấp trung thực thông tin sản phẩm. Không chờ giải quyết vi phạm mới chăm sóc sức khỏe. [7]\n\nCâu 2: Có áp khung phạt 3 đến 5 triệu đồng nguyên mức cho A không?\n\nGợi ý xử lý: Không. A thuộc nhóm từ đủ 14 đến dưới 16 tuổi; phải áp dụng Điều 5, 22, 134 Luật XLVPHC. Việc dùng vẫn bị cấm. [2][3]\n\nCâu 3: B và C có đương nhiên chịu cùng trách nhiệm không?\n\nGợi ý xử lý: Không. Cần làm rõ chứa chấp của B, việc vận chuyển và nhận thức của C, chứng cứ và căn cứ xử lý tương ứng. Không suy ra tội phạm chỉ từ lời kể. [1][2][5]\n\n6 Nguồn tra cứu\n\nCác số trong ngoặc vuông dẫn đến nguồn tương ứng dưới đây. Có thể bấm tên tài liệu để mở nguồn; cần đọc toàn văn điều khoản trước khi dùng để giải quyết một vụ việc cụ thể.\n\n[1] Cổng Thông tin điện tử Chính phủ giới thiệu lệnh cấm theo Nghị quyết 173/2024/QH15\n\n[2] Nghị định 371/2025/NĐ-CP sửa đổi Nghị định 77/2013/NĐ-CP và Nghị định 117/2020/NĐ-CP\n\n[3] Luật Xử lý vi phạm hành chính 2012, đọc cùng các luật sửa đổi bổ sung, trong đó có Luật 88/2025/QH15\n\n[4] Thông tư 19/2025/TT-BGDĐT quy định về khen thưởng và kỷ luật học sinh\n\n[5] Bộ luật Tố tụng hình sự 2015 đã được sửa đổi bổ sung, xem Văn bản hợp nhất 104/VBHN-VPQH năm 2025\n\n[6] Cơ quan chuyên môn thuộc Bộ Y tế giới thiệu kênh tiếp nhận bảo vệ trẻ em trên môi trường mạng, gồm Tổng đài 111\n\n[7] Bệnh viện Nhi Trung ương, ngày 06/6/2025, Bé trai 15 tuổi ngộ độc vì tái sử dụng thuốc lá điện tử đã bị cấm\n\nGợi ý tổ chức buổi thảo luận 45 phút\n\nNhận diện tình huống 10 phút; tra cứu cơ sở pháp lý 10 phút; xử lý tình huống nhóm 15 phút; trình bày và phản hồi 10 phút. Không yêu cầu học sinh công khai trải nghiệm bị xâm hại của bản thân. Nếu phát sinh phản ánh thật, chuyển sang tiếp nhận riêng và hỗ trợ an toàn.\n\nCách sử dụng tình huống\n\nVụ việc thực tế được tóm tắt từ nguồn đã công bố, giữ kín thông tin nhận diện trẻ bị hại. Tình huống giả định là bài tập độc lập, không bổ sung dữ kiện vào vụ việc thật. Phần gợi ý là định hướng thảo luận, không thay kết luận của cơ quan có thẩm quyền.",
+            "situations": [
+                {
+                    "id": "thuoc-la-dien-tu-1",
+                    "title": "Học sinh nên xử lý như thế nào khi bị rủ rê sử dụng thuốc lá điện tử?",
+                    "question": "Tình huống: Trong giờ nghỉ, một học sinh được bạn bè rủ dùng thử thuốc lá điện tử và nói “chỉ một hơi thôi, ai cũng thử rồi”.\n\nHọc sinh nên xử lý như thế nào khi bị rủ rê sử dụng thuốc lá điện tử?",
+                    "image": "images/hoc-lieu/thuoc-la-dien-tu-anh-1.jpg",
+                    "video": "",
+                    "choices": [
+                        {
+                            "text": "Dùng thử một lần cho khỏi mất lòng bạn.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là B. Từ chối rõ ràng và rời đi là cách an toàn nhất. Nếu bị ép buộc, em nên nhờ người lớn can thiệp. Dùng thử hay cất giấu đều có hại và vi phạm quy định."
+                        },
+                        {
+                            "text": "Từ chối dứt khoát, rời khỏi nơi đó và báo cho thầy cô hoặc người phụ trách nếu bị ép buộc hoặc nhận thấy bạn khác đang sử dụng.",
+                            "explanation": "Phù hợp nhất. Từ chối rõ ràng và rời đi là cách an toàn nhất. Nếu bị ép buộc, em nên nhờ người lớn can thiệp. Dùng thử hay cất giấu đều có hại và vi phạm quy định."
+                        },
+                        {
+                            "text": "Im lặng đứng xem và cười cho qua.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là B. Từ chối rõ ràng và rời đi là cách an toàn nhất. Nếu bị ép buộc, em nên nhờ người lớn can thiệp. Dùng thử hay cất giấu đều có hại và vi phạm quy định."
+                        },
+                        {
+                            "text": "Nhận để “giữ hộ” rồi mang về cất giấu.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là B. Từ chối rõ ràng và rời đi là cách an toàn nhất. Nếu bị ép buộc, em nên nhờ người lớn can thiệp. Dùng thử hay cất giấu đều có hại và vi phạm quy định."
+                        }
+                    ],
+                    "best": 1,
+                    "status": "Đã công bố",
+                    "order": 1,
+                    "allow_retry": true
+                },
+                {
+                    "id": "thuoc-la-dien-tu-2",
+                    "title": "Nhận định nào về thuốc lá điện tử là đúng?",
+                    "question": "Tình huống: Trong giờ nghỉ, một học sinh được bạn bè rủ dùng thử thuốc lá điện tử và nói “chỉ một hơi thôi, ai cũng thử rồi”.\n\nNhận định nào về thuốc lá điện tử là đúng?",
+                    "image": "images/hoc-lieu/thuoc-la-dien-tu-anh-2.jpg",
+                    "video": "",
+                    "choices": [
+                        {
+                            "text": "Ít hại hơn thuốc lá thường nên dùng thử không sao.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Thuốc lá điện tử không “lành mạnh”: nicotine dễ gây nghiện, đặc biệt ở tuổi học sinh. Theo Nghị quyết 173/2024/QH15, thuốc lá điện tử và thuốc lá nóng bị cấm từ ngày 01/01/2025. Hương vị chỉ làm sản phẩm dễ hấp dẫn hơn."
+                        },
+                        {
+                            "text": "Chỉ gây hại khi dùng thường xuyên trong nhiều năm.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Thuốc lá điện tử không “lành mạnh”: nicotine dễ gây nghiện, đặc biệt ở tuổi học sinh. Theo Nghị quyết 173/2024/QH15, thuốc lá điện tử và thuốc lá nóng bị cấm từ ngày 01/01/2025. Hương vị chỉ làm sản phẩm dễ hấp dẫn hơn."
+                        },
+                        {
+                            "text": "Thường chứa nicotine gây nghiện, có thể hại phổi và não bộ đang phát triển; Việt Nam cấm sản xuất, mua bán, tàng trữ và sử dụng từ 01/01/2025.",
+                            "explanation": "Phù hợp nhất. Thuốc lá điện tử không “lành mạnh”: nicotine dễ gây nghiện, đặc biệt ở tuổi học sinh. Theo Nghị quyết 173/2024/QH15, thuốc lá điện tử và thuốc lá nóng bị cấm từ ngày 01/01/2025. Hương vị chỉ làm sản phẩm dễ hấp dẫn hơn."
+                        },
+                        {
+                            "text": "Hương trái cây chứng tỏ sản phẩm an toàn và được phép dùng.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Thuốc lá điện tử không “lành mạnh”: nicotine dễ gây nghiện, đặc biệt ở tuổi học sinh. Theo Nghị quyết 173/2024/QH15, thuốc lá điện tử và thuốc lá nóng bị cấm từ ngày 01/01/2025. Hương vị chỉ làm sản phẩm dễ hấp dẫn hơn."
+                        }
+                    ],
+                    "best": 2,
+                    "status": "Đã công bố",
+                    "order": 2,
+                    "allow_retry": true
+                },
+                {
+                    "id": "thuoc-la-dien-tu-3",
+                    "title": "Lời từ chối nào dưới đây hiệu quả nhất?",
+                    "question": "Tình huống: Trong giờ nghỉ, một học sinh được bạn bè rủ dùng thử thuốc lá điện tử và nói “chỉ một hơi thôi, ai cũng thử rồi”.\n\nLời từ chối nào dưới đây hiệu quả nhất?",
+                    "image": "images/hoc-lieu/thuoc-la-dien-tu-anh-1.jpg",
+                    "video": "",
+                    "choices": [
+                        {
+                            "text": "“Thôi, để tớ thử một lần cho vui.”",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là B. Lời từ chối ngắn gọn, bình tĩnh, rõ ràng và đề xuất hoạt động khác giúp giữ được quan hệ mà vẫn giữ được lập trường. “Để lần sau” hay im lặng dễ khiến bạn tiếp tục rủ và tăng sức ép."
+                        },
+                        {
+                            "text": "“Không, mình không dùng đâu. Mình ra sân đá cầu nhé.”",
+                            "explanation": "Phù hợp nhất. Lời từ chối ngắn gọn, bình tĩnh, rõ ràng và đề xuất hoạt động khác giúp giữ được quan hệ mà vẫn giữ được lập trường. “Để lần sau” hay im lặng dễ khiến bạn tiếp tục rủ và tăng sức ép."
+                        },
+                        {
+                            "text": "“Để lần sau nhé”, rồi cười trừ cho qua.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là B. Lời từ chối ngắn gọn, bình tĩnh, rõ ràng và đề xuất hoạt động khác giúp giữ được quan hệ mà vẫn giữ được lập trường. “Để lần sau” hay im lặng dễ khiến bạn tiếp tục rủ và tăng sức ép."
+                        },
+                        {
+                            "text": "Im lặng, cúi mặt xuống điện thoại.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là B. Lời từ chối ngắn gọn, bình tĩnh, rõ ràng và đề xuất hoạt động khác giúp giữ được quan hệ mà vẫn giữ được lập trường. “Để lần sau” hay im lặng dễ khiến bạn tiếp tục rủ và tăng sức ép."
+                        }
+                    ],
+                    "best": 1,
+                    "status": "Đã công bố",
+                    "order": 3,
+                    "allow_retry": true
+                }
+            ]
+        },
+        {
+            "id": "an-toan-mang-xa-hoi",
+            "name": "An toàn trên mạng xã hội",
+            "icon": "messageLines",
+            "order": 3,
+            "description": "Nhận diện dấu hiệu lừa đảo, bảo vệ dữ liệu cá nhân và cách báo cáo sự việc.",
+            "situation": "Một học sinh nhận được tin nhắn có đường link lạ, báo “trúng thưởng” và yêu cầu cung cấp thông tin cá nhân, tài khoản ngân hàng để nhận quà.",
+            "learn": "Nhận diện dấu hiệu lừa đảo, bảo vệ dữ liệu cá nhân và cách báo cáo sự việc.",
+            "image": "images/hoc-lieu/an-toan-mang-xa-hoi-infographic.png",
+            "video_file": "docs/hoc-lieu/an-toan-mang-xa-hoi.mp4",
+            "content": "Tình huống: Một học sinh nhận được tin nhắn có đường link lạ, báo “trúng thưởng” và yêu cầu cung cấp thông tin cá nhân, tài khoản ngân hàng để nhận quà.\n\nNội dung học tập: Nhận diện dấu hiệu lừa đảo, bảo vệ dữ liệu cá nhân và cách báo cáo sự việc.\n\nTài liệu giáo dục pháp luật dành cho học sinh THCS và THPT. Đối chiếu quy định đến ngày 10/11/2026.\n\nHướng dẫn nhận diện lừa đảo, bắt nạt, tin giả và xâm phạm thông tin cá nhân trên mạng xã hội. Mỗi người vừa cần bảo vệ tài khoản của mình, vừa có trách nhiệm với nội dung tạo ra, đăng tải hoặc chia sẻ.\n\n1 Nhận diện tình huống điển hình\n\nGiả danh và chiếm đoạt tài khoản\n\nNgười tự xưng công an, giáo viên, ngân hàng hoặc bạn bè yêu cầu OTP, mật khẩu, cài ứng dụng hay chuyển tiền gấp. Dừng liên lạc đáng ngờ và xác minh bằng số liên hệ đã biết, không dùng số do người đó cung cấp.\n\nCô lập và thao túng trên mạng\n\nYêu cầu không nói với cha mẹ, rời trường đến nơi riêng, luôn bật camera hoặc làm theo lệnh để chứng minh vô tội là dấu hiệu nguy hiểm. Tìm ngay người lớn tin cậy và công an; không tự di chuyển theo chỉ dẫn của người lạ.\n\nBắt nạt và xâm phạm đời tư\n\nĐăng thông tin liên lạc, hình ảnh riêng tư, lập nhóm nhục mạ hoặc đe dọa phát tán ảnh. Nội dung trong nhóm kín vẫn có thể xâm phạm quyền của người khác.\n\nTin giả và hình ảnh AI\n\nVideo có mặt, giọng nói giống thật vẫn có thể bị giả mạo. Kiểm tra tài khoản gốc, thời gian, bối cảnh và đối chiếu nguồn chính thức trước khi chia sẻ; lượt xem không chứng minh tính xác thực.\n\nQuản lý tài khoản và bằng chứng\n\nDùng mật khẩu riêng, xác thực nhiều lớp, giới hạn công khai thông tin. Khi bị xâm hại, giữ đường dẫn, tên tài khoản, thời điểm và tin nhắn; báo nền tảng, người lớn, cơ quan chức năng. Không chuyển tiếp hình ảnh nhạy cảm để nhờ đám đông phân xử.\n\n2 Cơ sở pháp lý\n\nCác quy định dưới đây được tóm lược để áp dụng vào tình huống. Việc xác định vi phạm, mức xử lý và trách nhiệm của từng người phải căn cứ độ tuổi, chứng cứ, lỗi và điều kiện của điều luật; không áp chung một mức xử lý cho mọi học sinh.\n\nĐiều 16 Luật An ninh mạng 116/2025/QH15\n\nLuật có hiệu lực từ 01/7/2026, quy định bảo vệ trẻ em trên không gian mạng. Cha mẹ hoặc người giám hộ có trách nhiệm quản lý, giám sát; khi trẻ sử dụng dịch vụ yêu cầu đăng ký tài khoản, cha mẹ hoặc người giám hộ phải đứng tên đăng ký và chịu trách nhiệm theo luật. [1][2]\n\nKhoản 3 Điều 16 và khoản 2 Điều 25 Luật An ninh mạng\n\nDoanh nghiệp cung cấp dịch vụ phải triển khai biện pháp ngăn chặn, gỡ bỏ nội dung xâm hại trẻ em và có công cụ tiếp nhận phản ánh. Công cụ báo cáo nền tảng hỗ trợ ngăn chặn nội dung nhưng không thay thế tố giác đến cơ quan nhà nước. [1][2]\n\nĐiều 95 Nghị định 174/2026/NĐ-CP\n\nĐiều chỉnh trách nhiệm sử dụng dịch vụ mạng xã hội, bao gồm cung cấp, chia sẻ thông tin giả mạo, sai sự thật, vu khống, xúc phạm và một số nội dung bị cấm. Nghị định có hiệu lực từ 01/7/2026; không dùng lại Điều 101 NĐ 15/2020 như căn cứ hiện hành cho cùng nhóm hành vi. [3]\n\nĐiều 32, Điều 34 và Điều 38 Bộ luật Dân sự\n\nBảo vệ hình ảnh, danh dự, nhân phẩm và đời sống riêng tư. Việc được gửi một ảnh không tự đồng nghĩa được phép công khai ảnh; việc đăng tin đúng cũng có thể xâm phạm đời tư. Cần xem các ngoại lệ và điều kiện sử dụng hình ảnh trong luật. [4]\n\nĐiều 21 Luật Trẻ em\n\nTrẻ em được bảo vệ bí mật đời sống riêng tư, thông tin cá nhân và danh dự. Không dùng việc bóc phốt để công khai trường lớp, địa chỉ, hình ảnh nhạy cảm của trẻ. Luật này xác định trẻ em là người dưới 16 tuổi. [5]\n\nĐiều 155, 156, 174 và 290 Bộ luật Hình sự\n\nTùy dấu hiệu có thể xem xét làm nhục, vu khống, lừa đảo chiếm đoạt tài sản hoặc sử dụng mạng máy tính, mạng viễn thông, phương tiện điện tử để chiếm đoạt tài sản. Không phải mọi phát ngôn sai hoặc mọi sự cố chuyển tiền đều tự động cấu thành một tội cụ thể. [6]\n\n3 Cơ quan tiếp nhận và giải quyết\n\nCó thể liên hệ đầu mối gần nhất và an toàn nhất. Không phải lần lượt đi qua mọi nơi trong bảng; việc chăm sóc, bảo vệ và trình báo có thể thực hiện song song.\n\nNơi tiếp nhận hoặc giải quyết\n\nVai trò và căn cứ\n\nCha mẹ người chăm sóc và nhà trường\n\nHỗ trợ học sinh thoát tình huống nguy hiểm, bảo vệ tài khoản, giữ thông tin và phối hợp báo cơ quan chức năng.\n\nCăn cứ: Điều 16 Luật ANM; Luật Trẻ em.\n\nCông an xã phường hoặc công an gần nhất\n\nTiếp nhận trình báo, tố giác, bảo đảm an toàn và chuyển hoặc xử lý đúng thẩm quyền. Không phải tự tìm đúng phòng chuyên trách mới được báo tin.\n\nCăn cứ: Điều 145, 146 BLTTHS.\n\nĐơn vị an ninh mạng của công an cấp tỉnh\n\nXác minh và phối hợp xử lý hành vi trên không gian mạng trong phạm vi chức năng, theo phân công và thẩm quyền.\n\nCăn cứ: Luật ANM; NĐ 174.\n\nNền tảng mạng xã hội\n\nTiếp nhận báo cáo, hỗ trợ khóa tài khoản bị chiếm, ngăn chặn hoặc gỡ nội dung theo quy định; không phải cơ quan tuyên có tội.\n\nCăn cứ: Điều 16, 25 Luật ANM.\n\nNgân hàng hoặc đơn vị thanh toán\n\nTiếp nhận thông báo giao dịch nghi gian lận, hỗ trợ tra soát và phối hợp theo quy định; không bảo đảm tiền sẽ tự được hoàn lại.\n\nCăn cứ: Quy định dịch vụ thanh toán; phối hợp điều tra.\n\nTổng đài 111 và Tòa án có thẩm quyền\n\n111 kết nối bảo vệ trẻ em. Tòa án giải quyết yêu cầu bảo vệ quyền dân sự hoặc xét xử theo thẩm quyền.\n\nCăn cứ: Nguồn [8]; BLDS; BLTTHS.\n\nThông tin cần cung cấp khi phản ánh\n\nTrình bày đường dẫn, tài khoản, thời điểm, nội dung đe dọa, giao dịch và thiệt hại nếu có. Đề nghị bảo vệ danh tính, ngăn liên hệ hoặc hỗ trợ khôi phục tài khoản. Nếu mất tiền, báo ngay ngân hàng và công an song song; không chuyển thêm tiền cho người hứa lấy lại tiền. Không xóa vội toàn bộ cuộc trò chuyện trước khi ghi nhận thông tin. Tố giác bằng lời nói hoặc văn bản đều được tiếp nhận theo Điều 144 đến 146 BLTTHS. [7]\n\nTại TP.HCM: dùng đầu mối công an và UBND xã, phường nơi xảy ra vụ việc hoặc nơi gần nhất; nhà trường cập nhật tên, số liên hệ của cán bộ phụ trách. Người tiếp nhận thông tin không mặc nhiên là người có thẩm quyền ra quyết định xử phạt hoặc xét xử.\n\n4 Những hành vi thường bị hiểu nhầm\n\nMỗi nhận định dưới đây cần được kiểm tra bằng quy định cụ thể. Một hành vi bị cấm hoặc xâm phạm quyền không đồng nghĩa mọi trường hợp đều bị xử lý hình sự.\n\n1 Tôi chỉ chia sẻ lại nên không chịu trách nhiệm\n\nĐiều 95 NĐ 174 điều chỉnh cả việc cung cấp và chia sẻ nội dung vi phạm. Phải xác minh lỗi và hoàn cảnh, nhưng không có miễn trừ chung cho người đăng lại.\n\n2 Nhóm kín và tài khoản ảo thì pháp luật không áp dụng\n\nQuyền riêng tư, danh dự vẫn được bảo vệ trong môi trường nhóm. Tài khoản không hiện tên thật không làm mất trách nhiệm. Căn cứ: Điều 34, 38 BLDS; Điều 95 NĐ 174.\n\n3 Ảnh AI chỉ để đùa nên được ghép thế nào cũng được\n\nGhép ảnh nhằm hạ nhục hoặc giả mạo có thể xâm phạm hình ảnh, danh dự và vi phạm quy định mạng xã hội. Căn cứ: Điều 32, 34 BLDS; Điều 95 NĐ 174; tùy trường hợp Điều 155, 156 BLHS.\n\n4 Nội dung đúng thì có thể công khai mọi bí mật\n\nThông tin đúng vẫn có thể là bí mật đời tư cần được bảo vệ. Không tự công khai tin nhắn, hồ sơ sức khỏe hoặc hình ảnh riêng tư của người khác. Căn cứ: Điều 38 BLDS; Điều 21 Luật Trẻ em.\n\n5 Mượn được mật khẩu thì được vào đọc và đăng bài\n\nBiết mật khẩu không đồng nghĩa được chủ tài khoản cho phép mọi thao tác. Truy cập, sử dụng hoặc tiết lộ thông tin trái phép có thể xâm phạm quyền của người khác; đánh giá theo sự đồng ý và phạm vi được phép.\n\n6 Đã xóa bài thì không còn vi phạm\n\nXóa giúp hạn chế hậu quả nhưng không tự xóa trách nhiệm đối với hành vi đã xảy ra. Cần cải chính, khắc phục và phối hợp xác minh; không ép nạn nhân rút phản ánh.\n\n5 Tình huống thực tế và thảo luận\n\nVụ việc đã được công bố\n\nBộ Công an ngày 01/11/2026 thông tin Công an tỉnh Hưng Yên đã phát hiện các tài khoản đăng hình ảnh, video giả mạo bằng AI. Trong đó, ngày 27/10/2026, lực lượng chức năng phát hiện một người quản lý tài khoản Facebook và TikTok đăng nội dung sai sự thật về lực lượng công an. Bài viết cảnh báo trách nhiệm không chỉ ở người tạo nội dung mà còn ở người đăng, chia sẻ lại. Không dùng bản tin để suy đoán hình phạt cuối cùng của từng cá nhân. [9]\n\nBài học: Nội dung trông chân thực và được chia sẻ nhiều vẫn cần kiểm chứng; hành vi đăng lại cũng cần được đánh giá trách nhiệm.\n\nTình huống giả định để vận dụng\n\nD 16 tuổi lấy ảnh E trong nhóm lớp, dùng AI ghép E vào một cảnh gây nhục rồi đăng lên nhóm kín với dòng chỉ là trò đùa. F chia sẻ lại lên trang cá nhân. Sau đó một tài khoản lạ đe dọa E phải chuyển tiền nếu không muốn ảnh tiếp tục phát tán.\n\nCâu 1: E cần tìm ai và giữ thông tin gì?\n\nGợi ý xử lý: Báo ngay người lớn tin cậy, nhà trường và công an; báo nền tảng để ngăn nội dung. Giữ tên tài khoản, đường dẫn, thời điểm, tin nhắn đe dọa, chứng từ nếu đã chuyển tiền; không trả tiền hoặc tiếp tục gửi ảnh theo yêu cầu. [1][7]\n\nCâu 2: D và F có thể viện lý do đùa hoặc chia sẻ lại không?\n\nGợi ý xử lý: Các lý do đó không tự loại trừ xâm phạm hình ảnh, danh dự hoặc trách nhiệm theo Điều 95 NĐ 174. Cần xác minh từng hành vi, lỗi và độ tuổi. [3][4]\n\nCâu 3: Có thể xác định ngay tội danh của tài khoản đòi tiền không?\n\nGợi ý xử lý: Chưa. Có dấu hiệu cần tố giác; cơ quan có thẩm quyền xác minh phương thức đe dọa, mục đích và hành vi chiếm đoạt để áp dụng quy định phù hợp. Không yêu cầu E tự chứng minh trọn vẹn tội phạm mới tiếp nhận. [7]\n\n6 Nguồn tra cứu\n\nCác số trong ngoặc vuông dẫn đến nguồn tương ứng dưới đây. Có thể bấm tên tài liệu để mở nguồn; cần đọc toàn văn điều khoản trước khi dùng để giải quyết một vụ việc cụ thể.\n\n[1] Luật An ninh mạng 116/2025/QH15, hiệu lực từ ngày 01/7/2026\n\n[2] Cổng Thông tin điện tử Chính phủ giải thích Điều 16 về bảo vệ trẻ em trên không gian mạng\n\n[3] Nghị định 174/2026/NĐ-CP về xử phạt trong lĩnh vực bưu chính viễn thông giao dịch điện tử và công nghệ thông tin\n\n[4] Bộ luật Dân sự 2015 số 91/2015/QH13\n\n[5] Luật Trẻ em 2016 đã được sửa đổi bổ sung, xem Văn bản hợp nhất 108/VBHN-VPQH năm 2025\n\n[6] Bộ luật Hình sự 2015 đã được sửa đổi bổ sung, xem Văn bản hợp nhất 135/VBHN-VPQH năm 2025\n\n[7] Bộ luật Tố tụng hình sự 2015 đã được sửa đổi bổ sung, xem Văn bản hợp nhất 104/VBHN-VPQH năm 2025\n\n[8] Cơ quan chuyên môn thuộc Bộ Y tế giới thiệu kênh tiếp nhận bảo vệ trẻ em trên môi trường mạng, gồm Tổng đài 111\n\n[9] Bộ Công an, ngày 01/11/2026, Cảnh báo tình trạng lợi dụng công nghệ AI tạo dựng phát tán thông tin giả mạo trên không gian mạng\n\nGợi ý tổ chức buổi thảo luận 45 phút\n\nNhận diện tình huống 10 phút; tra cứu cơ sở pháp lý 10 phút; xử lý tình huống nhóm 15 phút; trình bày và phản hồi 10 phút. Không yêu cầu học sinh công khai trải nghiệm bị xâm hại của bản thân. Nếu phát sinh phản ánh thật, chuyển sang tiếp nhận riêng và hỗ trợ an toàn.\n\nCách sử dụng tình huống\n\nVụ việc thực tế được tóm tắt từ nguồn đã công bố, giữ kín thông tin nhận diện trẻ bị hại. Tình huống giả định là bài tập độc lập, không bổ sung dữ kiện vào vụ việc thật. Phần gợi ý là định hướng thảo luận, không thay kết luận của cơ quan có thẩm quyền.",
+            "situations": [
+                {
+                    "id": "an-toan-mang-xa-hoi-1",
+                    "title": "Khi nhận được đường link đáng ngờ, học sinh nên làm gì?",
+                    "question": "Tình huống: Một học sinh nhận được tin nhắn có đường link lạ, báo “trúng thưởng” và yêu cầu cung cấp thông tin cá nhân, tài khoản ngân hàng để nhận quà.\n\nKhi nhận được đường link đáng ngờ, học sinh nên làm gì?",
+                    "image": "images/hoc-lieu/an-toan-mang-xa-hoi-anh-1.jpg",
+                    "video": "",
+                    "choices": [
+                        {
+                            "text": "Bấm vào xem thử, miễn là không nhập thông tin.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là D. Chỉ cần bấm vào link lạ cũng có thể bị cài mã độc hoặc dẫn đến trang giả mạo. Chuyển tiếp link sẽ khiến người khác cùng gặp nguy cơ. Cách an toàn là không tương tác, chặn, báo cáo và nhờ người lớn giúp."
+                        },
+                        {
+                            "text": "Chuyển tiếp cho bạn bè để cùng kiểm tra.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là D. Chỉ cần bấm vào link lạ cũng có thể bị cài mã độc hoặc dẫn đến trang giả mạo. Chuyển tiếp link sẽ khiến người khác cùng gặp nguy cơ. Cách an toàn là không tương tác, chặn, báo cáo và nhờ người lớn giúp."
+                        },
+                        {
+                            "text": "Nhập thông tin để không bị lỡ phần quà.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là D. Chỉ cần bấm vào link lạ cũng có thể bị cài mã độc hoặc dẫn đến trang giả mạo. Chuyển tiếp link sẽ khiến người khác cùng gặp nguy cơ. Cách an toàn là không tương tác, chặn, báo cáo và nhờ người lớn giúp."
+                        },
+                        {
+                            "text": "Không bấm vào link, không cung cấp thông tin, chặn và báo cáo tài khoản gửi tin, đồng thời báo cho cha mẹ hoặc thầy cô.",
+                            "explanation": "Phù hợp nhất. Chỉ cần bấm vào link lạ cũng có thể bị cài mã độc hoặc dẫn đến trang giả mạo. Chuyển tiếp link sẽ khiến người khác cùng gặp nguy cơ. Cách an toàn là không tương tác, chặn, báo cáo và nhờ người lớn giúp."
+                        }
+                    ],
+                    "best": 3,
+                    "status": "Đã công bố",
+                    "order": 1,
+                    "allow_retry": true
+                },
+                {
+                    "id": "an-toan-mang-xa-hoi-2",
+                    "title": "Dấu hiệu nào sau đây cho thấy tin nhắn có thể là lừa đảo?",
+                    "question": "Tình huống: Một học sinh nhận được tin nhắn có đường link lạ, báo “trúng thưởng” và yêu cầu cung cấp thông tin cá nhân, tài khoản ngân hàng để nhận quà.\n\nDấu hiệu nào sau đây cho thấy tin nhắn có thể là lừa đảo?",
+                    "image": "images/hoc-lieu/an-toan-mang-xa-hoi-anh-2.jpg",
+                    "video": "",
+                    "choices": [
+                        {
+                            "text": "Thông báo cập nhật ứng dụng đến từ cửa hàng ứng dụng chính thức.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Kẻ lừa đảo thường đánh vào sự tò mò, tham lợi và sự vội vã: phần thưởng hấp dẫn, thúc giục thời gian, link lạ và đòi thông tin nhạy cảm. Ngân hàng và cơ quan chức năng không yêu cầu cung cấp mật khẩu hay mã OTP qua tin nhắn."
+                        },
+                        {
+                            "text": "Email nhắc lịch học từ giáo viên chủ nhiệm, đúng địa chỉ quen thuộc.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Kẻ lừa đảo thường đánh vào sự tò mò, tham lợi và sự vội vã: phần thưởng hấp dẫn, thúc giục thời gian, link lạ và đòi thông tin nhạy cảm. Ngân hàng và cơ quan chức năng không yêu cầu cung cấp mật khẩu hay mã OTP qua tin nhắn."
+                        },
+                        {
+                            "text": "Tin báo trúng thưởng lớn, thúc giục phải làm ngay trong vài phút, kèm link lạ và yêu cầu nhập mật khẩu, mã OTP hoặc số tài khoản.",
+                            "explanation": "Phù hợp nhất. Kẻ lừa đảo thường đánh vào sự tò mò, tham lợi và sự vội vã: phần thưởng hấp dẫn, thúc giục thời gian, link lạ và đòi thông tin nhạy cảm. Ngân hàng và cơ quan chức năng không yêu cầu cung cấp mật khẩu hay mã OTP qua tin nhắn."
+                        },
+                        {
+                            "text": "Thông báo từ nhà trường đăng trên kênh chính thức mà em đã theo dõi.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Kẻ lừa đảo thường đánh vào sự tò mò, tham lợi và sự vội vã: phần thưởng hấp dẫn, thúc giục thời gian, link lạ và đòi thông tin nhạy cảm. Ngân hàng và cơ quan chức năng không yêu cầu cung cấp mật khẩu hay mã OTP qua tin nhắn."
+                        }
+                    ],
+                    "best": 2,
+                    "status": "Đã công bố",
+                    "order": 2,
+                    "allow_retry": true
+                },
+                {
+                    "id": "an-toan-mang-xa-hoi-3",
+                    "title": "Nếu đã lỡ nhập thông tin tài khoản ngân hàng vào trang lạ, học sinh nên làm gì đầu tiên?",
+                    "question": "Tình huống: Một học sinh nhận được tin nhắn có đường link lạ, báo “trúng thưởng” và yêu cầu cung cấp thông tin cá nhân, tài khoản ngân hàng để nhận quà.\n\nNếu đã lỡ nhập thông tin tài khoản ngân hàng vào trang lạ, học sinh nên làm gì đầu tiên?",
+                    "image": "images/hoc-lieu/an-toan-mang-xa-hoi-anh-3.jpg",
+                    "video": "",
+                    "choices": [
+                        {
+                            "text": "Chờ vài ngày xem có bị mất tiền hay không.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Thời gian rất quan trọng: báo sớm giúp ngân hàng chặn giao dịch và hạn chế thiệt hại. Che giấu hoặc liên lạc lại với kẻ lừa đảo chỉ làm tình hình xấu đi. Em không phải người có lỗi khi bị lừa."
+                        },
+                        {
+                            "text": "Xoá tin nhắn và không nói với ai vì sợ bị trách.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Thời gian rất quan trọng: báo sớm giúp ngân hàng chặn giao dịch và hạn chế thiệt hại. Che giấu hoặc liên lạc lại với kẻ lừa đảo chỉ làm tình hình xấu đi. Em không phải người có lỗi khi bị lừa."
+                        },
+                        {
+                            "text": "Báo ngay cho cha mẹ hoặc người giám hộ để liên hệ ngân hàng khóa thẻ, đổi mật khẩu, đồng thời báo nhà trường và lưu lại bằng chứng.",
+                            "explanation": "Phù hợp nhất. Thời gian rất quan trọng: báo sớm giúp ngân hàng chặn giao dịch và hạn chế thiệt hại. Che giấu hoặc liên lạc lại với kẻ lừa đảo chỉ làm tình hình xấu đi. Em không phải người có lỗi khi bị lừa."
+                        },
+                        {
+                            "text": "Nhắn lại cho người lạ để yêu cầu trả lại thông tin.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Thời gian rất quan trọng: báo sớm giúp ngân hàng chặn giao dịch và hạn chế thiệt hại. Che giấu hoặc liên lạc lại với kẻ lừa đảo chỉ làm tình hình xấu đi. Em không phải người có lỗi khi bị lừa."
+                        }
+                    ],
+                    "best": 2,
+                    "status": "Đã công bố",
+                    "order": 3,
+                    "allow_retry": true
+                }
+            ]
+        },
+        {
+            "id": "phong-chong-tao-hon",
+            "name": "Phòng, chống tảo hôn",
+            "icon": "heart",
+            "order": 4,
+            "description": "Nhận biết tảo hôn, điều kiện tuổi kết hôn, quyền tự nguyện và cách tìm kiếm sự hỗ trợ.",
+            "situation": "Một học sinh chưa đủ tuổi kết hôn bị gia đình thúc ép nghỉ học để lấy chồng hoặc lấy vợ.",
+            "learn": "Nhận biết tảo hôn, tác động đối với sức khỏe và việc học; tìm hiểu điều kiện về tuổi kết hôn, quyền tự nguyện kết hôn và cách tìm kiếm sự hỗ trợ.",
+            "image": "images/hoc-lieu/phong-chong-tao-hon-infographic.png",
+            "video_file": "docs/hoc-lieu/phong-chong-tao-hon.mp4",
+            "content": "Tình huống: Một học sinh chưa đủ tuổi kết hôn bị gia đình thúc ép nghỉ học để lấy chồng hoặc lấy vợ.\n\nNội dung học tập: Nhận biết tảo hôn, tác động đối với sức khỏe và việc học; tìm hiểu điều kiện về tuổi kết hôn, quyền tự nguyện kết hôn và cách tìm kiếm sự hỗ trợ.\n\nTài liệu giáo dục pháp luật dành cho học sinh THCS và THPT. Đối chiếu quy định đến ngày 10/11/2026.\n\nGiúp học sinh nhận diện việc lấy vợ, lấy chồng khi chưa đủ tuổi, phân biệt với quan hệ tình cảm và biết cách tìm trợ giúp. Phòng chống tảo hôn cần bảo vệ quyền học tập, sự tự nguyện và an toàn của người chưa thành niên.\n\n1 Nhận diện tình huống điển hình\n\nĐộ tuổi kết hôn\n\nNam phải từ đủ 20 tuổi, nữ phải từ đủ 18 tuổi. Tính theo ngày, tháng, năm sinh; không dùng tuổi mụ hoặc chỉ trừ hai năm sinh. Đủ tuổi vẫn phải đáp ứng các điều kiện khác. [1]\n\nLễ cưới khi chưa đủ tuổi\n\nGia đình tổ chức đón dâu, đưa người chưa đủ tuổi về sống như vợ chồng và hẹn đăng ký sau. Việc chưa đăng ký không tự làm hành vi lấy vợ, lấy chồng khi chưa đủ tuổi trở thành hợp pháp.\n\nChung sống như vợ chồng\n\nKhông tổ chức tiệc nhưng sắp xếp đời sống chung, xác định và đối xử với nhau như vợ chồng có thể cần xem xét. Phải xác minh thực tế; không tự đồng nhất mọi quan hệ yêu đương hoặc cùng đi chơi với tảo hôn.\n\nÉp buộc từ gia đình hoặc cộng đồng\n\nDọa cắt việc học, đuổi khỏi nhà, gây áp lực vì phong tục, vì nợ hoặc vì mang thai để buộc cưới. Cần báo sớm người lớn tin cậy, nhà trường, UBND cấp xã hoặc công an.\n\nPhân biệt để hỗ trợ đúng\n\nCó thai không tạo ngoại lệ về tuổi kết hôn. Người mang thai cần được chăm sóc y tế, tư vấn và bảo vệ, không bị đổ lỗi. Việc quan hệ tình dục với người dưới 16 tuổi phải được đánh giá riêng theo độ tuổi và hành vi, không được hợp thức hóa bằng lễ cưới.\n\n2 Cơ sở pháp lý\n\nCác quy định dưới đây được tóm lược để áp dụng vào tình huống. Việc xác định vi phạm, mức xử lý và trách nhiệm của từng người phải căn cứ độ tuổi, chứng cứ, lỗi và điều kiện của điều luật; không áp chung một mức xử lý cho mọi học sinh.\n\nKhoản 8 Điều 3, điểm b khoản 2 Điều 5 và điểm a khoản 1 Điều 8 Luật Hôn nhân và gia đình\n\nTảo hôn là việc lấy vợ, lấy chồng khi một hoặc cả hai bên chưa đủ tuổi luật định; hành vi này bị cấm. Tuổi tối thiểu là nam đủ 20, nữ đủ 18. [1]\n\nĐiểm b khoản 1 Điều 8 và Điều 9 Luật Hôn nhân và gia đình\n\nKết hôn phải do hai bên tự nguyện và phải đăng ký đúng pháp luật. Cha mẹ đồng ý không thay thế ý chí tự nguyện hoặc điều kiện về tuổi. Lễ cưới không thay việc đăng ký. [1]\n\nKhoản 1 Điều 61 Nghị định 109/2026/NĐ-CP\n\nTổ chức lấy vợ, lấy chồng cho người chưa đủ tuổi có khung phạt 1 đến 3 triệu đồng. Nghị định có hiệu lực từ 18/5/2026; không dùng Điều 58 NĐ 82/2020 làm căn cứ hiện hành cho nội dung này. [2]\n\nKhoản 2 Điều 61 Nghị định 109/2026/NĐ-CP\n\nKhung phạt 3 đến 5 triệu đồng đối với việc duy trì quan hệ vợ chồng trái pháp luật với người chưa đủ tuổi đòi hỏi đã có bản án, quyết định có hiệu lực của Tòa án. Không tự áp khoản này chỉ vì hai người chưa đủ tuổi đang chung sống. [2][3]\n\nĐiều 183 Bộ luật Hình sự\n\nTội tổ chức tảo hôn có điều kiện người tổ chức đã bị xử phạt hành chính về hành vi này mà còn vi phạm, cùng các điều kiện chịu trách nhiệm hình sự khác. Không phải mọi đám cưới có người chưa đủ tuổi đều lập tức cấu thành tội này. [4]\n\nĐiều 145 và Điều 146 Bộ luật Hình sự\n\nNgười đủ 18 tuổi thực hiện hành vi tình dục thuộc Điều 145 với người từ đủ 13 đến dưới 16 tuổi có thể bị truy cứu dù người nhỏ tuổi nói tự nguyện. Dâm ô với người dưới 16 tuổi được xem xét riêng theo Điều 146. Cần xác minh hành vi, tuổi và các dấu hiệu khác; không chỉ dựa tên gọi yêu nhau. [4]\n\nĐiều 16, Điều 25 và Điều 27 Luật Trẻ em\n\nBảo vệ quyền học tập, quyền không bị xâm hại tình dục, bạo lực của trẻ em. Nhà trường và đầu mối bảo vệ trẻ em cần hỗ trợ kịp thời; không kỳ thị hoặc buộc thôi học để giải quyết chuyện gia đình. [5]\n\n3 Cơ quan tiếp nhận và giải quyết\n\nCó thể liên hệ đầu mối gần nhất và an toàn nhất. Không phải lần lượt đi qua mọi nơi trong bảng; việc chăm sóc, bảo vệ và trình báo có thể thực hiện song song.\n\nNơi tiếp nhận hoặc giải quyết\n\nVai trò và căn cứ\n\nGiáo viên ban giám hiệu và người lớn tin cậy\n\nTiếp nhận nguy cơ nghỉ học, bị ép cưới; phối hợp bảo vệ, liên hệ cơ quan địa phương và hỗ trợ tiếp tục học.\n\nCăn cứ: Luật Trẻ em; Luật HN và GĐ.\n\nUBND xã phường và bộ phận hộ tịch\n\nKiểm tra điều kiện khi đăng ký kết hôn; không đăng ký nếu không đủ điều kiện. Tiếp nhận phản ánh và phối hợp ngăn chặn tảo hôn.\n\nCăn cứ: Điều 8, 9 Luật HN và GĐ; NĐ 109.\n\nNgười làm công tác bảo vệ trẻ em tại cấp xã\n\nĐánh giá nguy cơ, lập hoặc phối hợp kế hoạch hỗ trợ bảo vệ trẻ em trong phạm vi trách nhiệm.\n\nCăn cứ: Luật Trẻ em, Chương IV.\n\nCông an xã phường hoặc cơ quan công an gần nhất\n\nTiếp nhận trình báo, ngăn nguy cơ xâm hại, xác minh hoặc chuyển vụ việc có dấu hiệu tội phạm; phối hợp xử lý đúng thẩm quyền.\n\nCăn cứ: Điều 145, 146 BLTTHS; NĐ 109.\n\nTòa án có thẩm quyền\n\nGiải quyết yêu cầu hủy kết hôn trái pháp luật khi thuộc trường hợp luật định; giải quyết quan hệ dân sự, gia đình và xét xử hình sự theo thẩm quyền.\n\nCăn cứ: Điều 10 đến 12 Luật HN và GĐ; BLTTHS.\n\nTổng đài 111 và tổ chức hỗ trợ\n\n111 kết nối bảo vệ trẻ em; Hội Phụ nữ, Đoàn Thanh niên hỗ trợ vận động và kết nối, không thay cơ quan ra quyết định xử phạt.\n\nCăn cứ: Luật Trẻ em; nguồn [7].\n\nThông tin cần cung cấp khi phản ánh\n\nBáo sớm trước khi lễ cưới hoặc việc đưa đi diễn ra. Nêu tuổi, dự kiến ngày giờ, địa điểm, người tổ chức, việc ép buộc và nguy cơ hiện tại. Có thể cung cấp giấy khai sinh, tin nhắn hoặc thiệp nếu đang có; không chờ đủ tài liệu mới phản ánh. Nếu gia đình là nguồn gây áp lực, ưu tiên nhà trường, người lớn khác an toàn, công an hoặc 111. [6][7]\n\nTại TP.HCM: dùng đầu mối công an và UBND xã, phường nơi xảy ra vụ việc hoặc nơi gần nhất; nhà trường cập nhật tên, số liên hệ của cán bộ phụ trách. Người tiếp nhận thông tin không mặc nhiên là người có thẩm quyền ra quyết định xử phạt hoặc xét xử.\n\n4 Những hành vi thường bị hiểu nhầm\n\nMỗi nhận định dưới đây cần được kiểm tra bằng quy định cụ thể. Một hành vi bị cấm hoặc xâm phạm quyền không đồng nghĩa mọi trường hợp đều bị xử lý hình sự.\n\n1 Chỉ làm đám cưới không đăng ký thì không phải tảo hôn\n\nTảo hôn được nhận diện từ việc lấy vợ, lấy chồng khi chưa đủ tuổi, không chỉ từ giấy đăng ký. Căn cứ: khoản 8 Điều 3; điểm b khoản 2 Điều 5 Luật HN và GĐ.\n\n2 Cha mẹ hai bên đồng ý là đủ\n\nSự đồng ý của cha mẹ không thay điều kiện về tuổi và sự tự nguyện của hai người. Căn cứ: Điều 8 Luật HN và GĐ.\n\n3 Có thai nên được cưới sớm\n\nPháp luật không đặt ngoại lệ chung vì mang thai. Cần chăm sóc và xác minh nguy cơ xâm hại thay vì ép cưới. Căn cứ: Điều 8 Luật HN và GĐ; Điều 25 Luật Trẻ em.\n\n4 Đầu năm nay tròn 18 theo năm sinh thì được cưới ngay\n\nNữ phải đủ 18 vào ngày xác định; nam phải đủ 20. Ví dụ nữ sinh 20/12/2008 chưa đủ 18 vào ngày 10/11/2026. Căn cứ: điểm a khoản 1 Điều 8.\n\n5 Cho hai cháu về sống chung rồi đợi đủ tuổi đăng ký\n\nNếu thực tế là lấy vợ, lấy chồng khi chưa đủ tuổi, việc đợi đăng ký không loại trừ hành vi bị cấm. Phải xác minh tính chất quan hệ; không suy đoán chỉ từ việc cùng có mặt một nơi.\n\n6 Đã tự nguyện yêu nhau thì người lớn không thể bị xử lý\n\nNgười tổ chức việc lấy vợ, lấy chồng khi chưa đủ tuổi vẫn có thể bị xử lý. Nếu có hành vi tình dục với người dưới 16 tuổi, phải xem xét riêng các Điều 142 đến 146 BLHS; lời nói tự nguyện không tự loại trừ trách nhiệm.\n\n5 Tình huống thực tế và thảo luận\n\nVụ việc đã được công bố\n\nBộ Công an ngày 12/7/2026 đưa tin Công an xã Lũng Phìn, tỉnh Tuyên Quang phối hợp với các tổ chức địa phương ngăn chặn nguy cơ tảo hôn. Hai người cùng sinh năm 2012 quen qua mạng, có ý định chung sống như vợ chồng; gia đình chủ động đề nghị địa phương hỗ trợ. Sau vận động, các em trở về gia đình tiếp tục học. Nguồn phản ánh hoạt động ngăn ngừa, không xác định đã có bản án hoặc quyết định xử phạt. [8]\n\nBài học: Có thể ngăn chặn nguy cơ trước khi lễ cưới diễn ra. Gia đình, nhà trường và địa phương cần cùng hỗ trợ các em tiếp tục học.\n\nTình huống giả định để vận dụng\n\nTại TP.HCM, M nữ sinh ngày 20/12/2008 và N nam sinh ngày 05/01/2006 dự định làm lễ cưới ngày 10/11/2026. Gia đình nói M sắp đủ 18, chưa đăng ký nên không sao. M muốn tiếp tục học nhưng bị dọa cắt tiền học nếu từ chối. Người lớn đã đặt tiệc và chuẩn bị đón M về ở như vợ chồng.\n\nCâu 1: Hai người đã đủ tuổi kết hôn chưa?\n\nGợi ý xử lý: N đã đủ 20; M chưa đủ 18 vào ngày dự định. Không thể lấy tuổi theo năm hoặc tuổi mụ thay tuổi đủ. Căn cứ: điểm a khoản 1 Điều 8 Luật HN và GĐ.\n\nCâu 2: Không đăng ký có làm cho việc tổ chức hợp pháp không?\n\nGợi ý xử lý: Không. Cần ngăn việc lấy vợ, lấy chồng khi chưa đủ tuổi; làm rõ vai trò người tổ chức theo khoản 1 Điều 61 NĐ 109. Chưa đủ dữ kiện để kết luận tội tổ chức tảo hôn theo Điều 183 BLHS.\n\nCâu 3: M nên tìm trợ giúp ở đâu?\n\nGợi ý xử lý: Báo nhà trường, người lớn an toàn, UBND hoặc công an cấp xã để hỗ trợ ngăn việc ép cưới. Không coi sự im lặng vì bị đe dọa là tự nguyện. Căn cứ: điểm b khoản 1 Điều 8; điểm b khoản 2 Điều 5 Luật HN và GĐ.\n\n6 Nguồn tra cứu\n\nCác số trong ngoặc vuông dẫn đến nguồn tương ứng dưới đây. Có thể bấm tên tài liệu để mở nguồn; cần đọc toàn văn điều khoản trước khi dùng để giải quyết một vụ việc cụ thể.\n\n[1] Luật Hôn nhân và gia đình 2014 số 52/2014/QH13, đã được sửa đổi bổ sung\n\n[2] Nghị định 109/2026/NĐ-CP về xử phạt trong lĩnh vực hôn nhân và gia đình cùng các lĩnh vực tư pháp liên quan\n\n[3] Cổng thông tin tỉnh Quảng Ninh phân tích điều kiện xử phạt theo Điều 61 Nghị định 109/2026/NĐ-CP\n\n[4] Bộ luật Hình sự 2015 đã được sửa đổi bổ sung, xem Văn bản hợp nhất 135/VBHN-VPQH năm 2025\n\n[5] Luật Trẻ em 2016 đã được sửa đổi bổ sung, xem Văn bản hợp nhất 108/VBHN-VPQH năm 2025\n\n[6] Bộ luật Tố tụng hình sự 2015 đã được sửa đổi bổ sung, xem Văn bản hợp nhất 104/VBHN-VPQH năm 2025\n\n[7] Cơ quan chuyên môn thuộc Bộ Y tế giới thiệu kênh tiếp nhận bảo vệ trẻ em trên môi trường mạng, gồm Tổng đài 111\n\n[8] Bộ Công an, ngày 12/7/2026, Tuyên Quang kịp thời ngăn chặn trường hợp có dấu hiệu tổ chức tảo hôn và bị dụ dỗ việc nhẹ lương cao\n\nGợi ý tổ chức buổi thảo luận 45 phút\n\nNhận diện tình huống 10 phút; tra cứu cơ sở pháp lý 10 phút; xử lý tình huống nhóm 15 phút; trình bày và phản hồi 10 phút. Không yêu cầu học sinh công khai trải nghiệm bị xâm hại của bản thân. Nếu phát sinh phản ánh thật, chuyển sang tiếp nhận riêng và hỗ trợ an toàn.\n\nCách sử dụng tình huống\n\nVụ việc thực tế được tóm tắt từ nguồn đã công bố, giữ kín thông tin nhận diện trẻ bị hại. Tình huống giả định là bài tập độc lập, không bổ sung dữ kiện vào vụ việc thật. Phần gợi ý là định hướng thảo luận, không thay kết luận của cơ quan có thẩm quyền.",
+            "situations": [
+                {
+                    "id": "phong-chong-tao-hon-1",
+                    "title": "Khi bản thân hoặc bạn bè bị ép kết hôn khi chưa đủ tuổi, học sinh nên làm gì?",
+                    "question": "Tình huống: Một học sinh chưa đủ tuổi kết hôn bị gia đình thúc ép nghỉ học để lấy chồng hoặc lấy vợ.\n\nKhi bản thân hoặc bạn bè bị ép kết hôn khi chưa đủ tuổi, học sinh nên làm gì?",
+                    "image": "images/hoc-lieu/phong-chong-tao-hon-anh-1.jpg",
+                    "video": "",
+                    "choices": [
+                        {
+                            "text": "Chấp nhận vì đó là quyết định của gia đình.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Kết hôn phải do hai bên tự nguyện quyết định. Khi bị ép buộc, em cần lên tiếng và tìm sự giúp đỡ từ những người, cơ quan có trách nhiệm. Bỏ trốn một mình có thể khiến em gặp nguy hiểm hơn."
+                        },
+                        {
+                            "text": "Bỏ trốn khỏi nhà một mình mà không nói với ai.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Kết hôn phải do hai bên tự nguyện quyết định. Khi bị ép buộc, em cần lên tiếng và tìm sự giúp đỡ từ những người, cơ quan có trách nhiệm. Bỏ trốn một mình có thể khiến em gặp nguy hiểm hơn."
+                        },
+                        {
+                            "text": "Nói rõ mình không đồng ý, kể với người tin cậy như thầy cô, bộ phận tư vấn, người thân, và nhờ nhà trường, chính quyền địa phương hoặc tổng đài 111 hỗ trợ.",
+                            "explanation": "Phù hợp nhất. Kết hôn phải do hai bên tự nguyện quyết định. Khi bị ép buộc, em cần lên tiếng và tìm sự giúp đỡ từ những người, cơ quan có trách nhiệm. Bỏ trốn một mình có thể khiến em gặp nguy hiểm hơn."
+                        },
+                        {
+                            "text": "Im lặng và hy vọng gia đình sẽ tự thay đổi ý kiến.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Kết hôn phải do hai bên tự nguyện quyết định. Khi bị ép buộc, em cần lên tiếng và tìm sự giúp đỡ từ những người, cơ quan có trách nhiệm. Bỏ trốn một mình có thể khiến em gặp nguy hiểm hơn."
+                        }
+                    ],
+                    "best": 2,
+                    "status": "Đã công bố",
+                    "order": 1,
+                    "allow_retry": true
+                },
+                {
+                    "id": "phong-chong-tao-hon-2",
+                    "title": "Theo Luật Hôn nhân và gia đình năm 2014, độ tuổi tối thiểu để kết hôn là bao nhiêu?",
+                    "question": "Tình huống: Một học sinh chưa đủ tuổi kết hôn bị gia đình thúc ép nghỉ học để lấy chồng hoặc lấy vợ.\n\nTheo Luật Hôn nhân và gia đình năm 2014, độ tuổi tối thiểu để kết hôn là bao nhiêu?",
+                    "image": "images/hoc-lieu/phong-chong-tao-hon-anh-2.jpg",
+                    "video": "",
+                    "choices": [
+                        {
+                            "text": "Nữ từ đủ 16 tuổi, nam từ đủ 18 tuổi.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là B. Luật quy định nam từ đủ 20 tuổi, nữ từ đủ 18 tuổi, và việc kết hôn do nam, nữ tự nguyện quyết định. Sự đồng ý của cha mẹ không thay thế cho điều kiện về tuổi. Kết hôn dưới ngưỡng này là tảo hôn."
+                        },
+                        {
+                            "text": "Nam từ đủ 20 tuổi, nữ từ đủ 18 tuổi.",
+                            "explanation": "Phù hợp nhất. Luật quy định nam từ đủ 20 tuổi, nữ từ đủ 18 tuổi, và việc kết hôn do nam, nữ tự nguyện quyết định. Sự đồng ý của cha mẹ không thay thế cho điều kiện về tuổi. Kết hôn dưới ngưỡng này là tảo hôn."
+                        },
+                        {
+                            "text": "Cả nam và nữ đều từ đủ 18 tuổi.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là B. Luật quy định nam từ đủ 20 tuổi, nữ từ đủ 18 tuổi, và việc kết hôn do nam, nữ tự nguyện quyết định. Sự đồng ý của cha mẹ không thay thế cho điều kiện về tuổi. Kết hôn dưới ngưỡng này là tảo hôn."
+                        },
+                        {
+                            "text": "Không giới hạn tuổi nếu cha mẹ hai bên đồng ý.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là B. Luật quy định nam từ đủ 20 tuổi, nữ từ đủ 18 tuổi, và việc kết hôn do nam, nữ tự nguyện quyết định. Sự đồng ý của cha mẹ không thay thế cho điều kiện về tuổi. Kết hôn dưới ngưỡng này là tảo hôn."
+                        }
+                    ],
+                    "best": 1,
+                    "status": "Đã công bố",
+                    "order": 2,
+                    "allow_retry": true
+                },
+                {
+                    "id": "phong-chong-tao-hon-3",
+                    "title": "Tảo hôn gây ra những tác động tiêu cực nào?",
+                    "question": "Tình huống: Một học sinh chưa đủ tuổi kết hôn bị gia đình thúc ép nghỉ học để lấy chồng hoặc lấy vợ.\n\nTảo hôn gây ra những tác động tiêu cực nào?",
+                    "image": "images/hoc-lieu/phong-chong-tao-hon-anh-1.jpg",
+                    "video": "",
+                    "choices": [
+                        {
+                            "text": "Chỉ ảnh hưởng đến kinh tế của hai gia đình.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là D. Cơ thể chưa trưởng thành nên mang thai sớm có nhiều rủi ro. Tảo hôn còn cắt ngắn việc học, hạn chế tương lai nghề nghiệp và thường đi kèm đói nghèo, bạo lực gia đình."
+                        },
+                        {
+                            "text": "Giúp cuộc sống ổn định sớm hơn.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là D. Cơ thể chưa trưởng thành nên mang thai sớm có nhiều rủi ro. Tảo hôn còn cắt ngắn việc học, hạn chế tương lai nghề nghiệp và thường đi kèm đói nghèo, bạo lực gia đình."
+                        },
+                        {
+                            "text": "Không ảnh hưởng gì nếu hai bên đồng ý.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là D. Cơ thể chưa trưởng thành nên mang thai sớm có nhiều rủi ro. Tảo hôn còn cắt ngắn việc học, hạn chế tương lai nghề nghiệp và thường đi kèm đói nghèo, bạo lực gia đình."
+                        },
+                        {
+                            "text": "Dễ phải bỏ học, mất cơ hội việc làm, có nguy cơ mang thai và sinh con sớm gây biến chứng cho cả mẹ và bé, dễ rơi vào bất bình đẳng và bạo lực.",
+                            "explanation": "Phù hợp nhất. Cơ thể chưa trưởng thành nên mang thai sớm có nhiều rủi ro. Tảo hôn còn cắt ngắn việc học, hạn chế tương lai nghề nghiệp và thường đi kèm đói nghèo, bạo lực gia đình."
+                        }
+                    ],
+                    "best": 3,
+                    "status": "Đã công bố",
+                    "order": 3,
+                    "allow_retry": true
+                }
+            ]
+        },
+        {
+            "id": "phong-chong-quay-roi",
+            "name": "Phòng, chống quấy rối tình dục",
+            "icon": "hand",
+            "order": 5,
+            "description": "Nhận diện quấy rối trực tiếp và trên mạng, tôn trọng ranh giới, bảo vệ bản thân và tìm hỗ trợ.",
+            "situation": "Một học sinh bị người khác bình phẩm về cơ thể, gửi tin nhắn có nội dung tình dục hoặc cố tình đụng chạm khiến mình khó chịu, lo sợ.",
+            "learn": "Nhận diện hành vi quấy rối tình dục trực tiếp và trên mạng; tôn trọng ranh giới cá nhân; cách bảo vệ bản thân, lưu giữ bằng chứng khi an toàn và tìm kiếm sự hỗ trợ.",
+            "image": "images/hoc-lieu/phong-chong-quay-roi-infographic.png",
+            "video_file": "docs/hoc-lieu/phong-chong-quay-roi.mp4",
+            "content": "Tình huống: Một học sinh bị người khác bình phẩm về cơ thể, gửi tin nhắn có nội dung tình dục hoặc cố tình đụng chạm khiến mình khó chịu, lo sợ.\n\nNội dung học tập: Nhận diện hành vi quấy rối tình dục trực tiếp và trên mạng; tôn trọng ranh giới cá nhân; cách bảo vệ bản thân, lưu giữ bằng chứng khi an toàn và tìm kiếm sự hỗ trợ.\n\nTài liệu giáo dục pháp luật dành cho học sinh THCS và THPT. Đối chiếu quy định đến ngày 10/11/2026.\n\nGiúp người học nhận biết hành vi tình dục không được mong muốn hoặc chấp nhận, bảo vệ ranh giới cá nhân và tìm trợ giúp. Cần phân biệt quấy rối, dâm ô và các tội xâm hại tình dục; kết luận pháp lý phải dựa vào hành vi, độ tuổi, bối cảnh và chứng cứ.\n\n1 Nhận diện tình huống điển hình\n\nLời nói và tin nhắn mang tính tình dục\n\nLiên tục bình phẩm cơ thể, hỏi chuyện tình dục, gửi lời gạ gẫm hoặc nội dung nhạy cảm khiến người nhận bị xúc phạm, bị gây áp lực. Không phải mọi lời khen đều là quấy rối; cần xem nội dung, bối cảnh, quan hệ và thái độ của người nhận.\n\nTiếp xúc cơ thể không được chấp nhận\n\nCố ý sờ chạm vùng riêng tư, ép ôm hôn hoặc lợi dụng chỗ đông người để sàm sỡ. Người bị hại có thể sợ hãi, bất động hoặc không kịp phản ứng; không lấy việc không la hét để suy ra đồng ý.\n\nÉp đổi lợi ích lấy hành vi tình dục\n\nHứa điểm số, quà, cơ hội hoặc đe dọa gây khó khăn nếu không gửi ảnh, không gặp riêng. Cần báo ngay đầu mối an toàn; không yêu cầu học sinh tự đối chất với người có quyền lực.\n\nTrên môi trường số\n\nÉp gửi ảnh nhạy cảm, gọi video mang tính tình dục, phát tán ảnh để làm nhục hoặc đe dọa. Không chuyển tiếp nội dung xâm hại cho bạn bè; cung cấp thông tin tài khoản và đường dẫn cho đầu mối xử lý.\n\nỨng phó an toàn\n\nRời nơi nguy hiểm, tìm người lớn tin cậy, nói dừng lại nếu an toàn. Không buộc nạn nhân phải phản kháng mới hỗ trợ. Cần y tế thì đi khám sớm; đề nghị bảo toàn camera, tin nhắn, không vì thiếu chứng cứ mà trì hoãn báo tin.\n\n2 Cơ sở pháp lý\n\nCác quy định dưới đây được tóm lược để áp dụng vào tình huống. Việc xác định vi phạm, mức xử lý và trách nhiệm của từng người phải căn cứ độ tuổi, chứng cứ, lỗi và điều kiện của điều luật; không áp chung một mức xử lý cho mọi học sinh.\n\nĐiều 25, Điều 21 và Điều 27 Luật Trẻ em\n\nTrẻ em có quyền được bảo vệ khỏi xâm hại tình dục, bạo lực và việc xâm phạm đời tư. Khi tiếp nhận phản ánh phải bảo vệ danh tính, tránh yêu cầu kể đi kể lại hoặc công khai trước lớp. Trẻ em theo luật là người dưới 16 tuổi. [1]\n\nĐiểm d khoản 5 Điều 8 Nghị định 282/2025/NĐ-CP\n\nHành vi sàm sỡ, quấy rối tình dục có khung phạt 6 đến 8 triệu đồng đối với cá nhân trong trường hợp xử lý hành chính theo quy định. Không sử dụng mức phạt cũ của NĐ 144/2021 cho hành vi hiện hành này. Phải xem xét tuổi và các điều kiện áp dụng. [2]\n\nĐiều 146 Bộ luật Hình sự\n\nNgười đủ 18 tuổi có hành vi dâm ô đối với người dưới 16 tuổi, không nhằm mục đích giao cấu hoặc thực hiện hành vi quan hệ tình dục khác, có thể bị truy cứu khi đủ yếu tố. Không được giản lược mọi vụ việc thành phạt hành chính về quấy rối. [3]\n\nCác Điều 141 đến 145 Bộ luật Hình sự\n\nHiếp dâm, cưỡng dâm và các tội liên quan người dưới 16 tuổi có điều kiện pháp lý riêng. Đặc biệt, người dưới 13 tuổi được bảo vệ theo chế độ rất nghiêm ngặt; không lấy lời nói đồng ý hoặc quan hệ quen biết để tự loại trừ trách nhiệm. [3]\n\nĐiều 34, Điều 38, Điều 584 và Điều 592 Bộ luật Dân sự\n\nBảo vệ danh dự, nhân phẩm, đời tư; có thể yêu cầu chấm dứt, xin lỗi, cải chính và bồi thường khi đáp ứng điều kiện. Không để việc thỏa thuận riêng cản trở bảo vệ an toàn hoặc tiếp nhận tin báo. [4]\n\nKhoản 9 Điều 3 Bộ luật Lao động 2019 và Điều 84 đến 86 Nghị định 145/2020/NĐ-CP\n\nPháp luật lao động quy định quấy rối tại nơi làm việc, gồm dạng thể chất, lời nói, phi lời nói và trách nhiệm xử lý nội bộ. Chỉ áp dụng đúng phạm vi quan hệ lao động; không dùng định nghĩa chuyên ngành này như căn cứ duy nhất cho mọi tình huống giữa học sinh. [5] [10]\n\nKhoản 3 Điều 6 Nghị định 80/2017/NĐ-CP\n\nNhà trường phải can thiệp, trợ giúp và phối hợp khi có bạo lực, xâm hại người học; không chỉ chuyển nạn nhân sang lớp khác để kết thúc vụ việc. Không có tội danh chung mang tên quấy rối tình dục áp dụng tự động cho mọi hành vi; phải đối chiếu quy định cụ thể. [6][3]\n\n3 Cơ quan tiếp nhận và giải quyết\n\nCó thể liên hệ đầu mối gần nhất và an toàn nhất. Không phải lần lượt đi qua mọi nơi trong bảng; việc chăm sóc, bảo vệ và trình báo có thể thực hiện song song.\n\nNơi tiếp nhận hoặc giải quyết\n\nVai trò và căn cứ\n\nNgười lớn tin cậy và đầu mối bảo vệ học sinh\n\nTiếp nhận riêng tư, bảo đảm an toàn, hỗ trợ liên hệ cơ quan chức năng. Nếu người bị phản ánh là đầu mối trong trường, có thể báo trực tiếp bên ngoài.\n\nCăn cứ: Luật Trẻ em; Điều 6 NĐ 80.\n\nCông an xã phường hoặc công an gần nhất\n\nTiếp nhận trình báo, tố giác; ghi nhận và xác minh hoặc chuyển đúng cơ quan. Không cần tự xác định tội danh trước khi báo.\n\nCăn cứ: Điều 145, 146 BLTTHS.\n\nUBND cấp xã và người làm công tác bảo vệ trẻ em\n\nĐánh giá nguy cơ, phối hợp biện pháp hỗ trợ can thiệp, kết nối dịch vụ bảo vệ.\n\nCăn cứ: Luật Trẻ em, Chương IV.\n\nCơ sở y tế và dịch vụ tư vấn tâm lý\n\nChăm sóc, khám và ghi nhận tổn thương, hỗ trợ phục hồi theo chuyên môn; phối hợp giám định khi được yêu cầu đúng quy định.\n\nCăn cứ: Điều 6 NĐ 80; Luật Trẻ em.\n\nViện kiểm sát và Tòa án có thẩm quyền\n\nThực hiện chức năng tố tụng, xét xử và giải quyết yêu cầu bảo vệ quyền theo thẩm quyền.\n\nCăn cứ: BLTTHS; BLDS.\n\nTổng đài 111 và đơn vị sử dụng lao động khi có liên quan\n\n111 kết nối bảo vệ trẻ em. Nếu xảy ra tại nơi làm việc, đơn vị sử dụng lao động còn phải xử lý nội bộ theo quy định lao động.\n\nCăn cứ: Nguồn [8]; Điều 85, 86 NĐ 145.\n\nThông tin cần cung cấp khi phản ánh\n\nBáo người lớn an toàn, công an hoặc 111 khi vụ việc liên quan trẻ em; có thể bỏ qua người trong trường bị cho là có liên quan. Nêu ai làm gì, khi nào, ở đâu, còn tiếp cận nạn nhân không và cần bảo vệ gì. Giữ tin nhắn, đường dẫn, thông tin người chứng kiến; đề nghị cơ quan có trách nhiệm bảo toàn camera. Không yêu cầu nạn nhân gặp riêng người bị phản ánh hoặc đưa ảnh nhạy cảm lên nhóm để chứng minh. [7][8]\n\nTại TP.HCM: dùng đầu mối công an và UBND xã, phường nơi xảy ra vụ việc hoặc nơi gần nhất; nhà trường cập nhật tên, số liên hệ của cán bộ phụ trách. Người tiếp nhận thông tin không mặc nhiên là người có thẩm quyền ra quyết định xử phạt hoặc xét xử.\n\n4 Những hành vi thường bị hiểu nhầm\n\nMỗi nhận định dưới đây cần được kiểm tra bằng quy định cụ thể. Một hành vi bị cấm hoặc xâm phạm quyền không đồng nghĩa mọi trường hợp đều bị xử lý hình sự.\n\n1 Chỉ nói đùa chưa chạm vào người thì không vi phạm\n\nLời nói, tin nhắn hoặc hành vi phi lời nói có thể xâm phạm danh dự và có tính quấy rối tùy bối cảnh. Không cần có tiếp xúc cơ thể mới được phản ánh. Căn cứ: Điều 34 BLDS; Điều 8 NĐ 282; Điều 84 NĐ 145 khi tại nơi làm việc.\n\n2 Là người quen hoặc từng yêu nhau nên được ôm hôn\n\nQuen biết và sự đồng ý trong quá khứ không tạo quyền tiếp xúc bất kỳ lúc nào. Cần xem hành vi thực tế và giới hạn pháp luật bảo vệ người chưa thành niên. Căn cứ: Điều 25 Luật Trẻ em; Điều 8 NĐ 282; Điều 146 BLHS khi đủ yếu tố.\n\n3 Không chống cự tức là chấp nhận\n\nSợ hãi, bị đe dọa hoặc bất động không đồng nghĩa tự nguyện. Cơ quan xử lý cần xác minh hoàn cảnh, không chuyển gánh nặng tự bảo vệ sang nạn nhân.\n\n4 Bạn mặc như vậy nên phải chấp nhận bị trêu\n\nTrang phục không trao quyền xâm phạm thân thể, danh dự. Người thực hiện chịu trách nhiệm về hành vi của mình. Căn cứ: Điều 34 BLDS; Điều 25, 27 Luật Trẻ em.\n\n5 Người 18 tuổi và người 15 tuổi tự nguyện thì luôn hợp pháp\n\nNếu có hành vi thuộc Điều 145 BLHS, sự tự nguyện của người 15 tuổi không tự loại trừ trách nhiệm của người đủ 18 tuổi. Không được đánh đồng quan hệ tình cảm với quyền thực hiện mọi hành vi tình dục.\n\n6 Đưa ảnh nhạy cảm của nạn nhân lên mạng để cảnh báo là giúp đỡ\n\nCông khai có thể gây xâm hại lần nữa và vi phạm đời tư. Cần chuyển thông tin qua kênh phù hợp, bảo mật danh tính. Căn cứ: Điều 21 Luật Trẻ em; Điều 38 BLDS.\n\n5 Tình huống thực tế và thảo luận\n\nVụ việc đã được công bố\n\nNgày 21/4/2019, Trang Tiếng Chuông thông tin việc cơ quan điều tra tại TP.HCM khởi tố vụ án, khởi tố bị can liên quan hành vi dâm ô đối với bé gái trong thang máy chung cư, theo Điều 146 BLHS. Camera là nguồn thông tin quan trọng trong quá trình xác minh. Tên cơ quan trong bản tin là theo tổ chức năm 2019; khi báo vụ việc hiện nay có thể đến công an cấp xã hoặc công an gần nhất. Khởi tố là một giai đoạn tố tụng, không đồng nghĩa bản án có tội đã có hiệu lực. [9]\n\nBài học: Hành vi với trẻ em có thể cần xử lý theo quy định về xâm hại tình dục; không giản lược thành chuyện đùa hoặc buộc gia đình tự thỏa thuận.\n\nTình huống giả định để vận dụng\n\nH 15 tuổi học thêm tại một cơ sở ở TP.HCM. Một người hướng dẫn 24 tuổi thường nhắn bình phẩm cơ thể, yêu cầu H gửi ảnh riêng và nói sẽ gây khó trong lớp nếu H từ chối. Sau buổi học, người này cố ý sờ chạm vùng riêng tư của H. H sợ, không kêu và chỉ kể với bạn vào hôm sau.\n\nCâu 1: H im lặng có làm mất quyền phản ánh không?\n\nGợi ý xử lý: Không. Cần tiếp nhận, bảo đảm an toàn và chăm sóc; sự sợ hãi không chứng minh đồng ý. H có thể báo người lớn tin cậy, công an hoặc 111. [1][7][8]\n\nCâu 2: Có thể chỉ xử phạt hành chính về quấy rối không?\n\nGợi ý xử lý: Không được kết luận ngay. Cần xác minh hành vi sờ chạm, mục đích và tuổi; có dấu hiệu cần xem xét Điều 146 BLHS. Khi có dấu hiệu tội phạm phải xử lý theo thủ tục hình sự, không thay bằng hòa giải nội bộ. [2][3][7]\n\nCâu 3: Bạn của H nên hỗ trợ thế nào?\n\nGợi ý xử lý: Lắng nghe, không đổ lỗi; cùng H tìm người lớn an toàn; giữ tin nhắn và đề nghị bảo toàn camera. Không tự đối chất, đăng bài lộ danh tính hoặc yêu cầu H diễn lại hành vi. [1][6]\n\n6 Nguồn tra cứu\n\nCác số trong ngoặc vuông dẫn đến nguồn tương ứng dưới đây. Có thể bấm tên tài liệu để mở nguồn; cần đọc toàn văn điều khoản trước khi dùng để giải quyết một vụ việc cụ thể.\n\n[1] Luật Trẻ em 2016 đã được sửa đổi bổ sung, xem Văn bản hợp nhất 108/VBHN-VPQH năm 2025\n\n[2] Nghị định 282/2025/NĐ-CP về xử phạt vi phạm hành chính trong lĩnh vực an ninh trật tự\n\n[3] Bộ luật Hình sự 2015 đã được sửa đổi bổ sung, xem Văn bản hợp nhất 135/VBHN-VPQH năm 2025\n\n[4] Bộ luật Dân sự 2015 số 91/2015/QH13\n\n[5] Nghị định 145/2020/NĐ-CP, các Điều 84 đến 86 về quấy rối tình dục tại nơi làm việc\n\n[6] Nghị định 80/2017/NĐ-CP về môi trường giáo dục an toàn và phòng chống bạo lực học đường\n\n[7] Bộ luật Tố tụng hình sự 2015 đã được sửa đổi bổ sung, xem Văn bản hợp nhất 104/VBHN-VPQH năm 2025\n\n[8] Cơ quan chuyên môn thuộc Bộ Y tế giới thiệu kênh tiếp nhận bảo vệ trẻ em trên môi trường mạng, gồm Tổng đài 111\n\n[9] Trang Tiếng Chuông thuộc Cổng Thông tin điện tử Chính phủ, ngày 21/4/2019, Khởi tố Nguyễn Hữu Linh về hành vi dâm ô bé gái trong thang máy\n\n[10] Bộ luật Lao động 2019 số 45/2019/QH14, khoản 9 Điều 3 về quấy rối tình dục tại nơi làm việc\n\nGợi ý tổ chức buổi thảo luận 45 phút\n\nNhận diện tình huống 10 phút; tra cứu cơ sở pháp lý 10 phút; xử lý tình huống nhóm 15 phút; trình bày và phản hồi 10 phút. Không yêu cầu học sinh công khai trải nghiệm bị xâm hại của bản thân. Nếu phát sinh phản ánh thật, chuyển sang tiếp nhận riêng và hỗ trợ an toàn.\n\nCách sử dụng tình huống\n\nVụ việc thực tế được tóm tắt từ nguồn đã công bố, giữ kín thông tin nhận diện trẻ bị hại. Tình huống giả định là bài tập độc lập, không bổ sung dữ kiện vào vụ việc thật. Phần gợi ý là định hướng thảo luận, không thay kết luận của cơ quan có thẩm quyền.",
+            "situations": [
+                {
+                    "id": "phong-chong-quay-roi-1",
+                    "title": "Khi bị quấy rối tình dục hoặc chứng kiến bạn bị quấy rối, học sinh nên làm gì để bảo đảm an toàn và được hỗ trợ?",
+                    "question": "Tình huống: Một học sinh bị người khác bình phẩm về cơ thể, gửi tin nhắn có nội dung tình dục hoặc cố tình đụng chạm khiến mình khó chịu, lo sợ.\n\nKhi bị quấy rối tình dục hoặc chứng kiến bạn bị quấy rối, học sinh nên làm gì để bảo đảm an toàn và được hỗ trợ?",
+                    "image": "images/hoc-lieu/phong-chong-quay-roi-anh-1.jpg",
+                    "video": "",
+                    "choices": [
+                        {
+                            "text": "Im lặng vì sợ bị đổ lỗi hoặc bị bạn bè xa lánh.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là B. An toàn của bản thân là ưu tiên số một. Em có quyền nói “dừng lại”, rời đi và tìm người lớn tin cậy. Người chứng kiến cũng nên quan tâm bạn và báo cho người có trách nhiệm. Người bị quấy rối không có lỗi."
+                        },
+                        {
+                            "text": "Nói rõ “Dừng lại” nếu thấy an toàn, nhanh chóng rời đến nơi có người lớn, lưu bằng chứng khi an toàn và kể với người tin cậy hoặc gửi phản ánh.",
+                            "explanation": "Phù hợp nhất. An toàn của bản thân là ưu tiên số một. Em có quyền nói “dừng lại”, rời đi và tìm người lớn tin cậy. Người chứng kiến cũng nên quan tâm bạn và báo cho người có trách nhiệm. Người bị quấy rối không có lỗi."
+                        },
+                        {
+                            "text": "Đáp trả bằng cách trêu lại hoặc trả đũa người kia.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là B. An toàn của bản thân là ưu tiên số một. Em có quyền nói “dừng lại”, rời đi và tìm người lớn tin cậy. Người chứng kiến cũng nên quan tâm bạn và báo cho người có trách nhiệm. Người bị quấy rối không có lỗi."
+                        },
+                        {
+                            "text": "Coi đó là chuyện đùa và tự bảo mình đừng nhạy cảm.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là B. An toàn của bản thân là ưu tiên số một. Em có quyền nói “dừng lại”, rời đi và tìm người lớn tin cậy. Người chứng kiến cũng nên quan tâm bạn và báo cho người có trách nhiệm. Người bị quấy rối không có lỗi."
+                        }
+                    ],
+                    "best": 1,
+                    "status": "Đã công bố",
+                    "order": 1,
+                    "allow_retry": true
+                },
+                {
+                    "id": "phong-chong-quay-roi-2",
+                    "title": "Trường hợp nào sau đây là quấy rối tình dục?",
+                    "question": "Tình huống: Một học sinh bị người khác bình phẩm về cơ thể, gửi tin nhắn có nội dung tình dục hoặc cố tình đụng chạm khiến mình khó chịu, lo sợ.\n\nTrường hợp nào sau đây là quấy rối tình dục?",
+                    "image": "images/hoc-lieu/phong-chong-quay-roi-anh-2.jpg",
+                    "video": "",
+                    "choices": [
+                        {
+                            "text": "Một bạn nhắn hỏi bài tập về nhà.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Quấy rối tình dục là hành vi mang tính tình dục không được người kia mong muốn, có thể bằng lời nói, tin nhắn, hình ảnh hoặc đụng chạm. Quan trọng là cảm nhận và ranh giới của người bị hại, không phải lý do “chỉ đùa thôi”."
+                        },
+                        {
+                            "text": "Một bạn khen bức vẽ của bạn khác đẹp.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Quấy rối tình dục là hành vi mang tính tình dục không được người kia mong muốn, có thể bằng lời nói, tin nhắn, hình ảnh hoặc đụng chạm. Quan trọng là cảm nhận và ranh giới của người bị hại, không phải lý do “chỉ đùa thôi”."
+                        },
+                        {
+                            "text": "Một người liên tục bình phẩm cơ thể và gửi tin nhắn có nội dung tình dục dù bạn đã tỏ ra khó chịu.",
+                            "explanation": "Phù hợp nhất. Quấy rối tình dục là hành vi mang tính tình dục không được người kia mong muốn, có thể bằng lời nói, tin nhắn, hình ảnh hoặc đụng chạm. Quan trọng là cảm nhận và ranh giới của người bị hại, không phải lý do “chỉ đùa thôi”."
+                        },
+                        {
+                            "text": "Giáo viên nhắc học sinh mặc đúng đồng phục.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Quấy rối tình dục là hành vi mang tính tình dục không được người kia mong muốn, có thể bằng lời nói, tin nhắn, hình ảnh hoặc đụng chạm. Quan trọng là cảm nhận và ranh giới của người bị hại, không phải lý do “chỉ đùa thôi”."
+                        }
+                    ],
+                    "best": 2,
+                    "status": "Đã công bố",
+                    "order": 2,
+                    "allow_retry": true
+                },
+                {
+                    "id": "phong-chong-quay-roi-3",
+                    "title": "Khi nhận được tin nhắn hoặc hình ảnh nhạy cảm mà em không mong muốn từ một người trên mạng, cách xử lý nào là đúng?",
+                    "question": "Tình huống: Một học sinh bị người khác bình phẩm về cơ thể, gửi tin nhắn có nội dung tình dục hoặc cố tình đụng chạm khiến mình khó chịu, lo sợ.\n\nKhi nhận được tin nhắn hoặc hình ảnh nhạy cảm mà em không mong muốn từ một người trên mạng, cách xử lý nào là đúng?",
+                    "image": "images/hoc-lieu/phong-chong-quay-roi-anh-1.jpg",
+                    "video": "",
+                    "choices": [
+                        {
+                            "text": "Chuyển tiếp cho bạn bè xem cùng.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Bằng chứng giúp nhà trường và cơ quan chức năng xử lý. Không chuyển tiếp, không gửi ảnh của mình để tránh làm nội dung nhạy cảm lan rộng. Phản ánh về quấy rối sẽ được chuyển đến người phụ trách phù hợp và được bảo mật danh tính."
+                        },
+                        {
+                            "text": "Nhắn lại gửi hình ảnh của mình để “huề”.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Bằng chứng giúp nhà trường và cơ quan chức năng xử lý. Không chuyển tiếp, không gửi ảnh của mình để tránh làm nội dung nhạy cảm lan rộng. Phản ánh về quấy rối sẽ được chuyển đến người phụ trách phù hợp và được bảo mật danh tính."
+                        },
+                        {
+                            "text": "Chụp màn hình tin nhắn khi an toàn, không chuyển tiếp, chặn và báo cáo tài khoản, rồi kể với người lớn tin cậy hoặc gửi phản ánh trên website.",
+                            "explanation": "Phù hợp nhất. Bằng chứng giúp nhà trường và cơ quan chức năng xử lý. Không chuyển tiếp, không gửi ảnh của mình để tránh làm nội dung nhạy cảm lan rộng. Phản ánh về quấy rối sẽ được chuyển đến người phụ trách phù hợp và được bảo mật danh tính."
+                        },
+                        {
+                            "text": "Xóa ngay và không nói với ai.",
+                            "explanation": "Chưa phù hợp. Đáp án phù hợp nhất là C. Bằng chứng giúp nhà trường và cơ quan chức năng xử lý. Không chuyển tiếp, không gửi ảnh của mình để tránh làm nội dung nhạy cảm lan rộng. Phản ánh về quấy rối sẽ được chuyển đến người phụ trách phù hợp và được bảo mật danh tính."
+                        }
+                    ],
+                    "best": 2,
+                    "status": "Đã công bố",
+                    "order": 3,
+                    "allow_retry": true
+                }
+            ]
+        }
+    ],
+    "docs": [
+        {
+            "id": "d-bao-luc-hoc-duong-pdf",
+            "topic_id": "bao-luc-hoc-duong",
+            "name": "Tài liệu: Bạo lực học đường",
+            "format": "PDF",
+            "path": "docs/hoc-lieu/bao-luc-hoc-duong.pdf",
+            "link": "",
+            "status": "Đã công bố"
+        },
+        {
+            "id": "d-bao-luc-hoc-duong-video",
+            "topic_id": "bao-luc-hoc-duong",
+            "name": "Video: Bạo lực học đường",
+            "format": "Video",
+            "path": "docs/hoc-lieu/bao-luc-hoc-duong.mp4",
+            "link": "",
+            "status": "Đã công bố"
+        },
+        {
+            "id": "d-bao-luc-hoc-duong-infographic",
+            "topic_id": "bao-luc-hoc-duong",
+            "name": "Infographic: Bạo lực học đường",
+            "format": "Infographic",
+            "path": "images/hoc-lieu/bao-luc-hoc-duong-infographic.png",
+            "link": "",
+            "status": "Đã công bố"
+        },
+        {
+            "id": "d-thuoc-la-dien-tu-pdf",
+            "topic_id": "thuoc-la-dien-tu",
+            "name": "Tài liệu: Phòng tránh thuốc lá điện tử",
+            "format": "PDF",
+            "path": "docs/hoc-lieu/thuoc-la-dien-tu.pdf",
+            "link": "",
+            "status": "Đã công bố"
+        },
+        {
+            "id": "d-thuoc-la-dien-tu-video",
+            "topic_id": "thuoc-la-dien-tu",
+            "name": "Video: Phòng tránh thuốc lá điện tử",
+            "format": "Video",
+            "path": "docs/hoc-lieu/thuoc-la-dien-tu.mp4",
+            "link": "",
+            "status": "Đã công bố"
+        },
+        {
+            "id": "d-thuoc-la-dien-tu-infographic",
+            "topic_id": "thuoc-la-dien-tu",
+            "name": "Infographic: Phòng tránh thuốc lá điện tử",
+            "format": "Infographic",
+            "path": "images/hoc-lieu/thuoc-la-dien-tu-infographic.png",
+            "link": "",
+            "status": "Đã công bố"
+        },
+        {
+            "id": "d-an-toan-mang-xa-hoi-pdf",
+            "topic_id": "an-toan-mang-xa-hoi",
+            "name": "Tài liệu: An toàn trên mạng xã hội",
+            "format": "PDF",
+            "path": "docs/hoc-lieu/an-toan-mang-xa-hoi.pdf",
+            "link": "",
+            "status": "Đã công bố"
+        },
+        {
+            "id": "d-an-toan-mang-xa-hoi-video",
+            "topic_id": "an-toan-mang-xa-hoi",
+            "name": "Video: An toàn trên mạng xã hội",
+            "format": "Video",
+            "path": "docs/hoc-lieu/an-toan-mang-xa-hoi.mp4",
+            "link": "",
+            "status": "Đã công bố"
+        },
+        {
+            "id": "d-an-toan-mang-xa-hoi-infographic",
+            "topic_id": "an-toan-mang-xa-hoi",
+            "name": "Infographic: An toàn trên mạng xã hội",
+            "format": "Infographic",
+            "path": "images/hoc-lieu/an-toan-mang-xa-hoi-infographic.png",
+            "link": "",
+            "status": "Đã công bố"
+        },
+        {
+            "id": "d-phong-chong-tao-hon-pdf",
+            "topic_id": "phong-chong-tao-hon",
+            "name": "Tài liệu: Phòng, chống tảo hôn",
+            "format": "PDF",
+            "path": "docs/hoc-lieu/phong-chong-tao-hon.pdf",
+            "link": "",
+            "status": "Đã công bố"
+        },
+        {
+            "id": "d-phong-chong-tao-hon-video",
+            "topic_id": "phong-chong-tao-hon",
+            "name": "Video: Phòng, chống tảo hôn",
+            "format": "Video",
+            "path": "docs/hoc-lieu/phong-chong-tao-hon.mp4",
+            "link": "",
+            "status": "Đã công bố"
+        },
+        {
+            "id": "d-phong-chong-tao-hon-infographic",
+            "topic_id": "phong-chong-tao-hon",
+            "name": "Infographic: Phòng, chống tảo hôn",
+            "format": "Infographic",
+            "path": "images/hoc-lieu/phong-chong-tao-hon-infographic.png",
+            "link": "",
+            "status": "Đã công bố"
+        },
+        {
+            "id": "d-phong-chong-quay-roi-pdf",
+            "topic_id": "phong-chong-quay-roi",
+            "name": "Tài liệu: Phòng, chống quấy rối tình dục",
+            "format": "PDF",
+            "path": "docs/hoc-lieu/phong-chong-quay-roi.pdf",
+            "link": "",
+            "status": "Đã công bố"
+        },
+        {
+            "id": "d-phong-chong-quay-roi-video",
+            "topic_id": "phong-chong-quay-roi",
+            "name": "Video: Phòng, chống quấy rối tình dục",
+            "format": "Video",
+            "path": "docs/hoc-lieu/phong-chong-quay-roi.mp4",
+            "link": "",
+            "status": "Đã công bố"
+        },
+        {
+            "id": "d-phong-chong-quay-roi-infographic",
+            "topic_id": "phong-chong-quay-roi",
+            "name": "Infographic: Phòng, chống quấy rối tình dục",
+            "format": "Infographic",
+            "path": "images/hoc-lieu/phong-chong-quay-roi-infographic.png",
+            "link": "",
+            "status": "Đã công bố"
+        }
+    ],
+    "nguon_hoc_lieu": "Bộ câu hỏi trắc nghiệm – Nội dung học tập ban đầu (10/11/2026) và tài liệu thảo luận 5 chủ đề"
+}

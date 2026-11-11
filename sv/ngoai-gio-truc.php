@@ -11,8 +11,8 @@ mobile_start('Gửi phiếu', ['back' => url('sv/hoc.php')]);
 </div>
 <div class="panel panel--danger-bordered" style="border-radius:16px;padding:18px">
   <p class="t-h2 t-danger">Cần hỗ trợ ngay?</p>
-  <p>Đừng chờ đến giờ trực. Gọi số hỗ trợ khẩn cấp:</p>
-  <a href="<?= e(tel_href()) ?>" class="btn btn--danger btn--block">Gọi <?= e(hotline()) ?></a>
+  <p>Đừng chờ đến giờ trực. Không có người trực 24/7.</p>
+  <?= hotline_action() ?>
 </div>
 <p class="t-muted">Bạn vẫn có thể gửi phiếu bây giờ.</p>
 <a href="<?= e(url('sv/gui-phieu.php', ['buoc' => 1])) ?>" class="btn btn--block">Tiếp tục gửi phiếu</a>

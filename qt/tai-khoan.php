@@ -48,9 +48,10 @@ if (is_post()) {
         }
         if ($u['id'] === $me['id'] && $u['staff_role'] !== ROLE_ADMIN) $u['staff_role'] = ROLE_ADMIN; // không tự hạ quyền mình
         $u['can_reveal'] = $wantReveal;
+        $u['absent'] = !empty($_POST['absent']);
         $u['locked'] = !empty($_POST['locked']) && $u['id'] !== $me['id']; // không tự khóa mình
         user_save($u);
-        audit_log('Tài khoản', null, 'Cập nhật tài khoản cán bộ ' . $u['name'] . ($u['can_reveal'] ? ' (có quyền mở danh tính)' : ''), $me);
+        audit_log('Tài khoản', null, 'Cập nhật tài khoản cán bộ ' . $u['name'] . ($u['can_reveal'] ? ' (có quyền mở danh tính)' : '') . ($u['absent'] ? ' (đang vắng mặt)' : ''), $me);
         flash('Đã cập nhật ' . $u['name'] . '.');
         redirect('qt/tai-khoan.php');
     }
@@ -84,7 +85,7 @@ admin_start('Tài khoản', 'Tài khoản', 'Tài khoản cán bộ do quản tr
           <tbody>
           <?php foreach ($staff as $u): ?>
             <tr>
-              <td><?= e($u['name']) ?> · <?= e($u['email']) ?></td>
+              <td><?= !empty($u['staff_code']) ? '<span class="badge badge--muted">' . e($u['staff_code']) . '</span> ' : '' ?><?= e($u['name']) ?> · <?= e($u['email']) ?><?= !empty($u['absent']) ? ' <span class="badge badge--danger">Đang vắng</span>' : '' ?><?php if (!empty($u['source_email'])): ?><br><span class="t-small t-muted">Email nguồn: <?= e($u['source_email']) ?></span><?php endif; ?></td>
               <td><?= e($u['staff_role']) ?></td>
               <td><?= $u['can_reveal'] ? '<span class="badge badge--danger">Có</span>' : '<span class="badge badge--muted">Không</span>' ?></td>
               <td><?= $state($u['locked']) ?></td>
@@ -96,6 +97,7 @@ admin_start('Tài khoản', 'Tài khoản', 'Tài khoản cán bộ do quản tr
                     <p class="t-title"><?= e($u['name']) ?></p>
                     <?= field_select('role', 'Vai trò', STAFF_ROLES, $u['staff_role'], ['id' => 'role-' . $u['id']]) ?>
                     <label class="row gap-8 t-small"><input type="checkbox" name="reveal" value="1" class="checkbox" <?= $u['can_reveal'] ? 'checked' : '' ?>> Quyền mở danh tính</label>
+                    <label class="row gap-8 t-small"><input type="checkbox" name="absent" value="1" class="checkbox" <?= !empty($u['absent']) ? 'checked' : '' ?>> Đang vắng mặt (phiếu mới chuyển người dự phòng)</label>
                     <?php if ($u['id'] !== $me['id']): ?>
                       <label class="row gap-8 t-small"><input type="checkbox" name="locked" value="1" class="checkbox" <?= $u['locked'] ? 'checked' : '' ?>> Khóa tài khoản</label>
                     <?php endif; ?>

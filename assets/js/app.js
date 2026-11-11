@@ -10,12 +10,14 @@
     var errors = [];
     var files = Array.prototype.slice.call(input.files || []);
     if (input.dataset.maxFiles && files.length > left) {
-      errors.push('Chỉ được đính kèm thêm ' + Math.max(0, left) + ' tệp.');
+      errors.push('Mỗi phản ánh tối đa ' + input.dataset.maxFiles + ' tệp (còn được thêm ' + Math.max(0, left) + ').');
     }
     files.forEach(function (f) {
       var ext = (f.name.split('.').pop() || '').toLowerCase();
-      if (exts.length && exts.indexOf(ext) < 0) errors.push('"' + f.name + '": loại tệp không được phép (' + exts.join(', ').toUpperCase() + ').');
-      if (maxMb && f.size > maxMb * 1048576) errors.push('"' + f.name + '" vượt quá ' + maxMb + ' MB.');
+      if (exts.length && exts.indexOf(ext) < 0) errors.push('"' + f.name + '": Hệ thống chỉ nhận ' + exts.join(', ').toUpperCase() + '.');
+      else if (f.size === 0) errors.push('"' + f.name + '": Tệp rỗng.');
+      // 10 MB = 10.000.000 byte
+      else if (maxMb && f.size > maxMb * 1000000) errors.push('"' + f.name + '": Mỗi tệp tối đa ' + maxMb + ' MB, em vui lòng chọn tệp nhỏ hơn.');
     });
     var box = input.form && input.form.querySelector('[data-file-errors]');
     if (box) {

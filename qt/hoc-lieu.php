@@ -82,11 +82,12 @@ if (is_post()) {
     $docs = docs_all();
     if ($a === 'doc_add') {
         $name = post('name');
-        $format = in_array(post('format'), ['PDF', 'Hình ảnh', 'Liên kết video'], true) ? post('format') : 'PDF';
+        $format = in_array(post('format'), ['PDF', 'Hình ảnh', 'Video', 'Liên kết video'], true) ? post('format') : 'PDF';
         $link = post('link');
         $path = '';
         if ($f = files_list('file')[0] ?? null) {
-            $r = save_upload($f, 'docs', ['pdf', 'jpg', 'jpeg', 'png'], (int) config()['max_file_mb']);
+            // Học liệu (video bài giảng) cho phép lớn hơn tệp đính kèm phiếu
+            $r = save_upload($f, 'docs', ['pdf', 'jpg', 'jpeg', 'png', 'mp4'], LEARNING_MAX_MB);
             if (is_string($r)) { flash($r, 'error'); $back(post('topic_id')); }
             $path = $r['path'];
             $name = $name ?: $r['name'];
@@ -273,7 +274,7 @@ admin_start('Học liệu', 'Học liệu', 'Chủ đề, tình huống và tài
       <p class="t-h2">Tải lên tài liệu</p>
       <?= field_input('name', 'Tên tài liệu *', '', ['placeholder' => 'Nhập tên hiển thị']) ?>
       <?= field_select('topic_id', 'Chủ đề *', array_column($topics, 'name', 'id'), $active['id']) ?>
-      <?= field_select('format', 'Loại *', ['PDF', 'Hình ảnh', 'Liên kết video']) ?>
+      <?= field_select('format', 'Loại *', ['PDF', 'Hình ảnh', 'Video', 'Liên kết video']) ?>
       <?= dropzone('file', 'Kéo thả hoặc chọn tệp', 'PDF, JPG, PNG · tối đa ' . config()['max_file_mb'] . ' MB', ['accept' => '.pdf,.jpg,.jpeg,.png']) ?>
       <?= field_input('link', 'Hoặc liên kết video', '', ['type' => 'url', 'placeholder' => 'https://…']) ?>
       <div class="row gap-10">

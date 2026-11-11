@@ -73,6 +73,8 @@ $mime = (new finfo(FILEINFO_MIME_TYPE))->file($full) ?: 'application/octet-strea
 header('Content-Type: ' . $mime);
 header('Content-Length: ' . filesize($full));
 header('X-Content-Type-Options: nosniff');
-$inline = str_starts_with($mime, 'image/') || $mime === 'application/pdf';
+$inline = str_starts_with($mime, 'image/') || str_starts_with($mime, 'video/') || $mime === 'application/pdf';
+header('Accept-Ranges: none');
 header('Content-Disposition: ' . ($inline ? 'inline' : 'attachment') . '; filename*=UTF-8\'\'' . rawurlencode($downloadName ?? basename($full)));
+session_write_close(); // không giữ khóa session khi gửi tệp lớn (video)
 readfile($full);

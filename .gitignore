@@ -4,3 +4,9 @@ data/*.tmp
 data/uploads/
 # Bản React cũ, không dùng
 _old-react/node_modules/
+
+# Tài liệu nguồn của nhà trường (không đưa lên Git)
+Ho_so_Ket_noi_hoc_sinh*/
+*.zip
+*.xlsx
+Khởi nghiệp_*/

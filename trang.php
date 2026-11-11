@@ -51,7 +51,8 @@ $pages = [
             'Tài khoản vi phạm quy tắc có thể bị khóa.',
         ]],
         ['Khi khẩn cấp', [
-            'Nếu em hoặc ai đó đang gặp nguy hiểm, gọi ngay ' . hotline() . ', Tổng đài 111 hoặc 113 – không chờ phiếu được xử lý.',
+            DANGER_ADVICE,
+            'Số hỗ trợ trên website: ' . hotline_text() . '.',
         ]],
     ]],
     'an-danh' => ['Cơ chế ẩn danh', [
@@ -82,7 +83,8 @@ $pages = [
         ]],
         ['Ngoài giờ', [
             'Em vẫn gửi phiếu được; hệ thống ghi nhận và báo thời gian dự kiến xử lý.',
-            'Không có người trực 24/7. Khi cần hỗ trợ ngay, gọi ' . hotline() . ', Tổng đài 111 (miễn phí) hoặc 113.',
+            'Không có người trực 24/7. Số hỗ trợ: ' . hotline_text() . '.',
+            DANGER_ADVICE,
         ]],
     ]],
 ];

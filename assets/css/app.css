@@ -427,3 +427,9 @@ button.choice { font: inherit; }
 @media (max-width: 520px) { .auth-card { padding: 24px; } }
 .demo-box { background: #fff8e6; border: 1px dashed #e0b84c; border-radius: var(--r-lg); padding: 12px 14px; font-size: 13px; }
 .demo-box code { font-weight: 700; }
+
+/* Số hỗ trợ giả lập: không phải nút gọi (hồ sơ mục 3) */
+.hotline-off { border: 1px dashed var(--c-danger-border); background: var(--c-white); border-radius: var(--r-lg); padding: 12px 14px; font-size: 14px; display: flex; flex-direction: column; gap: 6px; }
+.lp-sos .hotline-off { flex: 1 1 320px; }
+.site-logo { height: 32px; width: auto; display: block; }
+.site-logo--lg { height: 44px; }

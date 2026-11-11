@@ -35,7 +35,7 @@ mobile_start('Đăng nhập', ['no_header' => true]);
   <button type="submit" class="btn btn--block">Đăng nhập</button>
   <a href="<?= e(url('sv/dang-ky.php')) ?>" class="link link--lg t-center d-block">Chưa có tài khoản? Đăng ký bằng mã tham gia</a>
   <?php if (SITE['is_demo']): ?>
-    <div class="demo-box">Tài khoản chạy thử: <code>E2400249.test@example.com</code> / <code><?= e(DEMO_PASSWORD) ?></code>. Đăng ký mới: mã <code>DEMO-0001</code> + email <code>demo1@example.com</code>.</div>
+    <div class="demo-box">Tài khoản chạy thử: <code>E2400249.test@example.com</code> (mật khẩu trong tài liệu nội bộ). Đăng ký mới: mã <code>DEMO-0001</code> + email <code>demo1@example.com</code>.</div>
   <?php endif; ?>
   <?= demo_notice() ?>
   <?= emergency_card() ?>

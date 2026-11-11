@@ -32,13 +32,13 @@ page_head('Đăng nhập trang quản trị');
     <div class="panel"><?= note('lock', 'Mọi thao tác phân loại, phân công, phản hồi và mở danh tính đều được ghi nhật ký.') ?></div>
     <?php if (SITE['is_demo']): /* Chỉ bản chạy thử – tắt is_demo trong includes/config.php khi dùng thật */ ?>
     <div class="demo-box">
-      Tài khoản chạy thử (mật khẩu <code><?= e(DEMO_PASSWORD) ?></code>):<br>
-      <code>admin@abc-trunghoc.edu.vn</code> – Nguyễn Minh Anh, quản trị chính, mở được danh tính<br>
-      <code>baotq@abc-trunghoc.edu.vn</code> – Phụ trách công tác học sinh<br>
-      <code>hatl@abc-trunghoc.edu.vn</code> – Tư vấn, hỗ trợ học sinh<br>
-      <code>namph@abc-trunghoc.edu.vn</code> – Hỗ trợ dự phòng<br>
-      <code>tungvt@abc-trunghoc.edu.vn</code> – Tiếp nhận độc lập, mở được danh tính<br>
-      <code>giaovien@abc-trunghoc.edu.vn</code> – Giáo viên quản lý học liệu
+      Tài khoản chạy thử (mật khẩu chỉ có trong tài liệu nội bộ, không hiển thị công khai):<br>
+      <code>admin@example.com</code> – NV01 Nguyễn Minh Anh, quản trị, mở được danh tính<br>
+      <code>baotq@example.com</code> – NV02 Trần Quốc Bảo, công tác học sinh<br>
+      <code>hatl@example.com</code> – NV03 Lê Thu Hà, tư vấn, hỗ trợ học sinh<br>
+      <code>namph@example.com</code> – NV04 Phạm Hoàng Nam, dự phòng<br>
+      <code>tungvt@example.com</code> – NV05 Võ Thanh Tùng, tiếp nhận độc lập, mở được danh tính<br>
+      <code>giaovien@example.com</code> – Giáo viên quản lý học liệu
     </div>
     <?php endif; ?>
     <?= demo_notice() ?>

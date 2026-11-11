@@ -243,15 +243,22 @@ const UPLOAD_MIMES = [
 function save_upload(array $file, string $folder, array $allowedExt, int $maxMb): array|string
 {
     if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
-        return 'Tải tệp không thành công.';
+        return in_array($file['error'] ?? 0, [UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE], true)
+            ? 'Mỗi tệp tối đa ' . $maxMb . ' MB, em vui lòng chọn tệp nhỏ hơn.'
+            : 'Tải tệp không thành công, em thử lại. Nội dung đã nhập vẫn được giữ.';
     }
     $name = basename((string) $file['name']);
     $ext  = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+    // Câu báo lỗi theo hồ sơ mục 5
     if (!in_array($ext, $allowedExt, true)) {
-        return 'Loại tệp ' . strtoupper($ext) . ' không được phép. Cho phép: ' . strtoupper(implode(', ', $allowedExt)) . '.';
+        return '"' . $name . '": Hệ thống chỉ nhận ' . strtoupper(implode(', ', $allowedExt)) . '.';
     }
-    if ($file['size'] > $maxMb * 1048576) {
-        return 'Tệp vượt quá ' . $maxMb . ' MB.';
+    if ((int) $file['size'] === 0) {
+        return '"' . $name . '": Tệp rỗng, em vui lòng chọn tệp khác.';
+    }
+    // 10 MB = 10.000.000 byte (hồ sơ mục 5): 10.000.000 byte được nhận, 10.000.001 byte bị từ chối
+    if ($file['size'] > $maxMb * 1000000) {
+        return '"' . $name . '": Mỗi tệp tối đa ' . $maxMb . ' MB, em vui lòng chọn tệp nhỏ hơn.';
     }
     // Kiểm tra MIME thực theo nội dung tệp, không tin vào đuôi tệp (CLAUDE.md mục 7)
     $mime = is_file((string) $file['tmp_name']) ? (string) (new finfo(FILEINFO_MIME_TYPE))->file($file['tmp_name']) : '';

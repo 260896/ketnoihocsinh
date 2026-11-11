@@ -109,9 +109,17 @@ function wordmark(string $variant = ''): string
         . '<span class="wordmark__a">' . e(SITE['name_first']) . '</span> <span class="wordmark__b">' . e(SITE['name_second']) . '</span></span>';
 }
 
+/** Logo do khách hàng cung cấp (Brief mục 5). Ảnh nền trắng – không dùng trên nền tối. */
+function site_logo(string $class = 'site-logo'): string
+{
+    return is_file(ROOT . '/assets/img/logo-schoolink.png')
+        ? '<img src="' . e(url('assets/img/logo-schoolink.png')) . '" alt="Logo Schoolink – ' . e(SITE['project_name']) . '" class="' . e($class) . '" width="132" height="44">'
+        : '';
+}
+
 function brand(bool $withSlogan = true): string
 {
-    return '<div class="brand stack gap-2">' . wordmark()
+    return '<div class="brand stack gap-2">' . site_logo('site-logo site-logo--lg') . wordmark()
         . ($withSlogan ? '<span class="brand__slogan">' . e(SITE['slogan']) . '</span>' : '') . '</div>';
 }
 
@@ -137,14 +145,39 @@ function session_switch_notice(string $want): string
 /** Dòng ghi chú bản chạy thử. */
 function demo_notice(): string
 {
-    return SITE['is_demo'] ? '<p class="demo-notice">Bản chạy thử – toàn bộ tên trường, nhân sự, email, số điện thoại và dữ liệu là giả lập.</p>' : '';
+    // Câu chân trang theo hồ sơ mục 6
+    return SITE['is_demo'] ? '<p class="demo-notice">Phiên bản chạy thử – toàn bộ dữ liệu là giả lập. Không dùng website thử nghiệm để gửi tình huống khẩn cấp có thật.</p>' : '';
+}
+
+/** Số hỗ trợ dạng chữ; bản chạy thử ghi rõ là số giả lập. */
+function hotline_text(): string
+{
+    return hotline() . (SITE['phone_click'] ? '' : ' (số giả lập, chưa hoạt động)');
+}
+
+/** Lời khuyên khi có nguy cơ tức thời (hồ sơ mục 3) – không bắt học sinh chờ website. */
+const DANGER_ADVICE = 'Nếu có nguy cơ tức thời, em hãy rời nơi nguy hiểm nếu có thể và tìm người lớn đáng tin cậy hoặc dịch vụ khẩn cấp chính thức (Công an 113, Tổng đài bảo vệ trẻ em 111); không chờ website phản hồi.';
+
+/**
+ * Nút gọi số hỗ trợ. Khi phone_click = false (số giả lập) KHÔNG tạo liên kết tel:, chỉ hiện số kèm chú thích
+ * và lời khuyên tìm hỗ trợ trực tiếp.
+ */
+function hotline_action(string $btnClass = 'btn btn--danger btn--block'): string
+{
+    if (SITE['phone_click']) {
+        return '<a href="' . e(tel_href()) . '" class="' . e($btnClass) . '">Gọi ' . e(hotline()) . '</a>';
+    }
+    return '<div class="hotline-off" role="note"><p><strong>Số hỗ trợ: ' . e(hotline()) . '</strong> – số giả lập của bản chạy thử, chưa phải kênh hỗ trợ đang hoạt động.</p>'
+        . '<p>' . e(DANGER_ADVICE) . '</p></div>';
 }
 
 function emergency_card(): string
 {
-    return '<a href="' . e(tel_href()) . '" class="sos"><span class="icon-circle" style="width:40px;height:40px;background:var(--c-danger)">'
+    $inner = '<span class="icon-circle" style="width:40px;height:40px;background:var(--c-danger)">'
         . icon('phone', 20, '#fff') . '</span><span class="stack gap-2"><span class="t-title t-danger">Cần hỗ trợ ngay?</span>'
-        . '<span class="t-small">Gọi ' . e(hotline()) . ' · Trực ' . e(duty_label()) . '</span></span></a>';
+        . '<span class="t-small">' . (SITE['phone_click'] ? 'Gọi ' . e(hotline()) . ' · Trực ' . e(duty_label())
+            : 'Rời nơi nguy hiểm, tìm người lớn đáng tin cậy hoặc gọi 113, 111. Số ' . e(hotline()) . ' chỉ là số giả lập.') . '</span></span>';
+    return SITE['phone_click'] ? '<a href="' . e(tel_href()) . '" class="sos">' . $inner . '</a>' : '<div class="sos" role="note">' . $inner . '</div>';
 }
 
 function status_badge(string $status): string

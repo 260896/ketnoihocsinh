@@ -33,10 +33,10 @@ if (is_post()) {
             $_SESSION[$key] = $pick;
             if (!$preview) {
                 $done = $me['progress'][$topic['id']] ?? [];
-                if (!in_array($s['id'], $done, true)) {
-                    $me['progress'][$topic['id']] = [...$done, $s['id']];
-                    user_save($me);
-                }
+                if (!in_array($s['id'], $done, true)) $me['progress'][$topic['id']] = [...$done, $s['id']];
+                // Ghi đúng/sai của lần chọn gần nhất để tính đạt (≥ 2/3) – không dùng để kết luận học sinh vi phạm
+                $me['answers'][$s['id']] = $pick === (int) $s['best'];
+                user_save($me);
             }
         }
     } elseif (post('action') === 'why' && !$preview && isset($_SESSION[$key]) && post('why') !== '') {
