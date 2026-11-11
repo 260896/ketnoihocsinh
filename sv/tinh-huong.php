@@ -7,7 +7,7 @@ $me = current_user();
 $preview = null;
 
 // Cán bộ xem trước một tình huống (kể cả bản nháp)
-if ($me && $me['role'] === 'staff' && get('xem-truoc') !== '') {
+if (can_manage_learning($me) && get('xem-truoc') !== '') {
     $found = situation_find(get('xem-truoc'));
     if (!$found) redirect('qt/hoc-lieu.php');
     [$topic, $s] = $found;
@@ -39,6 +39,14 @@ if (is_post()) {
                 }
             }
         }
+    } elseif (post('action') === 'why' && !$preview && isset($_SESSION[$key]) && post('why') !== '') {
+        // Câu trả lời mở "Vì sao em chọn" – chỉ giáo viên và chính học sinh xem
+        question_save([
+            'id' => new_id('w'), 'kind' => 'why', 'topic_id' => $topic['id'], 'situation_id' => $s['id'],
+            'user_id' => $me['id'], 'text' => mb_substr(post('why'), 0, 1000), 'choice' => letter((int) $_SESSION[$key]),
+            'created_at' => now_iso(), 'answer' => '', 'answered_by' => null, 'answered_at' => null, 'published' => false,
+        ]);
+        flash('Đã gửi cho thầy cô. Cảm ơn em đã chia sẻ.');
     } elseif (post('action') === 'reset' && ($s['allow_retry'] || $preview)) {
         unset($_SESSION[$key]);
     }
@@ -113,6 +121,26 @@ mobile_start($preview ? 'Xem trước' : 'Tình huống ' . ($i + 1) . '/' . $to
       </details>
     <?php endif; ?>
   </div>
+
+  <?php if (!$preview): $why = why_answer_of($me['id'], $s['id']); ?>
+    <div class="card" style="gap:8px">
+      <?php if ($why): ?>
+        <p class="t-small t-muted">Em đã chia sẻ (chọn <?= e($why['choice']) ?>):</p>
+        <p class="pre t-small"><?= e($why['text']) ?></p>
+        <?php if ($why['answer'] !== ''): ?>
+          <div class="panel panel--info" style="padding:10px 12px;border-radius:12px"><p class="t-small t-strong t-primary">Thầy cô phản hồi</p><p class="pre t-small"><?= e($why['answer']) ?></p></div>
+        <?php else: ?>
+          <p class="t-small t-muted">Thầy cô sẽ đọc và phản hồi.</p>
+        <?php endif; ?>
+      <?php else: ?>
+        <form method="post" class="stack gap-8">
+          <?= csrf_field() ?><input type="hidden" name="action" value="why">
+          <?= field_textarea('why', 'Vì sao em chọn như vậy? (không bắt buộc)', '', ['rows' => 2, 'maxlength' => 1000, 'placeholder' => 'Chỉ thầy cô phụ trách học liệu đọc được.']) ?>
+          <button type="submit" class="btn btn--outline btn--sm self-start">Gửi cho thầy cô</button>
+        </form>
+      <?php endif; ?>
+    </div>
+  <?php endif; ?>
 <?php endif; ?>
 
 <?php mobile_footer(); ?>

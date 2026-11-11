@@ -35,6 +35,7 @@ if (is_post()) {
 }
 
 $rowStyle = 'padding:14px 0;border-bottom:1px solid var(--c-border)';
+$badges = learning_badges($me);
 mobile_start('Tài khoản');
 ?>
 <div class="card">
@@ -42,6 +43,15 @@ mobile_start('Tài khoản');
     <span class="icon-circle" style="width:52px;height:52px;background:var(--c-primary)"><?= icon('user', 26, '#fff') ?></span>
     <span><span class="t-h2 d-block"><?= e($me['name']) ?></span><span class="t-small t-muted"><?= e($me['email']) ?></span></span>
   </div>
+</div>
+
+<div class="card" style="gap:10px">
+  <p class="t-h2">Huy hiệu học tập</p>
+  <?php foreach ($badges as $b): ?>
+    <div class="row gap-10"><span class="icon-circle" style="width:36px;height:36px;background:var(--c-primary-50)"><?= icon($b['icon'], 18, 'var(--c-primary)') ?></span><span class="t-small t-strong"><?= e($b['name']) ?></span></div>
+  <?php endforeach; ?>
+  <?php if (!$badges): ?><p class="t-small t-muted">Hoàn thành một chủ đề để nhận huy hiệu đầu tiên.</p><?php endif; ?>
+  <p class="t-small t-muted">Huy hiệu chỉ dành cho việc học, không liên quan đến việc gửi phản ánh.</p>
 </div>
 
 <div class="card" style="padding:4px 16px;gap:0">
@@ -63,8 +73,9 @@ mobile_start('Tài khoản');
     </form>
   </details>
   <div class="row gap-12" style="<?= $rowStyle ?>"><?= icon('mail', 20, 'var(--c-primary)') ?><span class="grow"><span class="t-title d-block">Email thông báo</span><span class="t-small t-muted">Chỉ báo “phiếu có cập nhật”</span></span></div>
-  <a href="<?= e(url('', [])) ?>#top" class="row gap-12" style="<?= $rowStyle ?>;text-decoration:none;color:var(--c-text)"><?= icon('file', 20, 'var(--c-primary)') ?><span class="t-title grow">Quy tắc sử dụng</span><?= icon('chevronRight', 18, 'var(--c-muted)') ?></a>
-  <a href="<?= e(url('', [])) ?>#an-danh" class="row gap-12" style="padding:14px 0;text-decoration:none;color:var(--c-text)"><?= icon('lock', 20, 'var(--c-primary)') ?><span class="t-title grow">Chính sách bảo mật</span><?= icon('chevronRight', 18, 'var(--c-muted)') ?></a>
+  <a href="<?= e(url('trang.php', ['p' => 'quy-tac'])) ?>" class="row gap-12" style="<?= $rowStyle ?>;text-decoration:none;color:var(--c-text)"><?= icon('file', 20, 'var(--c-primary)') ?><span class="t-title grow">Quy tắc sử dụng</span><?= icon('chevronRight', 18, 'var(--c-muted)') ?></a>
+  <a href="<?= e(url('trang.php', ['p' => 'chinh-sach'])) ?>" class="row gap-12" style="<?= $rowStyle ?>;text-decoration:none;color:var(--c-text)"><?= icon('lock', 20, 'var(--c-primary)') ?><span class="t-title grow">Chính sách bảo mật</span><?= icon('chevronRight', 18, 'var(--c-muted)') ?></a>
+  <a href="<?= e(url('trang.php', ['p' => 'an-danh'])) ?>" class="row gap-12" style="padding:14px 0;text-decoration:none;color:var(--c-text)"><?= icon('eyeOff', 20, 'var(--c-primary)') ?><span class="t-title grow">Cơ chế ẩn danh</span><?= icon('chevronRight', 18, 'var(--c-muted)') ?></a>
 </div>
 
 <form method="post" action="<?= e(url('dang-xuat.php')) ?>">

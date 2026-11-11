@@ -4,7 +4,7 @@ require __DIR__ . '/../includes/bootstrap.php';
 $me = require_student();
 
 $t = ticket_find(get('id'));
-if (!$t || $t['owner_id'] !== $me['id']) redirect('sv/phieu.php');
+if (!$t || !ticket_is_owned_by($t, $me)) redirect('sv/phieu.php');
 
 if (is_post()) {
     $text = post('msg');
@@ -22,9 +22,11 @@ if (is_post()) {
         $attach = count($t['attachments']) - 1;
     }
     if ($text !== '' || $attach !== null) {
-        $t['messages'][] = ['from' => 'student', 'author_id' => $me['id'], 'time' => now_iso(), 'text' => $text, 'attachment' => $attach];
-        $t['history'][] = ['time' => now_iso(), 'text' => 'Học sinh gửi tin nhắn'];
+        // Không ghi id tài khoản vào tin nhắn (liên kết người gửi lưu riêng)
+        $t['messages'][] = ['from' => 'student', 'time' => now_iso(), 'text' => $text, 'attachment' => $attach];
+        array_unshift($t['history'], ['time' => now_iso(), 'text' => 'Học sinh gửi tin nhắn']);
         ticket_save($t);
+        notify_staff($t['assignee'] ? [$t['assignee']] : routing_people(ISSUE_UNKNOWN), $t, 'Học sinh trả lời phiếu');
     }
     redirect_back();
 }
@@ -84,7 +86,8 @@ mobile_start('Phiếu #' . $t['code'], ['back' => url('sv/phieu.php')]);
     <div class="row gap-8">
       <label class="icon-btn" title="Đính kèm tệp" style="position:relative;overflow:hidden">
         <?= icon('paperclip', 20, 'var(--c-muted)') ?><span class="sr-only">Đính kèm tệp</span>
-        <input type="file" name="file" accept=".<?= e(implode(',.', config()['file_types'])) ?>" style="position:absolute;inset:0;opacity:0;cursor:pointer">
+        <?php $cf = config(); ?>
+        <input type="file" name="file" accept=".<?= e(implode(',.', $cf['file_types'])) ?>" data-exts="<?= e(implode(',', $cf['file_types'])) ?>" data-max-mb="<?= e($cf['max_file_mb']) ?>" data-max-files="<?= e($cf['max_files'] ?? 5) ?>" data-have="<?= count($t['attachments']) ?>" style="position:absolute;inset:0;opacity:0;cursor:pointer">
       </label>
       <label for="msg" class="sr-only">Nhập tin nhắn</label>
       <input id="msg" name="msg" placeholder="Nhập tin nhắn…" class="input grow" style="background:var(--c-bg)" autocomplete="off">

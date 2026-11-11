@@ -17,8 +17,9 @@ function page_head(string $title, array $css = []): void
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&amp;display=swap">
 <?php foreach ($css as $c): ?>
-<link rel="stylesheet" href="<?= e(url($c)) ?>?v=1">
+<link rel="stylesheet" href="<?= e(url($c)) ?>?v=2">
 <?php endforeach; ?>
+<script src="<?= e(url('assets/js/app.js')) ?>?v=1" defer></script>
 </head>
 <body>
 <?php
@@ -102,14 +103,27 @@ function step_progress(int $step, int $total = 5): string
 
 /* ================= Trang quản trị (cán bộ) ================= */
 
+/** [nhãn, đường dẫn, icon, quyền cần có – xem require_staff()] */
 const ADMIN_MENU = [
-    ['Phiếu phản ánh', 'qt/phieu.php', 'inbox', false],
-    ['Học liệu', 'qt/hoc-lieu.php', 'book', false],
-    ['Cấu hình đầu mối', 'qt/cau-hinh.php', 'settings', true],
-    ['Tài khoản', 'qt/tai-khoan.php', 'users', true],
-    ['Mã tham gia', 'qt/ma-tham-gia.php', 'key', true],
-    ['Nhật ký', 'qt/nhat-ky.php', 'history', false],
+    ['Phiếu phản ánh', 'qt/phieu.php', 'inbox', 'tickets'],
+    ['Học liệu', 'qt/hoc-lieu.php', 'book', 'learning'],
+    ['Hỏi đáp', 'qt/hoi-dap.php', 'messageLines', 'learning'],
+    ['Cấu hình đầu mối', 'qt/cau-hinh.php', 'settings', 'admin'],
+    ['Tài khoản', 'qt/tai-khoan.php', 'users', 'admin'],
+    ['Mã tham gia', 'qt/ma-tham-gia.php', 'key', 'admin'],
+    ['Nhật ký', 'qt/nhat-ky.php', 'history', 'audit'],
 ];
+
+function staff_can(?array $u, string $need): bool
+{
+    return match ($need) {
+        'admin'    => is_admin($u),
+        'tickets'  => can_handle_tickets($u),
+        'learning' => can_manage_learning($u),
+        'audit'    => can_view_audit($u),
+        default    => false,
+    };
+}
 
 function admin_start(string $section, string $title, string $subtitle = '', string $actions = ''): void
 {
@@ -126,8 +140,8 @@ function admin_start(string $section, string $title, string $subtitle = '', stri
         </div>
       </div>
       <div class="sidebar__nav">
-      <?php foreach (ADMIN_MENU as [$label, $href, $ic, $adminOnly]):
-          if ($adminOnly && !is_admin($me)) continue;
+      <?php foreach (ADMIN_MENU as [$label, $href, $ic, $need]):
+          if (!staff_can($me, $need)) continue;
           $on = $label === $section; ?>
         <a href="<?= e(url($href)) ?>" class="sidebar__link<?= $on ? ' active' : '' ?>"<?= $on ? ' aria-current="page"' : '' ?>><?= icon($ic, 20, '#fff') ?><span><?= e($label) ?></span></a>
       <?php endforeach; ?>

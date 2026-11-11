@@ -28,6 +28,8 @@ mobile_start('Học', ['header' => 'Xin chào, ' . $me['name']]);
   </a>
 <?php endforeach; ?>
 
+<a href="<?= e(url('sv/tai-lieu.php')) ?>" class="list-card list-card--row"><?= icon('search', 20, 'var(--c-primary)') ?><span class="grow"><span class="t-title d-block">Tài liệu &amp; tìm kiếm</span><span class="t-small t-muted">Tìm học liệu, xem tài liệu đã lưu</span></span><?= icon('chevronRight', 18, 'var(--c-muted)') ?></a>
+
 <?php if (!$topics): ?>
   <p class="t-muted t-center">Chưa có chủ đề nào được công bố.</p>
 <?php endif; ?>

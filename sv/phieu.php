@@ -4,7 +4,7 @@ require __DIR__ . '/../includes/bootstrap.php';
 $me = require_student();
 
 $q = mb_strtolower(ltrim(get('q'), '#'));
-$mine = array_filter(tickets_all(), fn ($t) => $t['owner_id'] === $me['id'] && ($q === '' || str_contains(mb_strtolower($t['code']), $q)));
+$mine = array_filter(tickets_of_user($me['id']), fn ($t) => $q === '' || str_contains(mb_strtolower($t['code']), $q));
 
 $note = function (array $t): array {
     $last = end($t['messages']);

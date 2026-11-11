@@ -16,6 +16,7 @@ function seed_data(string $name): array
         'audit'   => seed_audit(),
         'docs'    => [],
         'codes'   => seed_codes(),
+        'ticket_owners' => seed_ticket_owners(),
         default   => [],
     };
 }
@@ -27,6 +28,9 @@ const G_SOCIAL  = 'Các vấn đề trên mạng xã hội';
 const G_HARASS  = 'Quấy rối, xâm hại';
 const G_FEEDBACK = 'Góp ý về hoạt động và môi trường học đường';
 const G_STAFF   = 'Phản ánh liên quan trực tiếp đến người đang xử lý';
+// Có trong Brief nhưng nhà trường CHƯA giao đầu mối → phiếu vào hàng chờ phân loại (CLAUDE.md 11.2)
+const G_TEACHING = 'Chất lượng giảng dạy, đào tạo';
+const G_FACILITY = 'Cơ sở vật chất';
 
 /* Mã cán bộ */
 const U_ADMIN = 'u_admin';   // Nguyễn Minh Anh – quản trị chính
@@ -34,6 +38,7 @@ const U_BAO   = 'u_bao';     // Trần Quốc Bảo – công tác học sinh
 const U_HA    = 'u_ha';      // Lê Thu Hà – tư vấn, hỗ trợ học sinh
 const U_NAM   = 'u_nam';     // Phạm Hoàng Nam – hỗ trợ dự phòng
 const U_TUNG  = 'u_tung';    // Võ Thanh Tùng – tiếp nhận độc lập
+const U_GV    = 'u_gv';      // Giáo viên quản lý học liệu (chạy thử – tài liệu gốc chưa nêu tên)
 const U_HS    = 'u_hs1';     // Học sinh chạy thử E2400249
 
 function seed_config(): array
@@ -45,11 +50,12 @@ function seed_config(): array
         'urgent_ack_minutes' => 15,
         'first_reply_days'   => 2,      // ngày làm việc
         'fallback'           => true,
+        'mail_enabled'       => false,  // bật khi máy chủ đã cấu hình gửi thư; khi tắt thư chỉ lưu ở hộp thư đi
         'hotline'            => '1900 0000',
         'file_types'         => ['pdf', 'jpg', 'jpeg', 'png', 'mp4'],
         'max_file_mb'        => 10,
         'max_files'          => 5,      // mỗi phản ánh
-        'groups'             => [G_BULLY, G_VAPE, G_SOCIAL, G_HARASS, G_FEEDBACK, G_STAFF],
+        'groups'             => [G_BULLY, G_VAPE, G_SOCIAL, G_HARASS, G_FEEDBACK, G_TEACHING, G_FACILITY, G_STAFF],
         // primary = người phụ trách, backup = người hỗ trợ khi vắng mặt/quá hạn,
         // independent = người tiếp nhận độc lập (khi phản ánh liên quan đến chính người phụ trách)
         'routing'            => [
@@ -58,15 +64,37 @@ function seed_config(): array
             G_SOCIAL      => ['primary' => U_HA,   'backup' => U_NAM,   'independent' => U_TUNG],
             G_HARASS      => ['primary' => U_HA,   'backup' => U_TUNG,  'independent' => U_TUNG],
             G_FEEDBACK    => ['primary' => U_BAO,  'backup' => U_NAM,   'independent' => U_TUNG],
-            G_STAFF       => ['primary' => U_TUNG, 'backup' => U_ADMIN, 'independent' => U_TUNG],
+            G_TEACHING    => ['primary' => '',     'backup' => U_NAM,   'independent' => U_TUNG],
+            G_FACILITY    => ['primary' => '',     'backup' => U_NAM,   'independent' => U_TUNG],
+            G_STAFF      => ['primary' => U_TUNG, 'backup' => U_ADMIN, 'independent' => U_TUNG],
             ISSUE_UNKNOWN => ['primary' => '',     'backup' => U_NAM,   'independent' => U_TUNG],
         ],
         'templates' => [
             ['id' => 't1', 'name' => 'Đã tiếp nhận – đang xác minh', 'body' => 'Thầy/cô đã tiếp nhận phản ánh của em và đang xác minh thông tin. Thầy/cô sẽ phản hồi em sớm nhất có thể.'],
             ['id' => 't2', 'name' => 'Đề nghị bổ sung thông tin', 'body' => 'Để hỗ trợ em tốt hơn, em vui lòng bổ sung thêm thời gian, địa điểm và những người liên quan (nếu có). Danh tính của em vẫn được bảo mật.'],
             ['id' => 't3', 'name' => 'Hướng dẫn liên hệ hỗ trợ trực tiếp', 'body' => 'Em có thể gặp trực tiếp cán bộ tư vấn tại phòng tư vấn học đường trong giờ hành chính (08:00–17:00, thứ Hai đến thứ Sáu). Nếu gặp nguy hiểm, em hãy gọi ngay số hỗ trợ 1900 0000.'],
-        ],
+        ] + seed_group_templates(),
     ];
+}
+
+/** BẢN NHÁP mẫu trả lời theo từng nhóm – PM / nhà trường duyệt lại câu chữ (task #29). */
+function seed_group_templates(): array
+{
+    $list = [
+        [G_BULLY, 'Bắt nạt – đã tiếp nhận, hướng dẫn giữ an toàn', 'Cảm ơn em đã lên tiếng. Thầy/cô đã tiếp nhận và sẽ xác minh sự việc. Trong lúc chờ, em hãy tránh ở một mình với người có hành vi bắt nạt, lưu lại bằng chứng (ảnh chụp, thời gian, địa điểm) và báo ngay nếu sự việc lặp lại.'],
+        [G_VAPE, 'Thuốc lá điện tử – đã tiếp nhận', 'Cảm ơn em đã phản ánh. Nhà trường sẽ kiểm tra khu vực em nêu. Em không cần tự can thiệp hay thu giữ sản phẩm. Nếu em hoặc bạn đang muốn bỏ, thầy/cô tư vấn có thể hỗ trợ riêng.'],
+        [G_SOCIAL, 'Mạng xã hội – hướng dẫn lưu bằng chứng', 'Thầy/cô đã nhận phản ánh. Em hãy chụp màn hình nội dung (có tên tài khoản và thời gian), không chia sẻ lại, chặn và báo cáo tài khoản trên nền tảng. Nếu đã lỡ cung cấp mật khẩu hay mã OTP, em đổi mật khẩu ngay.'],
+        [G_HARASS, 'Quấy rối – ưu tiên an toàn', 'Thầy/cô đã nhận phản ánh của em. An toàn của em là ưu tiên số một. Nếu em đang gặp nguy hiểm, hãy gọi 113 hoặc Tổng đài 111. Em có thể gặp riêng cán bộ tư vấn; em không có lỗi trong chuyện này.'],
+        [G_FEEDBACK, 'Góp ý – cảm ơn và kế hoạch', 'Cảm ơn góp ý của em. Nhà trường sẽ xem xét và đưa vào kế hoạch phù hợp. Thầy/cô sẽ cập nhật cho em khi có kết quả.'],
+        [G_TEACHING, 'Giảng dạy – đã chuyển bộ phận chuyên môn', 'Cảm ơn em đã góp ý về việc giảng dạy. Ý kiến được chuyển tới bộ phận chuyên môn để xem xét, không nêu danh tính của em.'],
+        [G_FACILITY, 'Cơ sở vật chất – đã ghi nhận', 'Cảm ơn em đã báo. Nhà trường đã ghi nhận vị trí và tình trạng em nêu để kiểm tra, sửa chữa.'],
+        [G_STAFF, 'Liên quan cán bộ – tiếp nhận độc lập', 'Phản ánh của em được người tiếp nhận độc lập xử lý, không chuyển cho người bị phản ánh. Thầy/cô có thể cần thêm thông tin; danh tính của em chỉ người được chỉ định mới xem được.'],
+    ];
+    $out = [];
+    foreach ($list as $i => [$g, $name, $body]) {
+        $out[3 + $i] = ['id' => 'tg' . ($i + 1), 'name' => $name, 'body' => $body, 'group' => $g];
+    }
+    return $out;
 }
 
 /**
@@ -176,11 +204,12 @@ function seed_users(): array
     ];
     return [
         // Chỉ quản trị chính và người tiếp nhận độc lập được xem thông tin định danh.
-        $staff(U_ADMIN, 'Admin', 'admin@abc-trung học.edu.vn', 'Quản trị viên', true),
-        $staff(U_BAO, 'Trần Quốc Bảo', 'baotq@abc-trung học.edu.vn', 'Xử lý phiếu', false),
-        $staff(U_HA, 'Lê Thu Hà', 'hatl@abc-trung học.edu.vn', 'Xử lý phiếu', false),
-        $staff(U_NAM, 'Phạm Hoàng Nam', 'namph@abc-trung học.edu.vn', 'Xử lý phiếu', false),
-        $staff(U_TUNG, 'Võ Thanh Tùng', 'tungvt@abc-trung học.edu.vn', 'Xử lý phiếu', true),
+        $staff(U_ADMIN, 'Nguyễn Minh Anh', 'admin@abc-trunghoc.edu.vn', ROLE_ADMIN, true),
+        $staff(U_BAO, 'Trần Quốc Bảo', 'baotq@abc-trunghoc.edu.vn', ROLE_HANDLER, false),
+        $staff(U_HA, 'Lê Thu Hà', 'hatl@abc-trunghoc.edu.vn', ROLE_HANDLER, false),
+        $staff(U_NAM, 'Phạm Hoàng Nam', 'namph@abc-trunghoc.edu.vn', ROLE_HANDLER, false),
+        $staff(U_TUNG, 'Võ Thanh Tùng', 'tungvt@abc-trunghoc.edu.vn', ROLE_HANDLER, true),
+        $staff(U_GV, 'Giáo viên chạy thử', 'giaovien@abc-trunghoc.edu.vn', ROLE_TEACHER, false),
         [
             'id' => U_HS, 'role' => 'student', 'name' => 'E2400249', 'email' => 'E2400249.test@example.com',
             'password' => $pw, 'locked' => false, 'verified' => true,
@@ -206,17 +235,18 @@ function seed_tickets(): array
     $ack = fn (string $t, bool $urgent = false) => [
         'from' => 'system', 'author_id' => null, 'time' => $t,
         'text' => $urgent
-            ? 'Hệ thống đã tiếp nhận phản ánh khẩn của em và báo cho cán bộ trực. Đây chưa phải phản hồi của cán bộ.'
-            : 'Hệ thống đã tiếp nhận phản ánh. Đây chưa phải phản hồi của cán bộ.',
+            ? 'Tin nhắn tự động: hệ thống đã tiếp nhận phản ánh khẩn của em và báo cho cán bộ trực. Đây chưa phải phản hồi của cán bộ.'
+            : 'Tin nhắn tự động: hệ thống đã tiếp nhận phản ánh. Đây chưa phải phản hồi của cán bộ.',
     ];
     $base = fn (array $o) => $o + [
-        'owner_id' => U_HS, 'urgent' => false, 'anonymous' => true, 'status' => 'Đã tiếp nhận', 'priority' => 'Thường',
+        'urgent' => false, 'anonymous' => true, 'status' => 'Đã tiếp nhận', 'priority' => PRIORITY_LATER,
+        'acknowledged_at' => null, 'escalated_at' => null, 'reminded_at' => null,
         'occurred_at' => '', 'location' => '', 'attachments' => [], 'history' => [], 'has_update' => false, 'revealed_to' => [],
     ];
 
     return [
         $base([
-            'code' => 'KN-2026-0001', 'type' => 'Đề nghị hỗ trợ', 'group' => G_BULLY, 'status' => 'Cần bổ sung', 'priority' => 'Cao',
+            'code' => 'KN-2026-0001', 'type' => 'Đề nghị hỗ trợ', 'group' => G_BULLY, 'status' => 'Cần bổ sung', 'priority' => PRIORITY_NOW,
             'created_at' => $ago('-1 day'), 'deadline' => $ago('+1 day'), 'assignee' => U_BAO, 'has_update' => true,
             'description' => 'Bạn em trong lớp bị một nhóm bạn đặt biệt danh, chế giễu và lập nhóm chat riêng để nói xấu. Bạn ấy rất buồn và không muốn đi học.',
             'location' => 'Lớp học và nhóm chat của lớp', 'occurred_at' => $ago('-3 days'),
@@ -254,7 +284,60 @@ function seed_tickets(): array
             'messages' => [$ack($ago('-2 hours'))],
             'history' => [['time' => $ago('-2 hours'), 'text' => 'Phiếu vào hàng chờ phân loại']],
         ]),
+        ...seed_tickets_extra(),
     ];
+}
+
+/** Phiếu mẫu bổ sung để mỗi nhóm đầu mối có ít nhất 1 phiếu thử (task #35). */
+function seed_tickets_extra(): array
+{
+    $ago = fn (string $rel) => date('c', strtotime($rel));
+    $ack = fn (string $t, bool $urgent = false) => [
+        'from' => 'system', 'author_id' => null, 'time' => $t,
+        'text' => $urgent
+            ? 'Tin nhắn tự động: hệ thống đã tiếp nhận phản ánh khẩn của em và báo cho cán bộ phụ trách. Đây chưa phải phản hồi của cán bộ.'
+            : 'Tin nhắn tự động: hệ thống đã tiếp nhận phản ánh. Đây chưa phải phản hồi của cán bộ.',
+    ];
+    $base = fn (array $o) => $o + [
+        'urgent' => false, 'anonymous' => true, 'status' => 'Đã tiếp nhận', 'priority' => PRIORITY_LATER,
+        'acknowledged_at' => null, 'escalated_at' => null, 'reminded_at' => null,
+        'occurred_at' => '', 'location' => '', 'attachments' => [], 'history' => [], 'has_update' => false, 'revealed_to' => [],
+    ];
+    return [
+        $base([
+            'code' => 'KN-2026-0005', 'type' => 'Phản ánh', 'group' => G_SOCIAL, 'status' => 'Đang xem xét',
+            'created_at' => $ago('-2 days'), 'deadline' => $ago('+1 day'), 'assignee' => U_HA,
+            'description' => 'Có tài khoản lạ lập nhóm chat lấy tên lớp em, gửi đường link nhận quà và đòi mã OTP.',
+            'location' => 'Nhóm chat trên mạng xã hội',
+            'messages' => [$ack($ago('-2 days'))],
+            'history' => [['time' => $ago('-2 days'), 'text' => 'Hệ thống chuyển đến đầu mối Lê Thu Hà']],
+        ]),
+        $base([
+            'code' => 'KN-2026-0006', 'type' => 'Đề nghị hỗ trợ', 'group' => G_HARASS, 'urgent' => true, 'priority' => PRIORITY_NOW,
+            'created_at' => $ago('-5 hours'), 'deadline' => $ago('+19 hours'), 'assignee' => U_HA, 'acknowledged_at' => $ago('-5 hours +8 minutes'),
+            'description' => 'Em liên tục nhận tin nhắn có nội dung khiếm nhã từ một tài khoản không rõ danh tính, em thấy sợ.',
+            'messages' => [$ack($ago('-5 hours'), true)],
+            'history' => [
+                ['time' => $ago('-5 hours +8 minutes'), 'text' => 'Lê Thu Hà xác nhận đã nhận phiếu'],
+                ['time' => $ago('-5 hours'), 'text' => 'Hệ thống chuyển đến đầu mối Lê Thu Hà'],
+            ],
+        ]),
+        $base([
+            'code' => 'KN-2026-0007', 'type' => 'Phản ánh', 'group' => G_STAFF,
+            'created_at' => $ago('-1 day'), 'deadline' => $ago('+1 day'), 'assignee' => U_TUNG,
+            'description' => 'Phản ánh về cách một cán bộ phụ trách xử lý phiếu trước đây của em chưa khách quan.',
+            'messages' => [$ack($ago('-1 day'))],
+            'history' => [['time' => $ago('-1 day'), 'text' => 'Hệ thống chuyển đến đầu mối Võ Thanh Tùng (tiếp nhận độc lập)']],
+        ]),
+    ];
+}
+
+/** Liên kết phiếu ↔ tài khoản, lưu tách khỏi nội dung phiếu. */
+function seed_ticket_owners(): array
+{
+    $out = [];
+    foreach (seed_tickets() as $t) $out[$t['code']] = U_HS;
+    return $out;
 }
 
 function seed_audit(): array

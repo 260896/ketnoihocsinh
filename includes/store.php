@@ -356,9 +356,50 @@ function join_code_delete(string $code): bool
 }
 
 /* ======================= Phiếu ======================= */
+/*
+ * TÁCH DỮ LIỆU (CLAUDE.md 4.1):
+ *  - data/tickets.json       nội dung phiếu – KHÔNG chứa id tài khoản người gửi.
+ *  - data/ticket_owners.json liên kết mã phiếu → id tài khoản, chỉ đọc qua ticket_owner_id().
+ * Màn hình cán bộ chỉ tra liên kết này khi phiếu có danh tính hoặc người xem đã mở danh tính.
+ */
+
+/** Chuyển dữ liệu kiểu cũ (owner_id nằm trong phiếu, ưu tiên 3 mức) sang kiểu mới. Chạy 1 lần. */
+function tickets_upgrade(): void
+{
+    static $done = false;
+    if ($done) return;
+    $done = true;
+    $all = load('tickets');
+    $owners = load('ticket_owners');
+    $changed = false;
+    foreach ($all as &$t) {
+        if (array_key_exists('owner_id', $t)) {
+            if ($t['owner_id']) $owners[$t['code']] = $t['owner_id'];
+            unset($t['owner_id']);
+            $changed = true;
+        }
+        foreach ($t['messages'] as &$m) {
+            if (($m['from'] ?? '') === 'student' && array_key_exists('author_id', $m)) {
+                unset($m['author_id']);
+                $changed = true;
+            }
+        }
+        unset($m);
+        if (!in_array($t['priority'], PRIORITIES, true)) {
+            $t['priority'] = in_array($t['priority'], ['Khẩn', 'Cao'], true) || !empty($t['urgent']) ? PRIORITY_NOW : PRIORITY_LATER;
+            $changed = true;
+        }
+    }
+    unset($t);
+    if ($changed) {
+        save('ticket_owners', $owners);
+        save('tickets', $all);
+    }
+}
 
 function tickets_all(): array
 {
+    tickets_upgrade();
     $t = load('tickets');
     usort($t, fn ($a, $b) => strcmp($b['created_at'], $a['created_at']));
     return $t;
@@ -366,6 +407,7 @@ function tickets_all(): array
 
 function ticket_find(string $code): ?array
 {
+    tickets_upgrade();
     foreach (load('tickets') as $t) {
         if ($t['code'] === $code) return $t;
     }
@@ -374,6 +416,7 @@ function ticket_find(string $code): ?array
 
 function ticket_save(array $ticket): void
 {
+    unset($ticket['owner_id']); // không bao giờ ghi id người gửi vào phiếu
     $all = load('tickets');
     $found = false;
     foreach ($all as &$t) {
@@ -385,6 +428,25 @@ function ticket_save(array $ticket): void
     unset($t);
     if (!$found) $all[] = $ticket;
     save('tickets', $all);
+}
+
+/** Id tài khoản đã gửi phiếu (null nếu không có). */
+function ticket_owner_id(string $code): ?string
+{
+    tickets_upgrade();
+    return load('ticket_owners')[$code] ?? null;
+}
+
+function ticket_is_owned_by(array $t, array $user): bool
+{
+    return ticket_owner_id($t['code']) === $user['id'];
+}
+
+/** Phiếu của một học sinh, mới nhất trước. */
+function tickets_of_user(string $userId): array
+{
+    $codes = array_keys(array_filter(load('ticket_owners'), fn ($uid) => $uid === $userId));
+    return array_values(array_filter(tickets_all(), fn ($t) => in_array($t['code'], $codes, true)));
 }
 
 /** Mã phiếu dạng KN-<năm>-<số thứ tự 4 chữ số>, đánh số lại từ 0001 mỗi năm. */
@@ -402,34 +464,38 @@ function next_ticket_code(): string
 
 /**
  * Tạo phiếu từ bản nháp của học sinh. Tự chuyển tới đầu mối theo bảng cấu hình;
- * nhóm "Chưa rõ" vào hàng chờ phân loại. Phiếu khẩn có hạn xác nhận ngắn.
+ * nhóm chưa có đầu mối hoặc "Chưa rõ" vào hàng chờ phân loại. Phiếu khẩn có hạn xác nhận ngắn.
  */
 function ticket_create(array $owner, array $draft): array
 {
+    tickets_upgrade();
     $cfg = config();
     $urgent = $draft['urgent'] === '1';
     $anonymous = $draft['anonymous'] !== '0';
     $route = $cfg['routing'][$draft['group']] ?? ['primary' => ''];
-    $assignee = $route['primary'] ?: null;
+    $assignee = ($route['primary'] ?? '') ?: null;
     // Khẩn: xác nhận trong N phút. Thường: phản hồi lần đầu trong N ngày làm việc,
     // tính từ lúc bộ phận bắt đầu làm việc (nếu gửi ngoài giờ).
     $deadline = $urgent
         ? date('c', time() + (int) $cfg['urgent_ack_minutes'] * 60)
         : date('c', add_working_days(next_duty_start(), (int) ($cfg['first_reply_days'] ?? 2)));
     $now = now_iso();
+    $code = next_ticket_code();
 
     $ticket = [
-        'code'        => next_ticket_code(),
-        'owner_id'    => $owner['id'],
+        'code'        => $code,
         'type'        => $draft['type'],
         'group'       => $draft['group'],
         'urgent'      => $urgent,
         'anonymous'   => $anonymous,
         'status'      => 'Đã tiếp nhận',
-        'priority'    => $urgent ? 'Khẩn' : 'Thường',
+        'priority'    => $urgent ? PRIORITY_NOW : PRIORITY_LATER,
         'created_at'  => $now,
         'deadline'    => $deadline,
         'assignee'    => $assignee,
+        'acknowledged_at' => null,
+        'escalated_at'    => null,
+        'reminded_at'     => null,
         'description' => $draft['description'],
         'occurred_at' => $draft['occurred_at'] ? date('c', (int) strtotime($draft['occurred_at'])) : '',
         'location'    => $draft['location'],
@@ -437,19 +503,40 @@ function ticket_create(array $owner, array $draft): array
         'messages'    => [[
             'from' => 'system', 'author_id' => null, 'time' => $now,
             'text' => $urgent
-                ? 'Hệ thống đã tiếp nhận phản ánh khẩn của em và báo cho cán bộ trực. Đây chưa phải phản hồi của cán bộ.'
-                : 'Hệ thống đã tiếp nhận phản ánh. Đây chưa phải phản hồi của cán bộ.'
+                ? 'Tin nhắn tự động: hệ thống đã tiếp nhận phản ánh khẩn của em và báo cho cán bộ phụ trách. Đây chưa phải phản hồi của cán bộ.'
+                : 'Tin nhắn tự động: hệ thống đã tiếp nhận phản ánh. Đây chưa phải phản hồi của cán bộ.'
                   . (is_out_of_hours() ? ' Phản ánh được gửi ngoài giờ làm việc, dự kiến được xử lý từ ' . expected_processing_label() . '.' : ''),
         ]],
         'history'     => [
             ['time' => $now, 'text' => $assignee ? 'Hệ thống chuyển đến đầu mối ' . staff_name($assignee) : 'Phiếu vào hàng chờ phân loại'],
-            ['time' => $now, 'text' => 'Phiếu được tạo' . ($anonymous ? ' (ẩn danh' . ($urgent ? ', khẩn' : '') . ')' : ($urgent ? ' (khẩn)' : ''))],
+            ['time' => $now, 'text' => 'Phiếu được tạo' . ($anonymous ? ' (ẩn danh' . ($urgent ? ', cần phản hồi ngay' : '') . ')' : ($urgent ? ' (cần phản hồi ngay)' : ''))],
         ],
         'has_update'  => false,
         'revealed_to' => [],
     ];
     ticket_save($ticket);
+    $owners = load('ticket_owners');
+    $owners[$code] = $owner['id'];
+    save('ticket_owners', $owners);
+
+    // Báo cán bộ (không kèm nội dung phiếu)
+    $to = $assignee ? [$assignee] : routing_people(ISSUE_UNKNOWN);
+    notify_staff($to, $ticket, $urgent ? 'Phiếu CẦN PHẢN HỒI NGAY mới' : 'Phiếu mới');
     return $ticket;
+}
+
+/** Cán bộ xác nhận đã nhận phiếu khẩn (hoặc đã trả lời / đổi trạng thái): dừng đồng hồ 15 phút. */
+function ticket_acknowledge(array $t, array $by): array
+{
+    if (!empty($t['acknowledged_at'])) return $t;
+    $t['acknowledged_at'] = now_iso();
+    if ($t['urgent']) {
+        // Sau khi xác nhận, hạn phản hồi nội dung là 1 ngày làm việc
+        $t['deadline'] = date('c', add_working_days(time(), 1));
+    }
+    array_unshift($t['history'], ['time' => now_iso(), 'text' => $by['name'] . ' xác nhận đã nhận phiếu']);
+    audit_log('Xác nhận', $t['code'], 'Xác nhận đã nhận phiếu', $by);
+    return $t;
 }
 
 /** Nhãn hạn xử lý: "Còn 25 phút", "Quá hạn 3 giờ" hoặc ngày giờ. Trả về [text, isAlert]. */
@@ -462,6 +549,196 @@ function deadline_info(array $t): array
     if ($diffMin < 0) return ['Quá hạn ' . human_minutes(-$diffMin), true];
     if ($diffMin <= 120) return ['Còn ' . human_minutes(max(1, $diffMin)), true];
     return [fmt_dt($t['deadline']), false];
+}
+
+/**
+ * Phiếu có thể trùng / liên quan (CLAUDE.md 4.8): chỉ GỢI Ý, không tự đóng / xóa.
+ * Cùng nhóm, gửi cách nhau ≤ 14 ngày, mô tả có ≥ 3 từ (≥ 4 ký tự) giống nhau.
+ */
+function ticket_similar(array $t, int $limit = 3): array
+{
+    $words = fn (string $s) => array_unique(array_filter(preg_split('/[^\p{L}\p{N}]+/u', mb_strtolower($s)), fn ($w) => mb_strlen($w) >= 4));
+    $mine = $words($t['description'] . ' ' . $t['location']);
+    $out = [];
+    foreach (tickets_all() as $o) {
+        if ($o['code'] === $t['code'] || $o['group'] !== $t['group']) continue;
+        if (abs(strtotime($o['created_at']) - strtotime($t['created_at'])) > 14 * 86400) continue;
+        $common = count(array_intersect($mine, $words($o['description'] . ' ' . $o['location'])));
+        if ($common >= 3) $out[] = ['ticket' => $o, 'score' => $common];
+    }
+    usort($out, fn ($a, $b) => $b['score'] <=> $a['score']);
+    return array_slice($out, 0, $limit);
+}
+
+/* ======================= Email / thông báo ra ngoài ======================= */
+/*
+ * Mọi thư đều đi qua outbox (data/outbox.json) để quản trị viên kiểm tra được.
+ * Nếu config 'mail_enabled' = true và PHP đã cấu hình gửi thư thì gửi thật bằng mail().
+ * Nội dung thư KHÔNG BAO GIỜ chứa nội dung phiếu (CLAUDE.md 4.5): chỉ mã phiếu và đường dẫn đăng nhập.
+ */
+
+function mail_send(string $to, string $subject, string $body, ?string $ticketCode = null): void
+{
+    $sent = false;
+    if (!empty(config()['mail_enabled']) && function_exists('mail')) {
+        $headers = "Content-Type: text/plain; charset=UTF-8\r\nFrom: no-reply@" . SITE['domain'];
+        $sent = @mail($to, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, $headers);
+    }
+    $box = load('outbox');
+    array_unshift($box, [
+        'id' => new_id('m'), 'time' => now_iso(), 'to' => $to, 'subject' => $subject,
+        'body' => $body, 'ticket' => $ticketCode, 'sent' => $sent,
+    ]);
+    save('outbox', array_slice($box, 0, 500));
+}
+
+function site_link(string $path): string
+{
+    $host = $_SERVER['HTTP_HOST'] ?? SITE['domain'];
+    return 'http://' . $host . url($path);
+}
+
+/** Báo học sinh: chỉ "Phiếu có cập nhật". */
+function notify_student_update(array $t): void
+{
+    $u = user_find(ticket_owner_id($t['code']));
+    if (!$u) return;
+    mail_send($u['email'], 'Phiếu #' . $t['code'] . ' có cập nhật',
+        "Phiếu #{$t['code']} của em có cập nhật.\nĐăng nhập để xem: " . site_link('sv/phieu.php') . "\n\nThư tự động – không trả lời thư này.", $t['code']);
+}
+
+/** Thư xác thực email khi đăng ký (hiệu lực 24 giờ). */
+function send_verify_mail(array $u): void
+{
+    mail_send($u['email'], 'Xác thực email – ' . SITE['project_name'],
+        "Chào {$u['name']},\nMở liên kết sau để kích hoạt tài khoản (hiệu lực " . SITE['verify_ttl'] . "): " .
+        site_link('sv/xac-thuc.php?token=' . $u['verify_token']) . "\nNếu bạn không đăng ký, hãy bỏ qua thư này.");
+}
+
+/** Báo cán bộ: mã phiếu, mức ưu tiên, hạn xử lý – không có mô tả, tên người gửi, nhóm vấn đề. */
+function notify_staff(array $userIds, array $t, string $reason): void
+{
+    foreach (array_unique(array_filter($userIds)) as $id) {
+        $u = user_find($id);
+        if (!$u || $u['locked']) continue;
+        mail_send($u['email'], $reason . ' – #' . $t['code'],
+            "$reason: #{$t['code']}\nMức ưu tiên: {$t['priority']}\nHạn: " . fmt_dt($t['deadline']) .
+            "\nĐăng nhập trang quản trị để xem: " . site_link('qt/xu-ly-phieu.php?id=' . rawurlencode($t['code'])) .
+            "\n\nThư tự động – không chứa nội dung phiếu.", $t['code']);
+    }
+}
+
+/* ======================= Nhắc hạn & chuyển dự phòng (SLA) ======================= */
+
+/**
+ * Chạy định kỳ: bằng cron (php cron.php mỗi phút) và dự phòng ở mỗi lượt truy cập (tối đa 1 lần/phút).
+ * - Phiếu cần phản hồi ngay, quá hạn xác nhận: chuyển người dự phòng (nếu bật) + nhắc cả hai; không có dự phòng → nhắc đầu mối + quản trị viên.
+ * - Phiếu thường quá hạn phản hồi lần đầu: nhắc người phụ trách 1 lần.
+ * Không phiếu nào bị tự đóng hay xóa.
+ */
+function sla_run(bool $force = false): int
+{
+    $state = load('sla');
+    if (!$force && time() - (int) ($state['last_run'] ?? 0) < 60) return 0;
+    save('sla', ['last_run' => time()]);
+
+    $cfg = config();
+    $n = 0;
+    foreach (tickets_all() as $t) {
+        if ($t['status'] === 'Đã có phản hồi' || !$t['deadline'] || strtotime($t['deadline']) > time()) continue;
+
+        if ($t['urgent'] && empty($t['acknowledged_at']) && empty($t['escalated_at'])) {
+            $backup = $cfg['routing'][$t['group']]['backup'] ?? '';
+            $old = $t['assignee'];
+            $t['escalated_at'] = now_iso();
+            if (!empty($cfg['fallback']) && $backup && $backup !== $old) {
+                $t['assignee'] = $backup;
+                $t['deadline'] = date('c', time() + (int) $cfg['urgent_ack_minutes'] * 60);
+                array_unshift($t['history'], ['time' => now_iso(), 'text' => 'Quá hạn xác nhận ' . $cfg['urgent_ack_minutes'] . ' phút → hệ thống chuyển người dự phòng ' . staff_name($backup)]);
+                audit_log('Chuyển dự phòng', $t['code'], staff_name($old) . ' → ' . staff_name($backup) . ' (quá hạn xác nhận)', null);
+                notify_staff([$backup], $t, 'Phiếu khẩn chuyển cho bạn (quá hạn xác nhận)');
+                notify_staff([$old], $t, 'Nhắc: phiếu khẩn quá hạn xác nhận, đã chuyển dự phòng');
+            } else {
+                $admins = array_column(array_filter(staff_all(), fn ($u) => $u['staff_role'] === ROLE_ADMIN), 'id');
+                array_unshift($t['history'], ['time' => now_iso(), 'text' => 'Quá hạn xác nhận – chưa có người dự phòng, đã nhắc đầu mối và quản trị viên']);
+                audit_log('Nhắc hạn', $t['code'], 'Phiếu khẩn quá hạn xác nhận, không có người dự phòng', null);
+                notify_staff([$old ?? '', ...$admins, ...routing_people(ISSUE_UNKNOWN)], $t, 'Nhắc: phiếu khẩn quá hạn xác nhận');
+            }
+            ticket_save($t);
+            $n++;
+        } elseif (!$t['urgent'] && empty($t['reminded_at'])) {
+            $t['reminded_at'] = now_iso();
+            array_unshift($t['history'], ['time' => now_iso(), 'text' => 'Quá hạn phản hồi lần đầu – hệ thống gửi nhắc']);
+            audit_log('Nhắc hạn', $t['code'], 'Quá hạn phản hồi lần đầu', null);
+            notify_staff($t['assignee'] ? [$t['assignee']] : routing_people(ISSUE_UNKNOWN), $t, 'Nhắc: phiếu quá hạn phản hồi lần đầu');
+            ticket_save($t);
+            $n++;
+        }
+    }
+    return $n;
+}
+
+/* ======================= Hỏi đáp & "Vì sao em chọn" ======================= */
+/*
+ * data/questions.json. Mỗi mục:
+ *  kind 'question' – câu hỏi của học sinh về một chủ đề; giáo viên trả lời, có thể công bố (ẩn tên) cho cả lớp xem.
+ *  kind 'why'      – câu trả lời mở "Vì sao em chọn" của một tình huống; chỉ giáo viên và chính học sinh đó xem.
+ */
+
+function questions_all(): array
+{
+    $q = load('questions');
+    usort($q, fn ($a, $b) => strcmp($b['created_at'], $a['created_at']));
+    return $q;
+}
+
+function question_save(array $q): void
+{
+    $all = load('questions');
+    $found = false;
+    foreach ($all as &$x) {
+        if ($x['id'] === $q['id']) { $x = $q; $found = true; }
+    }
+    unset($x);
+    if (!$found) $all[] = $q;
+    save('questions', $all);
+}
+
+function question_find(string $id): ?array
+{
+    foreach (load('questions') as $q) if ($q['id'] === $id) return $q;
+    return null;
+}
+
+/** Câu "Vì sao em chọn" của học sinh cho 1 tình huống (bản mới nhất). */
+function why_answer_of(string $userId, string $situationId): ?array
+{
+    foreach (questions_all() as $q) {
+        if ($q['kind'] === 'why' && $q['user_id'] === $userId && $q['situation_id'] === $situationId) return $q;
+    }
+    return null;
+}
+
+/* ======================= Huy hiệu học tập ======================= */
+/* Chỉ gắn với việc HỌC (CLAUDE.md 4.9) – không gắn với gửi phản ánh. Tính từ tiến độ, không lưu riêng. */
+
+function learning_badges(array $user): array
+{
+    $badges = [];
+    $doneTopics = 0;
+    $topics = array_values(array_filter(topics_all(), fn ($t) => published_situations($t)));
+    foreach ($topics as $t) {
+        $list = published_situations($t);
+        $done = count(array_intersect(array_column($list, 'id'), $user['progress'][$t['id']] ?? []));
+        if ($done && $done >= count($list)) {
+            $doneTopics++;
+            $badges[] = ['icon' => $t['icon'], 'name' => 'Hoàn thành: ' . $t['name']];
+        }
+    }
+    if ($topics && $doneTopics === count($topics)) {
+        array_unshift($badges, ['icon' => 'award', 'name' => 'Hoàn thành tất cả ' . count($topics) . ' chủ đề']);
+    }
+    return $badges;
 }
 
 /* ======================= Nhật ký ======================= */

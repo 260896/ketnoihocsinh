@@ -2,14 +2,14 @@
    Design tokens – lấy từ bản thiết kế
    ========================================================= */
 :root {
-  --c-primary: #15489d;
-  --c-primary-dark: #0e3577;
-  --c-primary-100: #e3eefb;
-  --c-primary-50: #eaf0f9;
+  --c-primary: #1565c0;
+  --c-primary-dark: #0d47a1;
+  --c-primary-100: #dbe8f8;
+  --c-primary-50: #e8f0fa;
   --c-primary-25: #f3f7fc;
   --c-bg: #f5f8fc;
-  --c-danger: #c5050c;
-  --c-danger-dark: #a3040a;
+  --c-danger: #c62828;
+  --c-danger-dark: #a31f1f;
   --c-danger-50: #fdecec;
   --c-danger-border: #f2c4c4;
   --c-text: #1a2433;
@@ -23,8 +23,8 @@
   --c-on-dark-muted: #d5e3f5;
   --font: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --r-sm: 6px; --r-md: 10px; --r-lg: 12px; --r-xl: 14px; --r-2xl: 16px; --r-3xl: 20px; --r-pill: 999px;
-  --focus: 0 0 0 3px rgba(21, 72, 157, 0.35);
-  --shadow-card: 0 12px 40px rgba(21, 72, 157, 0.14);
+  --focus: 0 0 0 3px rgba(21, 101, 192, 0.35);
+  --shadow-card: 0 12px 40px rgba(21, 101, 192, 0.14);
   --shadow-soft: 0 8px 28px rgba(26, 36, 51, 0.06);
 }
 
@@ -42,7 +42,7 @@ p, h1, h2, h3 { margin: 0; }
 a { color: var(--c-primary); }
 a:hover { color: var(--c-primary-dark); }
 button, input, select, textarea { font: inherit; }
-:focus-visible { outline: 3px solid rgba(21, 72, 157, 0.45); outline-offset: 2px; }
+:focus-visible { outline: 3px solid rgba(21, 101, 192, 0.45); outline-offset: 2px; }
 .ic { flex: 0 0 auto; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .inline-form { display: inline; margin: 0; }

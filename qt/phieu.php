@@ -1,15 +1,16 @@
 <?php
 /* QT02 – Danh sách phiếu */
 require __DIR__ . '/../includes/bootstrap.php';
-$me = require_staff();
+$me = require_staff('tickets');
 
 const PAGE_SIZE = 10;
-$all = tickets_all();
+// Chỉ phiếu cán bộ này được xem (nhóm được giao / được phân công / người được chỉ định)
+$all = array_values(array_filter(tickets_all(), fn ($t) => can_access_ticket($me, $t)));
 
 $quickDefs = [
     'all'     => ['Tất cả', false, fn ($t) => true],
     'queue'   => ['Hàng chờ phân loại', false, fn ($t) => $t['assignee'] === null],
-    'urgent'  => ['Khẩn', true, fn ($t) => $t['priority'] === 'Khẩn' && $t['status'] !== 'Đã có phản hồi'],
+    'urgent'  => ['Cần phản hồi ngay', true, fn ($t) => $t['priority'] === PRIORITY_NOW && $t['status'] !== 'Đã có phản hồi'],
     'overdue' => ['Quá hạn', true, fn ($t) => str_starts_with(deadline_info($t)[0], 'Quá hạn')],
     'mine'    => ['Của tôi', false, fn ($t) => $t['assignee'] === $me['id']],
 ];
@@ -40,9 +41,11 @@ $page = min($pages, max(1, (int) get('trang', '1')));
 $shown = array_slice($rows, ($page - 1) * PAGE_SIZE, PAGE_SIZE);
 $qs = fn (array $extra) => url('qt/phieu.php', array_merge($_GET, $extra));
 
-$staffOpts = ['' => 'Tất cả', 'queue' => 'Hàng chờ phân loại'] + array_column(staff_all(), 'name', 'id');
+$staffOpts = ['' => 'Tất cả', 'queue' => 'Hàng chờ phân loại'] + array_column(array_filter(staff_all(), 'can_handle_tickets'), 'name', 'id');
 
-admin_start('Phiếu phản ánh', 'Phiếu phản ánh', 'Theo dõi, phân loại và phản hồi phiếu của học sinh');
+admin_start('Phiếu phản ánh', 'Phiếu phản ánh', can_reveal($me)
+    ? 'Bạn là người được chỉ định: xem được mọi phiếu để giám sát và tiếp nhận độc lập.'
+    : 'Chỉ hiện phiếu thuộc nhóm bạn phụ trách / dự phòng / được phân công.');
 ?>
 <div class="row wrap gap-8">
   <?php foreach ($quickDefs as $k => [$label, $danger, $test]): ?>

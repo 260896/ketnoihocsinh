@@ -15,16 +15,19 @@ if (!$me) {
 
 $path = null;
 $downloadName = null;
+$mustBeIn = UPLOAD_DIR; // thư mục con bắt buộc của tệp được trả
 
 switch (get('k')) {
     case 'img':
+        // Chỉ ảnh minh họa trong data/uploads/images – chặn "images/../tickets/…"
         $path = get('f');
-        if (!str_starts_with($path, 'images/')) $path = null;
+        $mustBeIn = UPLOAD_DIR . '/images';
+        if (!str_starts_with($path, 'images/') || str_contains($path, '..') || str_contains($path, '\\')) $path = null;
         break;
 
     case 'doc':
         foreach (docs_all() as $d) {
-            if ($d['id'] === get('id') && $d['path'] && ($d['status'] === 'Đã công bố' || $me['role'] === 'staff')) {
+            if ($d['id'] === get('id') && $d['path'] && ($d['status'] === 'Đã công bố' || can_manage_learning($me))) {
                 $path = $d['path'];
                 $downloadName = $d['name'];
             }
@@ -36,7 +39,8 @@ switch (get('k')) {
         // Bản gốc (?goc=1): chỉ cán bộ có thẩm quyền, và luôn ghi nhật ký.
         $t = ticket_find(get('t'));
         $att = $t['attachments'][(int) get('i')] ?? null;
-        if ($t && $att && ($me['role'] === 'staff' || $t['owner_id'] === $me['id'])) {
+        $mustBeIn = UPLOAD_DIR . '/tickets';
+        if ($t && $att && (can_access_ticket($me, $t) || ($me['role'] === 'student' && ticket_is_owned_by($t, $me)))) {
             $downloadName = $att['name'];
             if (get('goc') === '1') {
                 if (!can_view_original($me)) {
@@ -59,7 +63,8 @@ switch (get('k')) {
 }
 
 $full = $path ? realpath(UPLOAD_DIR . '/' . $path) : false;
-if (!$full || !str_starts_with($full, realpath(UPLOAD_DIR)) || !is_file($full)) {
+$base = realpath($mustBeIn);
+if (!$full || !$base || !str_starts_with($full, $base . DIRECTORY_SEPARATOR) || !is_file($full)) {
     http_response_code(404);
     exit('Không tìm thấy tệp.');
 }

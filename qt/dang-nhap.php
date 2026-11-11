@@ -2,8 +2,8 @@
 /* QT01 – Đăng nhập cán bộ */
 require __DIR__ . '/../includes/bootstrap.php';
 
-if ((current_user()['role'] ?? '') === 'staff') {
-    redirect('qt/phieu.php');
+if (is_staff($cu = current_user())) {
+    redirect(staff_home($cu));
 }
 
 $email = '';
@@ -13,7 +13,7 @@ if (is_post()) {
     [$user, $error] = attempt_login($email, $_POST['pw'] ?? '', 'staff');
     if ($user) {
         login_user($user);
-        redirect_after_login('qt/phieu.php');
+        redirect_after_login(staff_home($user));
     }
 }
 
@@ -25,19 +25,21 @@ page_head('Đăng nhập trang quản trị');
     <?= brand() ?>
     <h2 class="t-h1">Đăng nhập trang quản trị</h2>
     <p class="t-small t-muted">Dành cho cán bộ quản trị và cán bộ xử lý phiếu. Tài khoản do quản trị viên cấp.</p>
-    <?php /* type="text": tên đăng nhập chạy thử có dấu cách và chữ có dấu, ô email của trình duyệt sẽ chặn */ ?>
     <?= field_input('email', 'Tên đăng nhập (email cán bộ)', $email, ['placeholder' => 'ten@' . SITE['staff_domain'], 'autocomplete' => 'username', 'required' => true, 'autocapitalize' => 'off', 'spellcheck' => 'false']) ?>
     <?= field_input('pw', 'Mật khẩu', '', ['type' => 'password', 'placeholder' => 'Nhập mật khẩu', 'autocomplete' => 'current-password', 'required' => true, 'error' => $error]) ?>
     <button type="submit" class="btn btn--block">Đăng nhập</button>
     <div class="panel"><?= note('lock', 'Mọi thao tác phân loại, phân công, phản hồi và mở danh tính đều được ghi nhật ký.') ?></div>
+    <?php if (SITE['is_demo']): /* Chỉ bản chạy thử – tắt is_demo trong includes/config.php khi dùng thật */ ?>
     <div class="demo-box">
       Tài khoản chạy thử (mật khẩu <code><?= e(DEMO_PASSWORD) ?></code>):<br>
-      <code>admin@abc-trung học.edu.vn</code> – Quản trị chính<br>
-      <code>baotq@abc-trung học.edu.vn</code> – Phụ trách công tác học sinh<br>
-      <code>hatl@abc-trung học.edu.vn</code> – Tư vấn, hỗ trợ học sinh<br>
-      <code>namph@abc-trung học.edu.vn</code> – Hỗ trợ dự phòng<br>
-      <code>tungvt@abc-trung học.edu.vn</code> – Tiếp nhận độc lập
+      <code>admin@abc-trunghoc.edu.vn</code> – Nguyễn Minh Anh, quản trị chính, mở được danh tính<br>
+      <code>baotq@abc-trunghoc.edu.vn</code> – Phụ trách công tác học sinh<br>
+      <code>hatl@abc-trunghoc.edu.vn</code> – Tư vấn, hỗ trợ học sinh<br>
+      <code>namph@abc-trunghoc.edu.vn</code> – Hỗ trợ dự phòng<br>
+      <code>tungvt@abc-trunghoc.edu.vn</code> – Tiếp nhận độc lập, mở được danh tính<br>
+      <code>giaovien@abc-trunghoc.edu.vn</code> – Giáo viên quản lý học liệu
     </div>
+    <?php endif; ?>
     <?= demo_notice() ?>
   </form>
 </div>

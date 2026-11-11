@@ -1,7 +1,7 @@
 <?php
 /* QT05 – Học liệu: quản lý CHỦ ĐỀ, danh sách TÌNH HUỐNG (câu hỏi) và TÀI LIỆU */
 require __DIR__ . '/../includes/bootstrap.php';
-$me = require_staff();
+$me = require_staff('learning');
 
 $topics = topics_all();
 $active = topic_find(get('chu-de')) ?? ($topics[0] ?? null);

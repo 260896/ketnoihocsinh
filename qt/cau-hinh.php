@@ -4,7 +4,8 @@ require __DIR__ . '/../includes/bootstrap.php';
 $me = require_staff(true);
 
 $cfg = config();
-$staff = array_column(staff_all(), 'name', 'id');
+// Chỉ cán bộ xử lý phiếu (hoặc người được chỉ định) mới làm đầu mối được
+$staff = array_column(array_filter(staff_all(), 'can_handle_tickets'), 'name', 'id');
 $dayPresets = ['1-5' => 'Thứ 2 – Thứ 6', '1-6' => 'Thứ 2 – Thứ 7', '0-6' => 'Cả tuần'];
 $filePresets = ['pdf,jpg,jpeg,png,mp4' => 'PDF, JPG, JPEG, PNG, MP4', 'pdf,jpg,jpeg,png' => 'PDF, JPG, JPEG, PNG', 'jpg,jpeg,png' => 'JPG, PNG'];
 
@@ -44,11 +45,12 @@ if (is_post()) {
             flash('Nhập tên và nội dung mẫu trả lời.', 'error');
             redirect('qt/cau-hinh.php');
         }
+        $tplGroup = in_array(post('group'), [...issue_groups(), ISSUE_UNKNOWN], true) ? post('group') : '';
         if ($a === 'tpl_add') {
-            $cfg['templates'][] = ['id' => new_id('t'), 'name' => post('name'), 'body' => post('body')];
+            $cfg['templates'][] = ['id' => new_id('t'), 'name' => post('name'), 'body' => post('body'), 'group' => $tplGroup];
         } else {
             foreach ($cfg['templates'] as &$tpl) {
-                if ($tpl['id'] === post('id')) $tpl = ['id' => $tpl['id'], 'name' => post('name'), 'body' => post('body')];
+                if ($tpl['id'] === post('id')) $tpl = ['id' => $tpl['id'], 'name' => post('name'), 'body' => post('body'), 'group' => $tplGroup];
             }
             unset($tpl);
         }
@@ -105,7 +107,7 @@ admin_start('Cấu hình đầu mối', 'Cấu hình đầu mối & vận hành'
       <?php foreach ($cfg['templates'] as $tpl): ?>
         <details class="disclosure panel" style="border-radius:10px;padding:6px 14px">
           <summary class="row gap-12" style="min-height:44px">
-            <span class="t-small t-strong grow"><?= e($tpl['name']) ?></span>
+            <span class="t-small t-strong grow"><?= e($tpl['name']) ?><?= !empty($tpl['group']) ? ' <span class="t-muted">· ' . e($tpl['group']) . '</span>' : '' ?></span>
             <span class="icon-btn" aria-hidden="true"><?= icon('edit', 18, 'var(--c-primary)') ?></span>
             <span class="sr-only">Sửa mẫu <?= e($tpl['name']) ?></span>
           </summary>
@@ -113,6 +115,7 @@ admin_start('Cấu hình đầu mối', 'Cấu hình đầu mối & vận hành'
             <?= csrf_field() ?><input type="hidden" name="action" value="tpl_edit"><input type="hidden" name="id" value="<?= e($tpl['id']) ?>">
             <?= field_input('name', 'Tên mẫu', $tpl['name'], ['id' => 'tn-' . $tpl['id']]) ?>
             <?= field_textarea('body', 'Nội dung', $tpl['body'], ['id' => 'tb-' . $tpl['id'], 'rows' => 3]) ?>
+            <?= field_select('group', 'Dùng cho nhóm', ['' => 'Mọi nhóm'] + array_combine($gl = [...issue_groups(), ISSUE_UNKNOWN], $gl), $tpl['group'] ?? '', ['id' => 'tg-' . $tpl['id']]) ?>
             <div class="row gap-10"><button type="submit" class="btn btn--sm">Lưu mẫu</button></div>
           </form>
           <div style="padding-bottom:10px"><?= post_button('Xóa mẫu này', ['action' => 'tpl_delete', 'id' => $tpl['id']], 'link link--danger') ?></div>
@@ -124,6 +127,7 @@ admin_start('Cấu hình đầu mối', 'Cấu hình đầu mối & vận hành'
           <?= csrf_field() ?><input type="hidden" name="action" value="tpl_add">
           <?= field_input('name', 'Tên mẫu *', '', ['id' => 'tn-new']) ?>
           <?= field_textarea('body', 'Nội dung *', '', ['id' => 'tb-new', 'rows' => 3]) ?>
+          <?= field_select('group', 'Dùng cho nhóm', ['' => 'Mọi nhóm'] + array_combine($gl = [...issue_groups(), ISSUE_UNKNOWN], $gl), '', ['id' => 'tg-new']) ?>
           <div><button type="submit" class="btn btn--sm">Thêm mẫu</button></div>
         </form>
       </details>

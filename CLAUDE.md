@@ -18,8 +18,13 @@ Website giáo dục ngoại khóa cho học sinh trung học, gồm hai phần g
 
 ## 2. Công nghệ và cấu trúc
 
-> TODO: điền stack thực tế (WordPress + plugin `school-report-core` / HTML-JS tĩnh / framework khác), lệnh chạy, lệnh test, cấu trúc thư mục.
-> Khi chưa điền: Claude tự xác định stack từ repo trước khi sửa, không tự đổi stack.
+- **Stack (đã chốt theo code hiện có):** PHP 8.1+ thuần, không framework, không cơ sở dữ liệu. Dữ liệu là tệp JSON trong `data/` (đọc/ghi qua `includes/store.php`; chuyển sang MySQL chỉ cần viết lại tệp này). Không đổi stack khi chưa được yêu cầu.
+- **Chạy:** `A:\xampp\php\php.exe -S localhost:8000 router.php` hoặc Apache XAMPP `http://localhost/project/tieng-anh/`. Mục lục màn hình: `man-hinh.php`.
+- **Định kỳ:** `php cron.php` mỗi phút (nhắc hạn, chuyển người dự phòng). Ngoài ra chạy dự phòng ở mỗi lượt truy cập.
+- **Kiểm tra:** `php -l` từng tệp; luồng đầu-cuối chạy bằng curl theo checklist mục 12 (xem HUONG-DAN.md phần Kiểm thử).
+- **Cấu trúc:** `sv/` màn học sinh, `qt/` màn cán bộ, `includes/` lõi (config, auth, store, seed, ui, layout), `trang.php` trang chính sách, `tep.php` trả tệp có kiểm quyền. Chi tiết trong README.md.
+- **Dữ liệu nhạy cảm:** `tickets.json` không chứa người gửi; liên kết phiếu ↔ tài khoản ở `ticket_owners.json`, chỉ đọc qua `ticket_owner_id()`.
+- **Git:** `data/*.json` và `data/uploads/` không đưa lên Git (dữ liệu chạy, tạo lại từ `seed.php`).
 
 ## 3. Vai trò và phân quyền
 
@@ -125,26 +130,33 @@ Mỗi chủ đề: tình huống + câu hỏi trắc nghiệm + các phương á
 
 | Vai | Đăng nhập | Mật khẩu / ghi chú |
 |---|---|---|
-| Học sinh | E2400249.test@example.com (tên hiển thị E2400249) | `TestHS2026!`, mã tham gia `HS2026` |
-| Quản trị | admin@abc-trunghoc.edu.vn | *chưa có mật khẩu trong tài liệu* |
+| Học sinh | E2400249.test@example.com (tên hiển thị E2400249) | `TestHS2026!` |
+| Đăng ký mới | cặp mã + email `DEMO-0001` / `demo1@example.com` … `DEMO-0005` / `demo5@example.com` | mỗi cặp dùng 1 lần (mã chung `HS2026` đã bỏ) |
+| Quản trị (Nguyễn Minh Anh) | admin@abc-trunghoc.edu.vn | `TestHS2026!` (mật khẩu chạy thử) |
+| Cán bộ xử lý | baotq@, hatl@, namph@, tungvt@abc-trunghoc.edu.vn | `TestHS2026!` |
+| Giáo viên học liệu | giaovien@abc-trunghoc.edu.vn | `TestHS2026!` – tài liệu gốc chưa nêu tên người |
 
 Mã phiếu mẫu: `KN-2026-0001`.
 
 ## 11. Điểm còn mở (hỏi người dùng trước khi tự quyết)
 
-1. **Cách cấp tài khoản**: Brief ghi "nhà trường cấp theo mã học sinh, không tự đăng ký", nhưng dữ liệu thử dùng **email + mã tham gia HS2026** (tự đăng ký). Cần chốt một cách.
-2. Thiếu đầu mối cho nhóm **Chất lượng giảng dạy, đào tạo** và **Cơ sở vật chất** (có trong Brief), và thiếu người **tiếp nhận chung** cho phiếu chưa rõ nhóm.
-3. Thiếu người dự phòng cho nhóm thuốc lá điện tử, mạng xã hội, góp ý → luật "quá hạn chuyển dự phòng" không chạy được ở các nhóm này.
-4. Email trong tài liệu gốc chứa dấu cách (`abc-trung học`), đã tạm sửa thành `abc-trunghoc`.
-5. Chưa có mật khẩu cho tài khoản quản trị và tài khoản của 4 cán bộ.
-6. Brief nêu 8 chủ đề, bản thử có 5 (thiếu: tin sai sự thật, tiêu cực trong trường, chất lượng đào tạo).
+Trạng thái ngày 11/11/2026. *Giả định* = đã làm trong code để chạy được, **nhà trường vẫn phải xác nhận**.
+
+1. **Cách cấp tài khoản** – *đã chốt với người dùng*: nhà trường **nạp sẵn cặp mã tham gia + email** (trang QT10, tệp `data/codes.json`); học sinh tự đăng ký bằng đúng cặp đó, mỗi cặp dùng 1 lần. Mã chung `HS2026` đã bỏ. Hệ quả: nhà trường biết email nào là của học sinh nào; ẩn danh vẫn giữ ở lớp hiển thị phiếu.
+2. Nhóm **Chất lượng giảng dạy, đào tạo** và **Cơ sở vật chất** – *giả định*: đã thêm vào danh sách nhóm, **chưa có đầu mối** → phiếu vào hàng chờ phân loại (Phạm Hoàng Nam, Võ Thanh Tùng thấy hàng chờ). Vẫn thiếu người **tiếp nhận chung**.
+3. Người dự phòng cho thuốc lá điện tử, mạng xã hội, góp ý – *giả định*: tạm đặt **Phạm Hoàng Nam** để luật quá hạn chạy được. Nhóm "liên quan người xử lý" dự phòng là Nguyễn Minh Anh.
+4. Email có dấu cách – *đã sửa* thành `abc-trunghoc.edu.vn` trong code và dữ liệu.
+5. Mật khẩu cán bộ – *chạy thử* dùng `TestHS2026!`. Tài khoản cán bộ tạo mới nhận email đặt mật khẩu lần đầu (không có mật khẩu biết trước).
+6. Brief nêu 8 chủ đề, bản thử có 5 (thiếu: tin sai sự thật, tiêu cực trong trường, chất lượng đào tạo) – **chưa làm**, chờ nhóm nội dung.
+7. Quy tắc **khi nào chuyển thông tin cho gia đình / cơ quan chức năng** – *bản nháp* trong `trang.php?p=an-danh` và bước 5 gửi phiếu, chờ nhà trường duyệt (task #4).
+8. Vai trò **Giáo viên** – *giả định*: thêm vai trò "Quản lý học liệu", tài khoản thử `giaovien@…`; tài liệu gốc chưa nêu người cụ thể.
 
 ## 12. Checklist kiểm tra dự án (chạy khi được yêu cầu "check dự án")
 
 Kiểm bằng tài khoản thử và tình huống giả lập. Báo cáo theo dạng: ✅ đạt / ❌ lỗi (file:dòng, cách sửa) / ⚠️ chưa làm.
 
 **Tài khoản**
-- [ ] Đăng nhập / đăng ký đúng cách đã chốt; sai mã tham gia hoặc sai mật khẩu bị chặn, báo lỗi rõ
+- [ ] Đăng nhập / đăng ký đúng cách đã chốt (cặp mã + email); sai cặp, mã đã dùng hoặc sai mật khẩu bị chặn, báo lỗi rõ; dò nhiều lần bị khóa tạm
 - [ ] Đặt lại mật khẩu hoạt động; khóa được tài khoản
 
 **Học tập**

@@ -1,7 +1,8 @@
 <?php
 /* QT09 – Nhật ký thao tác (+ xuất CSV: ?xuat=csv) */
 require __DIR__ . '/../includes/bootstrap.php';
-$me = require_staff();
+$me = require_staff('audit');
+$tab = get('tab') === 'email' ? 'email' : 'log';
 
 $log = audit_all();
 $f = ['from' => get('tu'), 'to' => get('den'), 'action' => get('hanh-dong'), 'actor' => get('nguoi'), 'ticket' => mb_strtolower(ltrim(get('phieu'), '#'))];
@@ -32,9 +33,34 @@ $actions = array_values(array_unique(array_column($log, 'action')));
 $actors = array_values(array_unique(array_column($log, 'actor')));
 $sensitive = ['Mở danh tính', 'Tải tệp gốc'];
 
-admin_start('Nhật ký', 'Nhật ký thao tác', 'Ghi lại phân loại, phân công, phản hồi, mở danh tính và tải tệp gốc.',
-    '<a href="' . e(url('qt/nhat-ky.php', $_GET + ['xuat' => 'csv'])) . '" class="btn btn--outline">' . icon('download', 18) . ' Xuất CSV</a>');
+admin_start('Nhật ký', 'Nhật ký thao tác', 'Ghi lại phân loại, phân công, phản hồi, mở danh tính, tải tệp gốc và email hệ thống gửi đi.',
+    $tab === 'log' ? '<a href="' . e(url('qt/nhat-ky.php', $_GET + ['xuat' => 'csv'])) . '" class="btn btn--outline">' . icon('download', 18) . ' Xuất CSV</a>' : '');
 ?>
+<div class="row wrap gap-8">
+  <a href="<?= e(url('qt/nhat-ky.php')) ?>" class="chip<?= $tab === 'log' ? ' chip--active' : '' ?>">Thao tác · <?= count($log) ?></a>
+  <a href="<?= e(url('qt/nhat-ky.php', ['tab' => 'email'])) ?>" class="chip<?= $tab === 'email' ? ' chip--active' : '' ?>">Email đi · <?= count(load('outbox')) ?></a>
+</div>
+<?php if ($tab === 'email'): $box = load('outbox'); ?>
+  <p class="t-small t-muted"><?= empty(config()['mail_enabled']) ? 'Chưa bật gửi thư thật (mail_enabled = false): thư chỉ được lưu ở đây.' : 'Đã bật gửi thư thật. Cột "Đã gửi" cho biết máy chủ có nhận gửi hay không.' ?> Thư không bao giờ chứa nội dung phiếu.</p>
+  <div class="table-wrap">
+    <table class="table">
+      <thead><tr><th scope="col" style="width:140px">Thời gian</th><th scope="col" style="width:200px">Người nhận</th><th scope="col">Tiêu đề · Nội dung</th><th scope="col" style="width:90px">Đã gửi</th></tr></thead>
+      <tbody>
+      <?php foreach (array_slice($box, 0, 200) as $m):
+          // Ngoài bản chạy thử: che mã bí mật trong liên kết (tránh quản trị viên dùng liên kết của người khác)
+          $body = SITE['is_demo'] ? $m['body'] : preg_replace('/token=[0-9a-f]+/', 'token=••••', $m['body']); ?>
+        <tr>
+          <td><?= e(fmt_dt($m['time'])) ?></td>
+          <td style="word-break:break-all"><?= e($m['to']) ?></td>
+          <td><p class="t-strong"><?= e($m['subject']) ?></p><p class="t-small pre"><?= e($body) ?></p></td>
+          <td><?= $m['sent'] ? '<span class="badge badge--ok">Có</span>' : '<span class="badge badge--muted">Chưa</span>' ?></td>
+        </tr>
+      <?php endforeach; ?>
+      <?php if (!$box): ?><tr><td colspan="4" class="table-empty">Chưa có email.</td></tr><?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+<?php admin_end(); exit; endif; ?>
 <form method="get" class="card card--admin" style="padding:16px">
   <div class="filter-grid" style="grid-template-columns:repeat(auto-fit,minmax(170px,1fr))">
     <?= field_input('tu', 'Từ ngày', $f['from'], ['type' => 'date']) ?>

@@ -5,7 +5,7 @@
  * Không dùng JavaScript: "Thêm lựa chọn" / "Xóa lựa chọn" là nút gửi form,
  * trang được vẽ lại với dữ liệu đang nhập dở. */
 require __DIR__ . '/../includes/bootstrap.php';
-$me = require_staff();
+$me = require_staff('learning');
 
 $topics = topics_all();
 if (!$topics) {

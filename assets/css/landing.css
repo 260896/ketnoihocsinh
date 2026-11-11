@@ -38,7 +38,7 @@
 }
 .lp-cta:hover { color: var(--c-white); background: var(--c-primary-dark); }
 .lp-cta--danger { background: var(--c-danger); }
-.lp-cta--danger:hover { background: #a3040a; }
+.lp-cta--danger:hover { background: var(--c-danger-dark); }
 .lp-cta--outline { background: var(--c-white); color: var(--c-primary); border-color: var(--c-primary); }
 .lp-cta--outline:hover { background: var(--c-primary-25); color: var(--c-primary-dark); }
 .lp-cta--danger-outline { background: var(--c-white); color: var(--c-danger); border-color: var(--c-danger); }
@@ -56,7 +56,7 @@
 .lp-demo { width: 100%; max-width: 420px; background: var(--c-white); border-radius: var(--r-3xl); box-shadow: var(--shadow-card); border: 1px solid var(--c-border); padding: 24px; display: flex; flex-direction: column; gap: 16px; }
 .lp-demo__opt { all: unset; box-sizing: border-box; padding: 12px 14px; border: 1.5px solid var(--c-border); border-radius: var(--r-lg); cursor: pointer; font-size: 15px; }
 .lp-demo__opt.on { border: 2px solid var(--c-primary); background: var(--c-primary-25); font-weight: 600; padding: 11.5px 13.5px; }
-.lp-demo__opt:focus-visible { outline: 3px solid rgba(21, 72, 157, 0.45); }
+.lp-demo__opt:focus-visible { outline: 3px solid rgba(21, 101, 192, 0.45); }
 .lp-demo__exp { background: #eef4fc; border-radius: var(--r-lg); padding: 12px 14px; font-size: 14px; }
 .lp-demo__exp strong { color: var(--c-primary-dark); }
 
@@ -127,3 +127,13 @@ a.lp-demo__opt { display: block; color: var(--c-text); text-decoration: none; }
 a.lp-demo__opt:hover { border-color: var(--c-border-strong); color: var(--c-text); }
 .lp-reply { display: flex; gap: 8px; }
 .lp-reply .input { flex: 1 1 auto; min-width: 0; font-size: 14px; border-width: 1px; }
+
+/* Header: tìm kiếm học liệu + nút đỏ "Em cần hỗ trợ" (CLAUDE.md mục 9) */
+.lp-search { display: flex; align-items: center; gap: 6px; border: 1px solid var(--c-border-strong); border-radius: var(--r-md); padding: 0 10px; background: var(--c-white); }
+.lp-search input { border: 0; outline: none; font: inherit; font-size: 14px; padding: 9px 0; width: 150px; background: transparent; }
+.lp-nav a.lp-nav__sos { color: var(--c-white); background: var(--c-danger); padding: 10px 16px; border-radius: var(--r-md); font-weight: 700; }
+.lp-nav a.lp-nav__sos:hover { background: var(--c-danger-dark); color: var(--c-white); }
+@media (max-width: 640px) {
+  .lp-search { width: 100%; order: 10; }
+  .lp-search input { width: 100%; }
+}

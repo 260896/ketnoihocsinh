@@ -226,6 +226,16 @@ function format_size(int $bytes): string
     return str_replace('.', ',', (string) round($bytes / 1048576, 1)) . ' MB';
 }
 
+/** MIME thực (theo finfo) được chấp nhận cho từng đuôi tệp. */
+const UPLOAD_MIMES = [
+    'pdf'  => ['application/pdf'],
+    'jpg'  => ['image/jpeg'],
+    'jpeg' => ['image/jpeg'],
+    'png'  => ['image/png'],
+    'webp' => ['image/webp'],
+    'mp4'  => ['video/mp4', 'video/quicktime', 'video/x-m4v', 'application/mp4'],
+];
+
 /**
  * Lưu một tệp tải lên vào data/uploads/<thư mục>.
  * Trả về ['name','size','path'] hoặc chuỗi lỗi.
@@ -242,6 +252,11 @@ function save_upload(array $file, string $folder, array $allowedExt, int $maxMb)
     }
     if ($file['size'] > $maxMb * 1048576) {
         return 'Tệp vượt quá ' . $maxMb . ' MB.';
+    }
+    // Kiểm tra MIME thực theo nội dung tệp, không tin vào đuôi tệp (CLAUDE.md mục 7)
+    $mime = is_file((string) $file['tmp_name']) ? (string) (new finfo(FILEINFO_MIME_TYPE))->file($file['tmp_name']) : '';
+    if (!in_array($mime, UPLOAD_MIMES[$ext] ?? [], true)) {
+        return 'Nội dung tệp "' . $name . '" không đúng định dạng ' . strtoupper($ext) . '.';
     }
     $dir = UPLOAD_DIR . '/' . $folder;
     if (!is_dir($dir)) {

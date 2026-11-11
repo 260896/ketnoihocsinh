@@ -6,9 +6,10 @@ $groups = [
     'Landing page' => [
         ['—', 'Landing page', ''],
         ['—', 'Landing – ngoài giờ trực', '?ngoaigio=1'],
+        ['—', 'Chính sách bảo mật / Quy tắc / Cơ chế ẩn danh / Giờ tiếp nhận', 'trang.php?p=an-danh'],
     ],
     'Học sinh – Tài khoản' => [
-        ['SV01–02', 'Đăng ký (nhập sai mã để xem lỗi; mã đúng xem ở trang Cấu hình)', 'sv/dang-ky.php'],
+        ['SV01–02', 'Đăng ký (mã + email phải khớp danh sách ở QT10; thử: DEMO-0002 + demo2@example.com)', 'sv/dang-ky.php'],
         ['SV03', 'Xác thực email', 'sv/xac-thuc.php'],
         ['SV04', 'Đăng nhập', 'sv/dang-nhap.php'],
         ['SV05–06', 'Quên mật khẩu → Mật khẩu mới', 'sv/quen-mat-khau.php'],
@@ -18,7 +19,8 @@ $groups = [
         ['SV08', 'Chủ đề', 'sv/chu-de.php?id=bao-luc-hoc-duong'],
         ['SV09', 'Tình huống & giải thích', 'sv/tinh-huong.php?chu-de=bao-luc-hoc-duong&so=1'],
         ['SV10', 'Hoàn thành chủ đề', 'sv/hoan-thanh.php?chu-de=bao-luc-hoc-duong'],
-        ['SV11', 'Tài khoản', 'sv/tai-khoan.php'],
+        ['SV11', 'Tài khoản (huy hiệu học tập)', 'sv/tai-khoan.php'],
+        ['SV21', 'Tài liệu, tìm kiếm & tài liệu đã lưu', 'sv/tai-lieu.php'],
     ],
     'Học sinh – Gửi phiếu' => [
         ['SV12–16', 'Gửi phiếu 5 bước', 'sv/gui-phieu.php?buoc=1'],
@@ -37,6 +39,8 @@ $groups = [
         ['QT08', 'Tài khoản (Quản trị viên)', 'qt/tai-khoan.php'],
         ['QT09', 'Nhật ký thao tác', 'qt/nhat-ky.php'],
         ['QT10', 'Mã tham gia (Quản trị viên)', 'qt/ma-tham-gia.php'],
+        ['QT11', 'Hỏi đáp & câu trả lời mở (Giáo viên)', 'qt/hoi-dap.php'],
+        ['QT12', 'Email hệ thống đã gửi', 'qt/nhat-ky.php?tab=email'],
     ],
 ];
 

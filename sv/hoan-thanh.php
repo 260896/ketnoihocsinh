@@ -17,6 +17,7 @@ if (is_post()) {
 
 $total = count($list);
 $done = count(array_intersect(array_column($list, 'id'), $me['progress'][$topic['id']] ?? []));
+$badges = learning_badges($me);
 
 mobile_start($topic['name'], ['back' => url('sv/chu-de.php', ['id' => $topic['id']])]);
 ?>
@@ -27,7 +28,9 @@ mobile_start($topic['name'], ['back' => url('sv/chu-de.php', ['id' => $topic['id
   <div class="card self-stretch">
     <div class="row gap-12"><p class="t-muted grow">Tình huống đã làm</p><p class="t-title"><?= $done ?>/<?= $total ?></p></div>
     <div class="row gap-12"><p class="t-muted grow">Có thể làm lại</p><p class="t-title">Bất cứ lúc nào</p></div>
+    <div class="row gap-12"><p class="t-muted grow">Huy hiệu học tập</p><p class="t-title"><?= count($badges) ?></p></div>
   </div>
+  <?php if ($done >= $total && $total): ?><p class="badge badge--ok">Nhận huy hiệu: Hoàn thành <?= e($topic['name']) ?></p><?php endif; ?>
   <a href="<?= e(url('sv/hoc.php')) ?>" class="btn btn--block">Học chủ đề khác</a>
   <form method="post" class="self-stretch">
     <?= csrf_field() ?>

@@ -125,7 +125,7 @@ elseif ($step === 3): ?>
       </div>
       <p>Nếu bạn đang gặp nguy hiểm, đừng chờ phiếu được xử lý.</p>
       <a href="<?= e(tel_href()) ?>" class="btn btn--danger btn--block">Gọi <?= e(hotline()) ?></a>
-      <p class="t-small t-muted">Bạn vẫn có thể gửi phiếu. Phiếu sẽ được đánh dấu khẩn và gửi email ngay cho cán bộ trực.</p>
+      <p class="t-small t-muted">Bạn vẫn có thể gửi phiếu. Phiếu được đánh dấu "Cần phản hồi ngay" và hệ thống báo ngay cho cán bộ phụ trách (trong giờ trực <?= e(duty_label()) ?>).</p>
     </div>
   <?php endif; ?>
   <?php $footer(2); mobile_end(); exit;
@@ -139,7 +139,12 @@ elseif ($step === 4): ?>
     <?= field_input('occurred_at', 'Thời gian (nếu nhớ)', $draft['occurred_at'], ['type' => 'datetime-local']) ?>
     <?= field_input('location', 'Địa điểm', $draft['location'], ['placeholder' => 'Ví dụ: khu B, nhóm chat lớp…']) ?>
     <p class="t-small t-strong">Tệp đính kèm</p>
-    <?= dropzone('files[]', 'Chọn tệp để tải lên', strtoupper(implode(', ', $cfg['file_types'])) . ' · tối đa ' . $cfg['max_file_mb'] . ' MB/tệp, ' . ($cfg['max_files'] ?? 5) . ' tệp/phản ánh (đã có ' . count($draft['files']) . ')', ['multiple' => true, 'accept' => '.' . implode(',.', $cfg['file_types']), 'icon' => 24]) ?>
+    <?= dropzone('files[]', 'Chọn tệp để tải lên', strtoupper(implode(', ', $cfg['file_types'])) . ' · tối đa ' . $cfg['max_file_mb'] . ' MB/tệp, ' . ($cfg['max_files'] ?? 5) . ' tệp/phản ánh (đã có ' . count($draft['files']) . ')', [
+        'multiple' => true, 'accept' => '.' . implode(',.', $cfg['file_types']), 'icon' => 24,
+        'data-exts' => implode(',', $cfg['file_types']), 'data-max-mb' => $cfg['max_file_mb'],
+        'data-max-files' => $cfg['max_files'] ?? 5, 'data-have' => count($draft['files']),
+    ]) ?>
+    <p class="field__error" data-file-errors hidden role="alert"></p>
     <button type="submit" name="action" value="upload" class="btn btn--outline btn--sm self-start"><?= icon('upload', 16) ?> Tải tệp đã chọn lên</button>
     <?php if ($draft['files']): ?>
       <div class="card" style="border-radius:12px;padding:8px 12px">
@@ -184,6 +189,8 @@ else:
     <?= note('lock', 'Chỉ người được chỉ định mới mở được danh tính. Mỗi lần mở đều ghi nhật ký.') ?>
     <?= note('eyeOff', 'Ẩn danh là ẩn khi hiển thị. Hệ thống vẫn lưu liên kết với tài khoản ở nơi riêng.') ?>
     <?= note('file', 'Tệp gốc (vị trí GPS, thiết bị, thời điểm chụp) chỉ cán bộ có thẩm quyền xem để xác minh.') ?>
+    <?= note('alert', 'Thông tin chỉ được chuyển cho gia đình hoặc cơ quan chức năng khi có nguy cơ gây hại cho em hoặc người khác, hoặc theo yêu cầu của cơ quan có thẩm quyền. Thầy cô sẽ báo em trước khi làm vậy, trừ khi việc báo trước làm em gặp nguy hiểm hơn.') ?>
+    <p class="t-small"><a class="link" href="<?= e(url('trang.php', ['p' => 'an-danh'])) ?>" target="_blank">Đọc đầy đủ cơ chế ẩn danh</a></p>
   </div>
   <?php $footer(4, 'Xác nhận gửi'); mobile_end(); exit;
 endif;

@@ -1,10 +1,15 @@
 <?php
 /* QT03 – Xử lý phiếu, kèm QT04 – Form mở danh tính (?id=...&mo-danh-tinh=1) */
 require __DIR__ . '/../includes/bootstrap.php';
-$me = require_staff();
+$me = require_staff('tickets');
 
 $t = ticket_find(get('id'));
 if (!$t) redirect('qt/phieu.php');
+if (!can_access_ticket($me, $t)) {
+    flash('Phiếu này không thuộc nhóm bạn phụ trách.', 'error');
+    redirect('qt/phieu.php');
+}
+$handlerIds = array_column(array_filter(staff_all(), fn ($u) => can_handle_tickets($u) && !$u['locked']), 'id');
 $cfg = config();
 $showReveal = get('mo-danh-tinh') === '1';
 $revealErr = [];
@@ -19,7 +24,8 @@ if (is_post()) {
         $group = in_array(post('group'), [...issue_groups(), ISSUE_UNKNOWN], true) ? post('group') : $t['group'];
         $priority = in_array(post('priority'), PRIORITIES, true) ? post('priority') : $t['priority'];
         $status = in_array(post('status'), TICKET_STATUSES, true) ? post('status') : $t['status'];
-        $assignee = user_find(post('assignee')) ? post('assignee') : null;
+        // Chỉ cán bộ xử lý phiếu mới được phân công (không chọn được tài khoản học sinh / giáo viên)
+        $assignee = in_array(post('assignee'), $handlerIds, true) ? post('assignee') : null;
         $deadline = post('deadline') !== '' ? date('c', (int) strtotime(post('deadline'))) : null;
 
         if ($group !== $t['group']) {
@@ -39,9 +45,15 @@ if (is_post()) {
             audit_log('Trạng thái', $t['code'], "{$t['status']} → $status", $me);
             $t['has_update'] = true;
         }
+        $statusChanged = $status !== $t['status'];
+        $assigneeChanged = $assignee !== $t['assignee'];
         $t = array_merge($t, compact('group', 'priority', 'status', 'assignee', 'deadline'));
+        $t['urgent'] = $priority === PRIORITY_NOW ? true : $t['urgent'];
         if ($changes) array_unshift($t['history'], ['time' => now_iso(), 'text' => $me['name'] . ' ' . implode(', ', $changes)]);
+        if ($statusChanged) $t = ticket_acknowledge($t, $me);
         ticket_save($t);
+        if ($statusChanged) notify_student_update($t);
+        if ($assigneeChanged && $assignee && $assignee !== $me['id']) notify_staff([$assignee], $t, 'Phiếu được phân công cho bạn');
         flash($changes ? 'Đã lưu thay đổi.' : 'Không có gì thay đổi.');
         redirect_back();
     }
@@ -63,16 +75,25 @@ if (is_post()) {
         $t['messages'][] = ['from' => 'staff', 'author_id' => $me['id'], 'time' => now_iso(), 'text' => post('reply')];
         array_unshift($t['history'], ['time' => now_iso(), 'text' => $me['name'] . ' gửi phản hồi']);
         $t['has_update'] = true;
+        $t = ticket_acknowledge($t, $me);
         ticket_save($t);
+        notify_student_update($t);
         audit_log('Phản hồi', $t['code'], 'Gửi tin nhắn trong hộp thư', $me);
         flash('Đã gửi phản hồi. Học sinh nhận email “phiếu có cập nhật”.');
+        redirect('qt/xu-ly-phieu.php', ['id' => $t['code']]);
+    }
+
+    // Xác nhận đã nhận phiếu (dừng đồng hồ 15 phút của phiếu cần phản hồi ngay)
+    if ($a === 'ack') {
+        ticket_save(ticket_acknowledge($t, $me));
+        flash('Đã xác nhận nhận phiếu.');
         redirect('qt/xu-ly-phieu.php', ['id' => $t['code']]);
     }
 
     // Mở danh tính (QT04)
     if ($a === 'reveal') {
         $showReveal = true;
-        if (!$me['can_reveal']) $revealErr['perm'] = 'Bạn không phải người được chỉ định mở danh tính.';
+        if (!can_reveal($me)) $revealErr['perm'] = 'Bạn không phải người được chỉ định mở danh tính.';
         if (post('basis') === '') $revealErr['basis'] = 'Chọn căn cứ theo quy tắc.';
         if (post('reason') === '') $revealErr['reason'] = 'Nhập lý do cụ thể.';
         if (empty($_POST['confirm'])) $revealErr['confirm'] = 'Bạn cần xác nhận.';
@@ -87,9 +108,12 @@ if (is_post()) {
     }
 }
 
-$owner = user_find($t['owner_id']);
 $canSeeIdentity = !$t['anonymous'] || in_array($me['id'], $t['revealed_to'], true);
-$staffOpts = ['' => 'Hàng chờ phân loại'] + array_column(staff_all(), 'name', 'id');
+// Chỉ tra liên kết người gửi khi được phép thấy danh tính (liên kết lưu riêng ở ticket_owners.json)
+$owner = $canSeeIdentity ? user_find(ticket_owner_id($t['code'])) : null;
+$staffOpts = ['' => 'Hàng chờ phân loại'] + array_column(array_filter(staff_all(), fn ($u) => in_array($u['id'], $handlerIds, true)), 'name', 'id');
+$templates = array_filter($cfg['templates'], fn ($tpl) => empty($tpl['group']) || $tpl['group'] === $t['group']);
+$similar = ticket_similar($t);
 // Căn cứ mở danh tính: chỉ khi có lý do chính đáng, cần thiết cho xác minh và xử lý vụ việc
 $basisOptions = ['' => 'Chọn căn cứ'] + array_combine($b = [
     'Cần thiết để xác minh sự việc',
@@ -167,7 +191,7 @@ admin_start(
         <?= csrf_field() ?>
         <?= field_textarea('reply', 'Trả lời học sinh', $replyText, ['placeholder' => 'Nhập phản hồi hoặc chọn mẫu trả lời…']) ?>
         <div class="row wrap gap-10 items-end">
-          <div style="flex:1 1 240px"><?= field_select('template', 'Mẫu trả lời', ['' => 'Chọn mẫu trả lời'] + array_column($cfg['templates'], 'name', 'id'), post('template')) ?></div>
+          <div style="flex:1 1 240px"><?= field_select('template', 'Mẫu trả lời', ['' => 'Chọn mẫu trả lời'] + array_column($templates, 'name', 'id'), post('template')) ?></div>
           <button type="submit" name="action" value="use_template" class="btn btn--outline">Chèn mẫu</button>
         </div>
         <div class="row wrap gap-12">
@@ -179,6 +203,30 @@ admin_start(
   </div>
 
   <div class="a-col-side">
+    <?php [$dl, $dlAlert] = deadline_info($t); ?>
+    <div class="card card--admin" style="gap:10px">
+      <p class="t-h2">Hạn xử lý</p>
+      <p class="<?= $dlAlert ? 't-danger t-strong' : '' ?>"><?= e($dl) ?></p>
+      <?php if (!empty($t['acknowledged_at'])): ?>
+        <p class="t-small t-muted">Đã xác nhận nhận phiếu lúc <?= e(fmt_dt($t['acknowledged_at'])) ?>.</p>
+      <?php elseif ($t['status'] !== 'Đã có phản hồi'): ?>
+        <p class="t-small t-muted"><?= $t['urgent'] ? 'Phiếu cần phản hồi ngay: xác nhận trong ' . e($cfg['urgent_ack_minutes']) . ' phút, quá hạn hệ thống nhắc và chuyển người dự phòng.' : 'Chưa có cán bộ xác nhận.' ?></p>
+        <?= post_button('Xác nhận đã nhận phiếu', ['action' => 'ack'], 'btn btn--block' . ($t['urgent'] ? ' btn--danger' : ' btn--outline')) ?>
+      <?php endif; ?>
+    </div>
+
+    <?php if ($similar): ?>
+      <div class="card card--admin" style="gap:8px">
+        <p class="t-h2">Phiếu có thể liên quan</p>
+        <p class="t-small t-muted">Gợi ý theo nhóm, thời gian và từ ngữ giống nhau. Hệ thống không tự gộp, đóng hay xóa phiếu.</p>
+        <?php foreach ($similar as ['ticket' => $o]): ?>
+          <?php if (can_access_ticket($me, $o)): ?>
+            <a href="<?= e(url('qt/xu-ly-phieu.php', ['id' => $o['code']])) ?>" class="t-small">#<?= e($o['code']) ?> · <?= e(fmt_dt($o['created_at'], 'd/m/Y')) ?> · <?= e($o['status']) ?></a>
+          <?php endif; ?>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
+
     <form method="post" class="card card--admin">
       <?= csrf_field() ?><input type="hidden" name="action" value="save">
       <p class="t-h2">Phân loại &amp; phân công</p>
@@ -196,9 +244,9 @@ admin_start(
         <?php if ($canSeeIdentity): ?>
           <p class="t-small">Bạn đã mở danh tính phiếu này. Lần mở đã được ghi nhật ký.</p>
         <?php else: ?>
-          <?php $authorized = array_column(array_filter(staff_all(), fn ($u) => $u['can_reveal'] && !$u['locked']), 'name'); ?>
+          <?php $authorized = array_column(array_filter(staff_all(), fn ($u) => can_reveal($u) && !$u['locked']), 'name'); ?>
           <p class="t-small">Đang ẩn. Chỉ <strong><?= e(implode(' và ', $authorized) ?: 'người được chỉ định') ?></strong> được xem thông tin định danh, khi có lý do chính đáng cần cho xác minh, xử lý vụ việc. Mỗi lần mở đều ghi nhật ký.</p>
-          <?php if ($me['can_reveal']): ?>
+          <?php if (can_reveal($me)): ?>
             <a href="<?= e(url('qt/xu-ly-phieu.php', ['id' => $t['code'], 'mo-danh-tinh' => 1])) ?>" class="btn btn--danger-outline btn--block">Mở danh tính (ghi nhật ký)</a>
           <?php else: ?>
             <p class="t-small t-muted">Bạn là người xử lý phản ánh nên không xem được danh tính người gửi.</p>
@@ -228,7 +276,7 @@ admin_start(
         <a href="<?= e(url('qt/xu-ly-phieu.php', ['id' => $t['code']])) ?>" class="icon-btn" aria-label="Đóng"><?= icon('x', 20, 'var(--c-muted)') ?></a>
       </div>
       <p class="t-small t-muted">Chỉ dùng khi đúng trường hợp trong quy tắc mở danh tính. Thao tác này được ghi nhật ký kèm tên bạn, thời điểm và lý do.</p>
-      <?php if (!$me['can_reveal']): ?>
+      <?php if (!can_reveal($me)): ?>
         <div class="panel panel--danger"><?= note('alert', 'Tài khoản của bạn chưa được cấp quyền mở danh tính. Liên hệ quản trị viên.', 'var(--c-danger)') ?></div>
       <?php endif; ?>
       <?= field_select('basis', 'Căn cứ mở danh tính *', $basisOptions, post('basis'), ['required' => true]) ?>
@@ -241,7 +289,7 @@ admin_start(
       <?= field_error($revealErr['confirm'] ?? null, 'confirm') ?>
       <div class="row gap-12 justify-end">
         <a href="<?= e(url('qt/xu-ly-phieu.php', ['id' => $t['code']])) ?>" class="btn btn--outline">Hủy</a>
-        <button type="submit" class="btn btn--danger" <?= $me['can_reveal'] ? '' : 'disabled' ?>>Mở danh tính</button>
+        <button type="submit" class="btn btn--danger" <?= can_reveal($me) ? '' : 'disabled' ?>>Mở danh tính</button>
       </div>
     </form>
   </div>

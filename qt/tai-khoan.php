@@ -5,33 +5,49 @@ $me = require_staff(true);
 
 $tab = get('tab') === 'hoc-sinh' ? 'hoc-sinh' : 'can-bo';
 $err = [];
-$v = ['name' => '', 'email' => '', 'role' => 'Xử lý phiếu', 'group' => issue_groups()[0] ?? '', 'reveal' => false];
+$v = ['name' => '', 'email' => '', 'role' => ROLE_HANDLER, 'group' => issue_groups()[0] ?? '', 'reveal' => false];
+
+/** Số người đang có quyền mở danh tính, không tính $exceptId. */
+$revealCount = fn (?string $exceptId = null) => count(array_filter(staff_all(), fn ($u) => !empty($u['can_reveal']) && $u['id'] !== $exceptId));
+$pickRole = fn (string $r) => in_array($r, STAFF_ROLES, true) ? $r : ROLE_HANDLER;
 
 if (is_post()) {
     $a = post('action');
 
     if ($a === 'create') {
-        $v = ['name' => post('name'), 'email' => post('email'), 'role' => post('role') === 'Quản trị viên' ? 'Quản trị viên' : 'Xử lý phiếu', 'group' => post('group'), 'reveal' => !empty($_POST['reveal'])];
+        $v = ['name' => post('name'), 'email' => post('email'), 'role' => $pickRole(post('role')), 'group' => post('group'), 'reveal' => !empty($_POST['reveal'])];
         if ($v['name'] === '') $err['name'] = 'Nhập họ tên.';
         // Kiểm tra lỏng: tên miền chạy thử "abc-trung học.edu.vn" có dấu cách, filter_var() sẽ từ chối
         if (!preg_match('/^[^@\s]+@[^@]+\.[^@]+$/u', $v['email'])) $err['email'] = 'Email không hợp lệ.';
         elseif (user_find_by_email($v['email'])) $err['email'] = 'Email đã có tài khoản.';
+        if ($v['reveal'] && $revealCount() >= REVEAL_MAX) $err['reveal'] = 'Đã đủ ' . REVEAL_MAX . ' người được mở danh tính. Gỡ quyền của một người trước.';
         if (!$err) {
-            $temp = substr(str_replace(['+', '/', '='], '', base64_encode(random_bytes(9))), 0, 10);
+            // Không đặt mật khẩu biết trước: gửi email liên kết đặt mật khẩu lần đầu (hiệu lực 72 giờ)
+            $token = bin2hex(random_bytes(16));
             user_save([
                 'id' => new_id('u_'), 'role' => 'staff', 'name' => $v['name'], 'email' => $v['email'],
-                'password' => password_hash($temp, PASSWORD_DEFAULT), 'staff_role' => $v['role'],
+                'password' => password_hash(bin2hex(random_bytes(16)), PASSWORD_DEFAULT), 'staff_role' => $v['role'],
                 'can_reveal' => $v['reveal'], 'group' => $v['group'], 'locked' => false, 'verified' => true, 'created_at' => now_iso(),
+                'reset_token' => $token, 'reset_expires' => time() + 72 * 3600,
             ]);
-            audit_log('Tài khoản', null, 'Tạo tài khoản cán bộ ' . $v['name'], $me);
-            flash('Đã tạo tài khoản. Mật khẩu tạm (bản chạy thử chưa gửi email): ' . $temp);
+            mail_send($v['email'], 'Tài khoản cán bộ – ' . SITE['project_name'],
+                "Chào {$v['name']},\nTài khoản trang quản trị của bạn đã được tạo (vai trò: {$v['role']}).\nĐặt mật khẩu lần đầu (hiệu lực 72 giờ): " .
+                site_link('sv/mat-khau-moi.php?token=' . $token));
+            audit_log('Tài khoản', null, 'Tạo tài khoản cán bộ ' . $v['name'] . ' (' . $v['role'] . ($v['reveal'] ? ', có quyền mở danh tính' : '') . ')', $me);
+            flash('Đã tạo tài khoản và gửi email đặt mật khẩu lần đầu' . (empty(config()['mail_enabled']) ? ' (xem ở Nhật ký → Email đi khi chưa bật gửi thư thật)' : '') . '.');
             redirect('qt/tai-khoan.php');
         }
     }
 
     if ($a === 'staff_edit' && ($u = user_find(post('id'))) && $u['role'] === 'staff') {
-        $u['staff_role'] = post('role') === 'Quản trị viên' ? 'Quản trị viên' : 'Xử lý phiếu';
-        $u['can_reveal'] = !empty($_POST['reveal']);
+        $u['staff_role'] = $pickRole(post('role'));
+        $wantReveal = !empty($_POST['reveal']);
+        if ($wantReveal && empty($u['can_reveal']) && $revealCount($u['id']) >= REVEAL_MAX) {
+            flash('Đã đủ ' . REVEAL_MAX . ' người được mở danh tính (theo quy tắc). Gỡ quyền của một người trước.', 'error');
+            redirect('qt/tai-khoan.php');
+        }
+        if ($u['id'] === $me['id'] && $u['staff_role'] !== ROLE_ADMIN) $u['staff_role'] = ROLE_ADMIN; // không tự hạ quyền mình
+        $u['can_reveal'] = $wantReveal;
         $u['locked'] = !empty($_POST['locked']) && $u['id'] !== $me['id']; // không tự khóa mình
         user_save($u);
         audit_log('Tài khoản', null, 'Cập nhật tài khoản cán bộ ' . $u['name'] . ($u['can_reveal'] ? ' (có quyền mở danh tính)' : ''), $me);
@@ -78,7 +94,7 @@ admin_start('Tài khoản', 'Tài khoản', 'Tài khoản cán bộ do quản tr
                   <form method="post" class="card" style="position:absolute;right:32px;z-index:3;width:300px;box-shadow:var(--shadow-soft)">
                     <?= csrf_field() ?><input type="hidden" name="action" value="staff_edit"><input type="hidden" name="id" value="<?= e($u['id']) ?>">
                     <p class="t-title"><?= e($u['name']) ?></p>
-                    <?= field_select('role', 'Vai trò', ['Xử lý phiếu', 'Quản trị viên'], $u['staff_role'], ['id' => 'role-' . $u['id']]) ?>
+                    <?= field_select('role', 'Vai trò', STAFF_ROLES, $u['staff_role'], ['id' => 'role-' . $u['id']]) ?>
                     <label class="row gap-8 t-small"><input type="checkbox" name="reveal" value="1" class="checkbox" <?= $u['can_reveal'] ? 'checked' : '' ?>> Quyền mở danh tính</label>
                     <?php if ($u['id'] !== $me['id']): ?>
                       <label class="row gap-8 t-small"><input type="checkbox" name="locked" value="1" class="checkbox" <?= $u['locked'] ? 'checked' : '' ?>> Khóa tài khoản</label>
@@ -122,9 +138,10 @@ admin_start('Tài khoản', 'Tài khoản', 'Tài khoản cán bộ do quản tr
       <p class="t-h2">Tạo tài khoản cán bộ</p>
       <?= field_input('name', 'Họ tên *', $v['name'], ['placeholder' => 'Nhập họ tên cán bộ', 'error' => $err['name'] ?? null]) ?>
       <?= field_input('email', 'Email *', $v['email'], ['placeholder' => 'ten@' . SITE['staff_domain'], 'error' => $err['email'] ?? null]) ?>
-      <?= field_select('role', 'Vai trò *', ['Xử lý phiếu', 'Quản trị viên'], $v['role']) ?>
+      <?= field_select('role', 'Vai trò *', STAFF_ROLES, $v['role']) ?>
       <?= field_select('group', 'Nhóm vấn đề phụ trách', issue_groups(), $v['group']) ?>
-      <?= switch_row('reveal', 'Quyền mở danh tính phiếu ẩn danh', 'Chỉ cấp cho người được chỉ định theo quy tắc', $v['reveal']) ?>
+      <?= switch_row('reveal', 'Quyền mở danh tính phiếu ẩn danh', 'Tối đa ' . REVEAL_MAX . ' người theo quy tắc (hiện có ' . $revealCount() . ')', $v['reveal']) ?>
+      <?= field_error($err['reveal'] ?? null, 'reveal') ?>
       <p class="t-small t-muted">Cán bộ nhận email đặt mật khẩu lần đầu.</p>
       <div class="row gap-10">
         <a href="<?= e(url('qt/tai-khoan.php')) ?>" class="btn btn--outline btn--block">Hủy</a>

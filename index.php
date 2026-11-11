@@ -20,7 +20,7 @@ $privacy = [
     ['eyeOff', 'Cán bộ xử lý', 'Đọc nội dung phiếu và trả lời bạn, không thấy danh tính với phiếu ẩn danh.'],
     ['lock', 'Người được chỉ định', 'Chỉ họ mở được danh tính. Mỗi lần mở đều được ghi nhật ký.'],
     ['file', 'Tệp đính kèm', 'Bản tải về đã xóa GPS, thiết bị, thời điểm chụp. Bản gốc chỉ cán bộ có thẩm quyền xem để xác minh, có ghi nhật ký.'],
-    ['user', 'Đăng ký tối giản', 'Chỉ cần email và tên hiển thị, có thể là biệt danh. Không hỏi họ tên thật, mã học sinh hay lớp.'],
+    ['user', 'Đăng ký tối giản', 'Đăng ký bằng mã tham gia và email nhà trường cấp. Tên hiển thị có thể là biệt danh, không hỏi họ tên thật hay lớp.'],
 ];
 
 page_head('Học qua tình huống & Gửi phản ánh', ['assets/css/landing.css']);
@@ -37,11 +37,18 @@ page_head('Học qua tình huống & Gửi phản ánh', ['assets/css/landing.cs
     <div class="lp-container lp-header__inner">
       <a href="#top" class="lp-logo"><?= wordmark() ?></a>
       <nav aria-label="Điều hướng chính" class="lp-nav">
-        <a href="<?= e(url('sv/hoc.php')) ?>">Học tình huống</a>
+        <a href="#top" aria-current="page">Trang chủ</a>
+        <a href="<?= e(url('sv/hoc.php')) ?>">Học tương tác</a>
+        <a href="<?= e(url('sv/tai-lieu.php')) ?>">Tài liệu</a>
         <a href="<?= e(url('sv/gui-phieu.php')) ?>">Gửi phản ánh</a>
-        <a href="#an-danh">Quyền riêng tư</a>
         <a href="<?= e(url('sv/phieu.php')) ?>">Theo dõi phiếu</a>
-        <a href="<?= e(url('sv/dang-nhap.php')) ?>" class="lp-nav__login">Đăng nhập</a>
+        <form method="get" action="<?= e(url('sv/tai-lieu.php')) ?>" class="lp-search" role="search">
+          <?= icon('search', 16, 'var(--c-muted)') ?><label for="lp-q" class="sr-only">Tìm học liệu</label>
+          <input id="lp-q" name="q" placeholder="Tìm học liệu">
+        </form>
+        <?php $cu = current_user(); ?>
+        <a href="<?= e(url($cu ? ($cu['role'] === 'student' ? 'sv/tai-khoan.php' : staff_home($cu)) : 'sv/dang-nhap.php')) ?>" class="lp-nav__login"><?= $cu ? 'Tài khoản' : 'Đăng nhập' ?></a>
+        <a href="#ho-tro" class="lp-nav__sos">Em cần hỗ trợ</a>
       </nav>
     </div>
   </header>
@@ -53,10 +60,11 @@ page_head('Học qua tình huống & Gửi phản ánh', ['assets/css/landing.cs
         <h1>Học cách ứng xử qua tình huống thật. <span>Lên tiếng an toàn</span> khi cần.</h1>
         <p class="lp-lead"><?= e(SITE['intro']) ?> Làm các tình huống trắc nghiệm về bạo lực học đường, thuốc lá điện tử, an toàn trên mạng xã hội, phòng chống tảo hôn và quấy rối tình dục. Gửi phản ánh, đề nghị hỗ trợ hoặc góp ý, có thể ẩn danh.</p>
         <div class="row wrap gap-12">
-          <a href="<?= e(url('sv/hoc.php')) ?>" class="lp-cta">Bắt đầu học</a>
-          <a href="<?= e(url('sv/gui-phieu.php')) ?>" class="lp-cta lp-cta--danger-outline">Gửi phản ánh</a>
+          <a href="<?= e(url('sv/hoc.php')) ?>" class="lp-cta">Khám phá tình huống</a>
+          <a href="#ho-tro" class="lp-cta lp-cta--danger">Em cần hỗ trợ</a>
+          <a href="<?= e(url('sv/gui-phieu.php')) ?>" class="lp-cta lp-cta--outline">Gửi góp ý hoặc phản ánh</a>
         </div>
-        <p style="font-size:14px;color:var(--c-muted)">Cần <strong>mã tham gia</strong> do nhà trường cung cấp để đăng ký.</p>
+        <p style="font-size:14px;color:var(--c-muted)">Đăng ký bằng <strong>mã tham gia và email</strong> do nhà trường cấp.</p>
       </div>
 
       <div class="lp-demo-col" id="demo">
@@ -84,7 +92,7 @@ page_head('Học qua tình huống & Gửi phản ánh', ['assets/css/landing.cs
     </div>
   </section>
 
-  <section aria-label="Hỗ trợ khẩn cấp">
+  <section aria-label="Hỗ trợ khẩn cấp" id="ho-tro">
     <div class="lp-container lp-sos-wrap">
       <div class="lp-sos">
         <span class="lp-sos__icon"><?= icon('phone', 22, 'var(--c-danger)') ?></span>
@@ -206,6 +214,7 @@ page_head('Học qua tình huống & Gửi phản ánh', ['assets/css/landing.cs
         <?= wordmark('sm') ?>
         <span><?= e(SITE['slogan']) ?></span>
         <span>Đơn vị quản lý: <?= e(SITE['org_name']) ?> · <?= e(SITE['domain']) ?></span>
+        <span>Liên hệ: hỗ trợ trực tiếp tại phòng tư vấn học đường · <?= e(hotline()) ?></span>
         <span>Thời gian tiếp nhận: <?= e(duty_label()) ?></span>
       </div>
       <div class="lp-footer__col" style="flex:1 1 220px">
@@ -213,9 +222,10 @@ page_head('Học qua tình huống & Gửi phản ánh', ['assets/css/landing.cs
         <a href="<?= e(tel_href()) ?>" style="color:var(--c-danger);font-weight:700;text-decoration:none;font-size:18px"><?= e(hotline()) ?></a>
       </div>
       <nav aria-label="Liên kết chân trang" class="lp-footer__col" style="flex:1 1 200px">
-        <a href="#top">Chính sách bảo mật</a>
-        <a href="#top">Quy tắc sử dụng</a>
-        <a href="#an-danh">Ai xem được phiếu của tôi?</a>
+        <a href="<?= e(url('trang.php', ['p' => 'chinh-sach'])) ?>">Chính sách bảo mật</a>
+        <a href="<?= e(url('trang.php', ['p' => 'quy-tac'])) ?>">Quy tắc sử dụng</a>
+        <a href="<?= e(url('trang.php', ['p' => 'an-danh'])) ?>">Cơ chế ẩn danh – ai xem được phiếu?</a>
+        <a href="<?= e(url('trang.php', ['p' => 'gio-tiep-nhan'])) ?>">Giờ tiếp nhận</a>
       </nav>
       <div class="lp-footer__col" style="flex:1 1 160px">
         <span style="font-weight:700;color:var(--c-text)">Cán bộ</span>

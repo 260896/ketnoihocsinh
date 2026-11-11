@@ -41,6 +41,14 @@ require ROOT . '/includes/icons.php';
 require ROOT . '/includes/ui.php';
 require ROOT . '/includes/layout.php';
 
+// Nhắc hạn / chuyển dự phòng: chạy dự phòng tại đây (tối đa 1 lần/phút).
+// Bản chính thức nên chạy thêm cron thật: php cron.php mỗi phút (xem HUONG-DAN.md).
+try {
+    sla_run();
+} catch (Throwable $e) {
+    error_log('sla_run: ' . $e->getMessage());
+}
+
 // Mọi form POST đều phải có mã CSRF hợp lệ.
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     verify_csrf();

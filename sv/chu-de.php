@@ -15,6 +15,27 @@ foreach ($list as $i => $s) {
 }
 $docs = array_filter(docs_all(), fn ($d) => $d['topic_id'] === $topic['id'] && $d['status'] === 'Đã công bố');
 
+// Hỏi đáp có điều phối: câu hỏi chỉ hiện cho cả lớp khi giáo viên đã trả lời và công bố (không kèm tên người hỏi)
+$askErr = null;
+if (is_post() && post('action') === 'ask') {
+    $text = post('question');
+    if (mb_strlen($text) < 5) {
+        $askErr = 'Câu hỏi quá ngắn.';
+    } elseif (mb_strlen($text) > 1000) {
+        $askErr = 'Câu hỏi tối đa 1000 ký tự.';
+    } else {
+        question_save([
+            'id' => new_id('q'), 'kind' => 'question', 'topic_id' => $topic['id'], 'situation_id' => null,
+            'user_id' => $me['id'], 'text' => $text, 'choice' => null, 'created_at' => now_iso(),
+            'answer' => '', 'answered_by' => null, 'answered_at' => null, 'published' => false,
+        ]);
+        flash('Đã gửi câu hỏi. Giáo viên sẽ trả lời trong mục Hỏi đáp.');
+        redirect('sv/chu-de.php', ['id' => $topic['id']]);
+    }
+}
+$qa = array_filter(questions_all(), fn ($q) => $q['kind'] === 'question' && $q['topic_id'] === $topic['id']
+    && (($q['published'] && $q['answer'] !== '') || $q['user_id'] === $me['id']));
+
 mobile_start($topic['name'], ['back' => url('sv/hoc.php')]);
 ?>
 <div class="panel" style="background:var(--c-primary);border-radius:16px;padding:18px">
@@ -67,4 +88,23 @@ mobile_start($topic['name'], ['back' => url('sv/hoc.php')]);
     </a>
   <?php endforeach; ?>
 <?php endif; ?>
+
+<h2 class="t-h2" id="hoi-dap">Hỏi đáp</h2>
+<?php foreach ($qa as $q): ?>
+  <div class="card" style="gap:6px">
+    <p class="t-small t-muted"><?= $q['user_id'] === $me['id'] ? 'Câu hỏi của bạn' : 'Một bạn hỏi' ?> · <?= e(fmt_dt($q['created_at'], 'd/m/Y')) ?></p>
+    <p class="pre"><?= e($q['text']) ?></p>
+    <?php if ($q['answer'] !== ''): ?>
+      <div class="panel panel--info" style="padding:10px 12px;border-radius:12px"><p class="t-small t-strong t-primary">Giáo viên trả lời</p><p class="pre t-small"><?= e($q['answer']) ?></p></div>
+    <?php else: ?>
+      <p class="t-small t-muted">Đang chờ giáo viên trả lời.</p>
+    <?php endif; ?>
+  </div>
+<?php endforeach; ?>
+<?php if (!$qa): ?><p class="t-small t-muted">Chưa có câu hỏi nào được trả lời.</p><?php endif; ?>
+<form method="post" class="stack gap-10">
+  <?= csrf_field() ?><input type="hidden" name="action" value="ask">
+  <?= field_textarea('question', 'Đặt câu hỏi cho thầy cô về chủ đề này', post('question'), ['rows' => 3, 'maxlength' => 1000, 'placeholder' => 'Không ghi tên thật của bạn bè. Câu hỏi được giáo viên đọc trước khi công bố.', 'error' => $askErr]) ?>
+  <button type="submit" class="btn btn--outline btn--sm self-start">Gửi câu hỏi</button>
+</form>
 <?php mobile_end('Học');

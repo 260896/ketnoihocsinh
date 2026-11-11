@@ -4,7 +4,7 @@ require __DIR__ . '/../includes/bootstrap.php';
 $me = require_student();
 
 $t = ticket_find(get('id'));
-if (!$t || $t['owner_id'] !== $me['id']) redirect('sv/phieu.php');
+if (!$t || !ticket_is_owned_by($t, $me)) redirect('sv/phieu.php');
 
 mobile_start('Đã gửi phiếu');
 ?>
@@ -19,7 +19,7 @@ mobile_start('Đã gửi phiếu');
     <span class="badge badge--muted badge--square">Xác nhận tự động</span>
     <p><?= e($t['messages'][0]['text']) ?></p>
   </div>
-  <?= note('clock', '<span class="t-muted">' . (is_out_of_hours() ? 'Em gửi ngoài giờ làm việc (' . e(duty_label()) . '). Dự kiến được xử lý từ <strong>' . e(expected_processing_label()) . '</strong>. ' : 'Bộ phận tiếp nhận làm việc ' . e(duty_label()) . '. ') . 'Em nhận email khi phản ánh có cập nhật (không kèm nội dung).</span>', 'var(--c-muted)') ?>
+  <?= note('clock', '<span class="t-muted">' . (is_out_of_hours() ? 'Em gửi ngoài giờ làm việc (' . e(duty_label()) . '). Dự kiến được xử lý từ <strong>' . e(expected_processing_label()) . '</strong>. ' : 'Bộ phận tiếp nhận làm việc ' . e(duty_label()) . '. ') . 'Em nhận email "Phiếu có cập nhật" khi cán bộ trả lời (email không kèm nội dung phiếu).</span>', 'var(--c-muted)') ?>
   <a href="<?= e(url('sv/chi-tiet-phieu.php', ['id' => $t['code']])) ?>" class="btn btn--block">Xem phiếu</a>
   <a href="<?= e(url('sv/hoc.php')) ?>" class="btn btn--ghost btn--block">Về trang chủ</a>
 </div>

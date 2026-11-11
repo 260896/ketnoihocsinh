@@ -139,7 +139,7 @@ function status_badge(string $status): string
 
 function priority_badge(string $p): string
 {
-    $cls = ['Khẩn' => 'badge--danger-solid', 'Cao' => 'badge--danger', 'Thường' => 'badge--muted'][$p] ?? '';
+    $cls = [PRIORITY_NOW => 'badge--danger-solid', PRIORITY_LATER => 'badge--muted'][$p] ?? '';
     return '<span class="badge badge--square ' . $cls . '">' . e($p) . '</span>';
 }
 
