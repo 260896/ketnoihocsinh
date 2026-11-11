@@ -36,7 +36,7 @@ page_head('Học qua tình huống & Gửi phản ánh', ['assets/css/landing.cs
   <header class="lp-header">
     <div class="lp-container lp-header__inner">
       <a href="#top" class="lp-logo row gap-10" style="text-decoration:none"><?= site_logo() ?><?= wordmark() ?></a>
-      <a href="#ho-tro" class="lp-sos">Em cần hỗ trợ</a>
+      <a href="#ho-tro" class="lp-hdr-sos">Em cần hỗ trợ</a>
       <button type="button" class="lp-menu-btn" aria-controls="lp-nav" aria-expanded="false" aria-label="Menu điều hướng" hidden>
         <span class="lp-menu-btn__bars" aria-hidden="true"></span><span class="lp-menu-btn__label">Menu</span>
       </button>

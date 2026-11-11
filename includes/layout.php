@@ -20,7 +20,7 @@ function page_head(string $title, array $css = []): void
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&amp;display=swap">
 <?php foreach ($css as $c): ?>
-<link rel="stylesheet" href="<?= e(url($c)) ?>?v=4">
+<link rel="stylesheet" href="<?= e(url($c)) ?>?v=6">
 <?php endforeach; ?>
 <script src="<?= e(url('assets/js/app.js')) ?>?v=1" defer></script>
 </head>
