@@ -73,6 +73,13 @@ function attempt_login(string $email, string $password, string $role): array
     $keys = ['login|' . mb_strtolower(trim($email)), 'login-ip|' . client_ip()];
     if ($w = max(throttle_wait($keys[0]), throttle_wait($keys[1], THROTTLE_MAX_IP))) return [null, throttle_message($w)];
     $u = user_find_by_email($email);
+    // Đúng mật khẩu nhưng sai trang (cán bộ vào trang học sinh hoặc ngược lại): chỉ ra trang đúng, không tính là sai.
+    // Chỉ báo khi mật khẩu đúng nên không lộ email nào là của cán bộ.
+    if ($u && $u['role'] !== $role && password_verify($password, $u['password'])) {
+        return [null, $u['role'] === 'staff'
+            ? 'Đây là tài khoản cán bộ. Hãy đăng nhập ở trang quản trị.'
+            : 'Đây là tài khoản học sinh. Hãy đăng nhập ở trang dành cho học sinh.'];
+    }
     if (!$u || $u['role'] !== $role || !password_verify($password, $u['password'])) {
         foreach ($keys as $k) throttle_fail($k);
         return [null, 'Email hoặc mật khẩu không đúng.'];
@@ -205,7 +212,10 @@ function redirect_after_login(string $fallback): never
 {
     $next = $_SESSION['next'] ?? null;
     unset($_SESSION['next']);
-    if ($next && str_starts_with($next, BASE_URL . '/') && !str_starts_with($next, '//') && !str_contains($next, '\\')) {
+    // Chỉ quay lại trang cùng khu vực với trang mặc định (sv/ cho học sinh, qt/ cho cán bộ):
+    // tránh học sinh đăng nhập xong bị đưa tới trang quản trị đã lưu từ trước (và ngược lại).
+    $area = BASE_URL . '/' . strtok($fallback, '/') . '/';
+    if ($next && str_starts_with($next, $area) && !str_starts_with($next, '//') && !str_contains($next, '\\')) {
         header('Location: ' . $next);
         exit;
     }

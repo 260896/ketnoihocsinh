@@ -115,6 +115,25 @@ function brand(bool $withSlogan = true): string
         . ($withSlogan ? '<span class="brand__slogan">' . e(SITE['slogan']) . '</span>' : '') . '</div>';
 }
 
+/**
+ * Báo đang đăng nhập bằng loại tài khoản khác ở trang đăng nhập / đăng ký.
+ * $want: 'student' (trang học sinh) | 'staff' (trang quản trị). Đăng nhập tài khoản mới sẽ thay phiên hiện tại.
+ */
+function session_switch_notice(string $want): string
+{
+    $u = current_user();
+    if (!$u || $u['role'] === $want) return '';
+    $isStaff = $u['role'] === 'staff';
+    $home = $isStaff ? url(staff_home($u)) : url('sv/hoc.php');
+    return '<div class="panel panel--info" role="status" style="border-radius:14px;padding:14px;gap:10px">'
+        . note('info', 'Bạn đang đăng nhập bằng tài khoản ' . ($isStaff ? 'cán bộ' : 'học sinh') . ' <strong>' . e($u['name']) . '</strong>. '
+            . ($want === 'student' ? 'Trang này dành cho học sinh.' : 'Trang này dành cho cán bộ.')
+            . ' Đăng nhập tài khoản khác sẽ đăng xuất tài khoản hiện tại.')
+        . '<div class="row wrap gap-10"><a class="btn btn--sm" href="' . e($home) . '">' . ($isStaff ? 'Về trang quản trị' : 'Về trang Học') . '</a>'
+        . '<form method="post" action="' . e(url('dang-xuat.php')) . '" class="inline-form">' . csrf_field()
+        . '<input type="hidden" name="to" value="' . e($want) . '"><button type="submit" class="btn btn--sm btn--outline">Đăng xuất</button></form></div></div>';
+}
+
 /** Dòng ghi chú bản chạy thử. */
 function demo_notice(): string
 {

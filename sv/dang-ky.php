@@ -64,6 +64,7 @@ mobile_start('Đăng ký', ['back' => url('sv/dang-nhap.php')]);
   <?= csrf_field() ?>
   <?= brand() ?>
   <h2 class="t-h1">Tạo tài khoản</h2>
+  <?= session_switch_notice('student') ?>
   <p class="t-muted">Nhập mã tham gia và đúng email mà nhà trường đã đăng ký cho em. Mỗi mã chỉ dùng được một lần.</p>
   <?= field_input('code', 'Mã tham gia *', $v['code'], ['placeholder' => 'Mã do nhà trường cung cấp', 'error' => $err['code'] ?? null, 'required' => true]) ?>
   <?= field_input('email', 'Email *', $v['email'], ['type' => 'email', 'placeholder' => 'Email nhà trường đã đăng ký cho em', 'autocomplete' => 'email', 'error' => $err['email'] ?? null, 'required' => true]) ?>

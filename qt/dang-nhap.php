@@ -24,6 +24,7 @@ page_head('Đăng nhập trang quản trị');
     <?= csrf_field() ?>
     <?= brand() ?>
     <h2 class="t-h1">Đăng nhập trang quản trị</h2>
+    <?= session_switch_notice('staff') ?>
     <p class="t-small t-muted">Dành cho cán bộ quản trị và cán bộ xử lý phiếu. Tài khoản do quản trị viên cấp.</p>
     <?= field_input('email', 'Tên đăng nhập (email cán bộ)', $email, ['placeholder' => 'ten@' . SITE['staff_domain'], 'autocomplete' => 'username', 'required' => true, 'autocapitalize' => 'off', 'spellcheck' => 'false']) ?>
     <?= field_input('pw', 'Mật khẩu', '', ['type' => 'password', 'placeholder' => 'Nhập mật khẩu', 'autocomplete' => 'current-password', 'required' => true, 'error' => $error]) ?>

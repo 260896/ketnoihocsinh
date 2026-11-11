@@ -28,6 +28,7 @@ mobile_start('Đăng nhập', ['no_header' => true]);
   <?= brand() ?>
   <h2 style="font-size:28px;font-weight:700;line-height:1.3">Đăng nhập</h2>
   <p class="t-muted">Học qua tình huống và gửi phản ánh an toàn.</p>
+  <?= session_switch_notice('student') ?>
   <?= field_input('email', 'Email', $email, ['type' => 'email', 'placeholder' => 'ten@email.com', 'autocomplete' => 'email', 'required' => true]) ?>
   <?= field_input('pw', 'Mật khẩu', '', ['type' => 'password', 'placeholder' => 'Nhập mật khẩu', 'autocomplete' => 'current-password', 'required' => true, 'error' => $error]) ?>
   <div style="text-align:right"><a href="<?= e(url('sv/quen-mat-khau.php')) ?>" class="link link--lg">Quên mật khẩu?</a></div>
