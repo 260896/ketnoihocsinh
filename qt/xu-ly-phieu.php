@@ -4,7 +4,10 @@ require __DIR__ . '/../includes/bootstrap.php';
 $me = require_staff('tickets');
 
 $t = ticket_find(get('id'));
-if (!$t) redirect('qt/phieu.php');
+if (!$t) {
+    flash(get('id') === '' ? 'Chọn một phiếu trong danh sách để xử lý.' : 'Không tìm thấy phiếu #' . get('id') . '.', 'error');
+    redirect('qt/phieu.php');
+}
 if (!can_access_ticket($me, $t)) {
     flash('Phiếu này không thuộc nhóm bạn phụ trách.', 'error');
     redirect('qt/phieu.php');
