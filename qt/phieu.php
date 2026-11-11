@@ -74,7 +74,7 @@ admin_start('Phiếu phản ánh', 'Phiếu phản ánh', can_reveal($me)
 <div class="table-wrap">
   <table class="table">
     <thead><tr>
-      <th scope="col" style="width:110px">Mã phiếu</th>
+      <th scope="col" style="width:130px">Mã phiếu</th>
       <th scope="col">Loại · Nhóm vấn đề</th>
       <th scope="col" style="width:90px">Ưu tiên</th>
       <th scope="col" style="width:140px">Trạng thái</th>
@@ -85,7 +85,7 @@ admin_start('Phiếu phản ánh', 'Phiếu phản ánh', can_reveal($me)
     <tbody>
     <?php foreach ($shown as $t): [$dl, $alert] = deadline_info($t); ?>
       <tr<?= $alert ? ' class="is-alert"' : '' ?>>
-        <td><a href="<?= e(url('qt/xu-ly-phieu.php', ['id' => $t['code']])) ?>" style="text-decoration:none">#<?= e($t['code']) ?></a></td>
+        <td class="t-nowrap"><a href="<?= e(url('qt/xu-ly-phieu.php', ['id' => $t['code']])) ?>" style="text-decoration:none">#<?= e($t['code']) ?></a></td>
         <td><?= e($t['type']) ?> · <?= e($t['group'] === ISSUE_UNKNOWN ? 'Chưa rõ nhóm' : $t['group']) ?></td>
         <td><?= priority_badge($t['priority']) ?></td>
         <td><?= status_badge($t['status']) ?></td>

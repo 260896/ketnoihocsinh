@@ -84,7 +84,7 @@ admin_start('Nhật ký', 'Nhật ký thao tác', 'Ghi lại phân loại, phân
         <td><?= e(fmt_dt($r['time'])) ?></td>
         <td><?= e($r['actor']) ?></td>
         <td><span class="badge <?= in_array($r['action'], $sensitive, true) ? 'badge--danger' : 'badge--info' ?>"><?= e($r['action']) ?></span></td>
-        <td><?= $r['ticket'] ? '<a href="' . e(url('qt/xu-ly-phieu.php', ['id' => $r['ticket']])) . '">#' . e($r['ticket']) . '</a>' : '—' ?></td>
+        <td class="t-nowrap"><?= $r['ticket'] ? '<a href="' . e(url('qt/xu-ly-phieu.php', ['id' => $r['ticket']])) . '">#' . e($r['ticket']) . '</a>' : '—' ?></td>
         <td><?= e($r['detail']) ?></td>
       </tr>
     <?php endforeach; ?>

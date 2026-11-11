@@ -275,6 +275,7 @@ button.choice { font: inherit; }
 .table th { text-align: left; padding: 12px 16px; font-size: 13px; font-weight: 600; color: var(--c-muted); white-space: nowrap; }
 .table td { padding: 14px 16px; font-size: 14px; border-top: 1px solid var(--c-border); vertical-align: middle; }
 .table td:first-child { font-weight: 600; }
+.table .t-nowrap, .t-nowrap { white-space: nowrap; }
 .table tr.is-alert { background: var(--c-danger-50); }
 .table td .select { padding-top: 10px; padding-bottom: 10px; }
 .table-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
