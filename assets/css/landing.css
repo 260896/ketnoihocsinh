@@ -119,7 +119,6 @@
   .lp-hero h1 { font-size: 34px; }
   .lp-h2 { font-size: 28px; }
   .lp-section, .lp-dark__inner, .lp-track, .lp-start__inner { padding-top: 48px; padding-bottom: 48px; }
-  .lp-nav { gap: 0 14px; font-size: 14px; }
 }
 
 /* Bản PHP: lựa chọn minh họa là liên kết (không dùng JavaScript) */
@@ -131,9 +130,50 @@ a.lp-demo__opt:hover { border-color: var(--c-border-strong); color: var(--c-text
 /* Header: tìm kiếm học liệu + nút đỏ "Em cần hỗ trợ" (CLAUDE.md mục 9) */
 .lp-search { display: flex; align-items: center; gap: 6px; border: 1px solid var(--c-border-strong); border-radius: var(--r-md); padding: 0 10px; background: var(--c-white); }
 .lp-search input { border: 0; outline: none; font: inherit; font-size: 14px; padding: 9px 0; width: 150px; background: transparent; }
-.lp-nav a.lp-nav__sos { color: var(--c-white); background: var(--c-danger); padding: 10px 16px; border-radius: var(--r-md); font-weight: 700; }
-.lp-nav a.lp-nav__sos:hover { background: var(--c-danger-dark); color: var(--c-white); }
+.lp-sos { order: 2; margin-left: auto; flex: 0 0 auto; color: var(--c-white); background: var(--c-danger); padding: 10px 16px; border-radius: var(--r-md); font-weight: 700; font-size: 15px; text-decoration: none; white-space: nowrap; }
+.lp-sos:hover { background: var(--c-danger-dark); color: var(--c-white); }
+.lp-header .lp-logo { order: 1; }
+.lp-header .lp-nav { order: 4; flex: 1 1 100%; gap: 4px 22px; }
+.lp-header .lp-search { margin-left: auto; }
+.lp-menu-btn { order: 3; display: none; }
+
+/* Điện thoại / máy tính bảng: 1 hàng gồm logo – nút đỏ – nút Menu; menu xổ xuống theo chiều dọc */
+@media (max-width: 960px) {
+  .lp-header__inner { flex-wrap: wrap; gap: 10px; padding-top: 10px; padding-bottom: 10px; }
+  .lp-header .lp-logo { flex: 0 1 auto; min-width: 0; }
+  .lp-menu-btn {
+    order: 3; display: inline-flex; align-items: center; gap: 6px; flex: 0 0 auto;
+    min-height: 44px; padding: 0 12px; border: 1.5px solid var(--c-primary); border-radius: var(--r-md);
+    background: var(--c-white); color: var(--c-primary); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+  }
+  .lp-menu-btn__bars, .lp-menu-btn__bars::before, .lp-menu-btn__bars::after {
+    display: block; width: 18px; height: 2px; background: currentColor; border-radius: 2px; position: relative; transition: transform .15s;
+  }
+  .lp-menu-btn__bars::before, .lp-menu-btn__bars::after { content: ''; position: absolute; left: 0; }
+  .lp-menu-btn__bars::before { top: -6px; }
+  .lp-menu-btn__bars::after { top: 6px; }
+  .is-open .lp-menu-btn__bars { background: transparent; }
+  .is-open .lp-menu-btn__bars::before { transform: translateY(6px) rotate(45deg); }
+  .is-open .lp-menu-btn__bars::after { transform: translateY(-6px) rotate(-45deg); }
+
+  .lp-header .lp-nav {
+    order: 4; flex: 1 1 100%; margin-left: 0; flex-direction: column; align-items: stretch; gap: 0;
+    font-size: 16px; border-top: 1px solid var(--c-border); padding-top: 6px;
+  }
+  .is-collapsible:not(.is-open) .lp-nav { display: none; }
+  .lp-nav a { padding: 12px 4px; border-bottom: 1px solid var(--c-border); }
+  .lp-nav a[aria-current="page"] { color: var(--c-primary); font-weight: 700; }
+  .lp-header .lp-search { order: -1; margin: 6px 0 4px; }
+  .lp-search input { width: 100%; padding: 11px 0; font-size: 16px; }
+  .lp-nav a.lp-nav__login { margin-top: 10px; text-align: center; border-bottom: 1.5px solid var(--c-primary); }
+}
 @media (max-width: 640px) {
-  .lp-search { width: 100%; order: 10; }
-  .lp-search input { width: 100%; }
+  .lp-banner { font-size: 13px; padding: 8px 16px; line-height: 1.45; }
+  .lp-header .lp-logo { flex-direction: column; align-items: flex-start; gap: 2px; }
+  .lp-header .site-logo { height: 22px; }
+  .lp-header .wordmark { font-size: 15px; }
+  .lp-header__inner { padding-left: 16px; padding-right: 16px; gap: 8px; }
+  .lp-sos { padding: 10px 10px; font-size: 14px; }
+  .lp-menu-btn__label { display: none; }
+  .lp-menu-btn { padding: 0 11px; }
 }

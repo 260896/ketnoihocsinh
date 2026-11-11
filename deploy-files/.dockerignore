@@ -1,0 +1,7 @@
+.git
+data/*.json
+data/*.tmp
+data/uploads
+_old-react
+tests
+*.zip

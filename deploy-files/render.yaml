@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: ketnoihocsinh
+    runtime: docker
+    plan: free
+    healthCheckPath: /

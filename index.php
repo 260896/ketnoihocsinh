@@ -36,7 +36,11 @@ page_head('Học qua tình huống & Gửi phản ánh', ['assets/css/landing.cs
   <header class="lp-header">
     <div class="lp-container lp-header__inner">
       <a href="#top" class="lp-logo row gap-10" style="text-decoration:none"><?= site_logo() ?><?= wordmark() ?></a>
-      <nav aria-label="Điều hướng chính" class="lp-nav">
+      <a href="#ho-tro" class="lp-sos">Em cần hỗ trợ</a>
+      <button type="button" class="lp-menu-btn" aria-controls="lp-nav" aria-expanded="false" aria-label="Menu điều hướng" hidden>
+        <span class="lp-menu-btn__bars" aria-hidden="true"></span><span class="lp-menu-btn__label">Menu</span>
+      </button>
+      <nav id="lp-nav" aria-label="Điều hướng chính" class="lp-nav">
         <a href="#top" aria-current="page">Trang chủ</a>
         <a href="<?= e(url('sv/hoc.php')) ?>">Học cùng nhau</a>
         <a href="<?= e(url('sv/tai-lieu.php')) ?>">Tài liệu</a>
@@ -49,10 +53,21 @@ page_head('Học qua tình huống & Gửi phản ánh', ['assets/css/landing.cs
         </form>
         <?php $cu = current_user(); ?>
         <a href="<?= e(url($cu ? ($cu['role'] === 'student' ? 'sv/tai-khoan.php' : staff_home($cu)) : 'sv/dang-nhap.php')) ?>" class="lp-nav__login"><?= $cu ? 'Tài khoản' : 'Đăng nhập' ?></a>
-        <a href="#ho-tro" class="lp-nav__sos">Em cần hỗ trợ</a>
       </nav>
     </div>
   </header>
+  <script>
+  /* Menu thu gọn trên điện thoại. Không có JavaScript thì menu vẫn hiện đầy đủ. */
+  (function () {
+    var h = document.querySelector('.lp-header'), b = h && h.querySelector('.lp-menu-btn');
+    if (!b) return;
+    h.classList.add('is-collapsible'); b.hidden = false;
+    function set(open) { h.classList.toggle('is-open', open); b.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+    b.addEventListener('click', function () { set(!h.classList.contains('is-open')); });
+    h.querySelectorAll('.lp-nav a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
+  })();
+  </script>
 
   <section id="top" class="lp-hero">
     <div class="lp-container lp-hero__inner">
