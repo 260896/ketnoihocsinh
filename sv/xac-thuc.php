@@ -42,28 +42,24 @@ if (!isset($_SESSION['verify_sent_at'])) {
     $wait = 60;
 }
 
-mobile_start('Xác thực email');
+auth_start('Xác thực email', ['heading' => 'Kiểm tra hộp thư của bạn',
+    'subtitle' => 'Liên kết xác thực đã gửi tới ' . ($email ?: 'email của bạn') . '. Tài khoản chỉ dùng được sau khi xác thực.']);
 ?>
-<div class="stack gap-14 items-center" style="padding-top:36px">
-  <span class="icon-circle" style="width:72px;height:72px;background:var(--c-primary-50)"><?= icon('mail', 36, 'var(--c-primary)') ?></span>
-  <h2 class="t-h1 t-center">Kiểm tra hộp thư của bạn</h2>
-  <p class="t-muted t-center">Liên kết xác thực đã gửi tới <?= e($email ?: 'email của bạn') ?>. Tài khoản chỉ dùng được sau khi xác thực.</p>
-  <div class="panel self-stretch"><?= note('info', 'Không thấy email? Kiểm tra mục Thư rác/Spam. Liên kết có hiệu lực trong ' . e(SITE['verify_ttl']) . '.') ?></div>
+  <div class="panel"><?= note('info', 'Không thấy email? Kiểm tra mục Thư rác/Spam. Liên kết có hiệu lực trong ' . e(SITE['verify_ttl']) . '.') ?></div>
 
   <?php // CHỈ bản chạy thử khi chưa bật gửi thư thật: hiện liên kết để kiểm thử. Bản chính thức: liên kết chỉ có trong email.
   if ($user && !$user['verified'] && SITE['is_demo'] && empty(config()['mail_enabled'])): ?>
-    <div class="demo-box self-stretch">
+    <div class="demo-box">
       <strong>Bản chạy thử:</strong> hệ thống chưa gửi email thật. Bấm vào
       <a href="<?= e(url('sv/xac-thuc.php', ['token' => $user['verify_token']])) ?>">liên kết xác thực này</a>.
     </div>
   <?php endif; ?>
 
-  <form method="post" class="self-stretch">
+  <form method="post">
     <?= csrf_field() ?>
     <button type="submit" class="btn btn--outline btn--block" <?= $wait > 0 ? 'disabled' : '' ?>>
       <?= $wait > 0 ? 'Gửi lại liên kết (sau ' . $wait . ' giây)' : 'Gửi lại liên kết' ?>
     </button>
   </form>
   <a href="<?= e(url('sv/dang-nhap.php')) ?>" class="btn btn--ghost btn--block">Đã xác thực – Đăng nhập</a>
-</div>
-<?php mobile_end();
+<?php auth_end();

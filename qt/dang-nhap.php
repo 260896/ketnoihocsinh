@@ -17,18 +17,16 @@ if (is_post()) {
     }
 }
 
-page_head('Đăng nhập trang quản trị');
+auth_start('Đăng nhập trang quản trị', ['subtitle' => 'Dành cho cán bộ quản trị và cán bộ xử lý phiếu. Tài khoản do quản trị viên cấp.']);
 ?>
-<div class="center-page">
-  <form method="post" class="auth-card">
-    <?= csrf_field() ?>
-    <?= brand() ?>
-    <h2 class="t-h1">Đăng nhập trang quản trị</h2>
+    <?php /* Khối này chứa form Đăng xuất riêng → đặt ngoài form đăng nhập (HTML không cho lồng form) */ ?>
     <?= session_switch_notice('staff') ?>
-    <p class="t-small t-muted">Dành cho cán bộ quản trị và cán bộ xử lý phiếu. Tài khoản do quản trị viên cấp.</p>
+    <form method="post" class="auth-form">
+    <?= csrf_field() ?>
     <?= field_input('email', 'Tên đăng nhập (email cán bộ)', $email, ['placeholder' => 'ten@' . SITE['staff_domain'], 'autocomplete' => 'username', 'required' => true, 'autocapitalize' => 'off', 'spellcheck' => 'false']) ?>
     <?= field_input('pw', 'Mật khẩu', '', ['type' => 'password', 'placeholder' => 'Nhập mật khẩu', 'autocomplete' => 'current-password', 'required' => true, 'error' => $error]) ?>
     <button type="submit" class="btn btn--block">Đăng nhập</button>
+    </form>
     <div class="panel"><?= note('lock', 'Mọi thao tác phân loại, phân công, phản hồi và mở danh tính đều được ghi nhật ký.') ?></div>
     <?php if (SITE['is_demo']): /* Chỉ bản chạy thử – tắt is_demo trong includes/config.php khi dùng thật */ ?>
     <div class="demo-box">
@@ -42,6 +40,4 @@ page_head('Đăng nhập trang quản trị');
     </div>
     <?php endif; ?>
     <?= demo_notice() ?>
-  </form>
-</div>
-<?php page_foot();
+<?php auth_end();

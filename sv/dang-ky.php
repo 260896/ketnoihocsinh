@@ -58,14 +58,13 @@ if (is_post()) {
     }
 }
 
-mobile_start('Đăng ký', ['back' => url('sv/dang-nhap.php')]);
+auth_start('Đăng ký', ['heading' => 'Tạo tài khoản', 'back' => url('sv/dang-nhap.php'), 'back_label' => 'Đăng nhập',
+    'subtitle' => 'Nhập mã tham gia và đúng email mà nhà trường đã đăng ký cho em. Mỗi mã chỉ dùng được một lần.']);
 ?>
-<form method="post" class="stack gap-16" novalidate>
-  <?= csrf_field() ?>
-  <?= brand() ?>
-  <h2 class="t-h1">Tạo tài khoản</h2>
+  <?php /* Khối này chứa form Đăng xuất riêng → đặt ngoài form đăng ký (HTML không cho lồng form) */ ?>
   <?= session_switch_notice('student') ?>
-  <p class="t-muted">Nhập mã tham gia và đúng email mà nhà trường đã đăng ký cho em. Mỗi mã chỉ dùng được một lần.</p>
+<form method="post" class="auth-form" novalidate>
+  <?= csrf_field() ?>
   <?= field_input('code', 'Mã tham gia *', $v['code'], ['placeholder' => 'Mã do nhà trường cung cấp', 'error' => $err['code'] ?? null, 'required' => true]) ?>
   <?= field_input('email', 'Email *', $v['email'], ['type' => 'email', 'placeholder' => 'Email nhà trường đã đăng ký cho em', 'autocomplete' => 'email', 'error' => $err['email'] ?? null, 'required' => true]) ?>
   <?= field_input('name', 'Tên hiển thị *', $v['name'], ['placeholder' => 'Có thể là biệt danh', 'error' => $err['name'] ?? null, 'required' => true]) ?>
@@ -80,4 +79,4 @@ mobile_start('Đăng ký', ['back' => url('sv/dang-nhap.php')]);
   <button type="submit" class="btn btn--block">Đăng ký</button>
   <a href="<?= e(url('sv/dang-nhap.php')) ?>" class="link link--lg t-center d-block">Đã có tài khoản? Đăng nhập</a>
 </form>
-<?php mobile_end();
+<?php auth_end();

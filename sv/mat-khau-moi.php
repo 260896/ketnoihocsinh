@@ -30,15 +30,13 @@ if (is_post()) {
     }
 }
 
-mobile_start('Mật khẩu mới');
+auth_start('Mật khẩu mới', ['heading' => 'Tạo mật khẩu mới']);
 ?>
-<form method="post" class="stack gap-16">
+<form method="post" class="auth-form">
   <?= csrf_field() ?>
-  <span class="icon-circle" style="width:56px;height:56px;background:var(--c-primary-50)"><?= icon('lock', 28, 'var(--c-primary)') ?></span>
-  <h2 class="t-h1">Tạo mật khẩu mới</h2>
   <?= field_input('pw', 'Mật khẩu mới', '', ['type' => 'password', 'placeholder' => 'Tối thiểu 8 ký tự', 'autocomplete' => 'new-password', 'required' => true]) ?>
   <?= field_input('pw2', 'Nhập lại mật khẩu mới', '', ['type' => 'password', 'placeholder' => 'Nhập lại mật khẩu', 'autocomplete' => 'new-password', 'required' => true, 'error' => $error]) ?>
   <p class="t-small t-muted">Gồm ít nhất 8 ký tự, có chữ và số.</p>
   <button type="submit" class="btn btn--block">Lưu mật khẩu</button>
 </form>
-<?php mobile_end();
+<?php auth_end();

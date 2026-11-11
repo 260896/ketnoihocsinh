@@ -20,7 +20,7 @@ function page_head(string $title, array $css = []): void
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&amp;display=swap">
 <?php foreach ($css as $c): ?>
-<link rel="stylesheet" href="<?= e(url($c)) ?>?v=6">
+<link rel="stylesheet" href="<?= e(url($c)) ?>?v=10">
 <?php endforeach; ?>
 <script src="<?= e(url('assets/js/app.js')) ?>?v=1" defer></script>
 </head>
@@ -34,6 +34,31 @@ function page_head(string $title, array $css = []): void
 function page_foot(): void
 {
     echo "\n</body>\n</html>\n";
+}
+
+/* ================= Trang tài khoản (đăng nhập, đăng ký…) – dùng chung cho học sinh và cán bộ ================= */
+
+/**
+ * Mở khung thẻ giữa trang: nền xám, thẻ trắng, logo + tên dự án, tiêu đề, mô tả.
+ * $o: heading (tiêu đề hiển thị, mặc định = $title), subtitle, back (đường dẫn quay lại), back_label
+ */
+function auth_start(string $title, array $o = []): void
+{
+    page_head($title);
+    echo '<div class="center-page"><div class="auth-card">';
+    if (!empty($o['back'])) {
+        echo '<a href="' . e($o['back']) . '" class="auth-back">' . icon('chevronLeft', 18) . e($o['back_label'] ?? 'Quay lại') . '</a>';
+    }
+    echo brand();
+    echo '<div class="stack gap-6"><h1 class="t-h1">' . e($o['heading'] ?? $title) . '</h1>';
+    if (!empty($o['subtitle'])) echo '<p class="t-muted">' . e($o['subtitle']) . '</p>';
+    echo '</div>';
+}
+
+function auth_end(): void
+{
+    echo '</div></div>';
+    page_foot();
 }
 
 /* ================= Màn hình điện thoại (học sinh) ================= */
@@ -86,7 +111,8 @@ function tab_bar(string $active): string
         ['Phiếu của tôi', 'sv/phieu.php', 'inbox'],
         ['Tài khoản', 'sv/tai-khoan.php', 'user'],
     ];
-    $h = '<nav class="tabbar" aria-label="Điều hướng chính">';
+    // Tên dự án: chỉ hiện khi màn hình rộng (thanh tab chuyển thành menu ngang trên cùng)
+    $h = '<nav class="tabbar" aria-label="Điều hướng chính"><a href="' . e(url('index.php')) . '" class="tabbar__brand">' . wordmark('sm') . '</a>';
     foreach ($tabs as [$label, $href, $ic]) {
         $on = $label === $active;
         $h .= '<a href="' . e(url($href)) . '" class="tabbar__item' . ($on ? ' active' : '') . '"' . ($on ? ' aria-current="page"' : '') . '>'
@@ -142,6 +168,9 @@ function admin_start(string $section, string $title, string $subtitle = '', stri
           <p class="t-small sidebar__brand-text" style="opacity:.8">Trang quản trị</p>
         </div>
       </div>
+      <?php /* Nút menu cho màn hình hẹp (≤ 900px): ô đánh dấu + nhãn, không cần JavaScript */ ?>
+      <input type="checkbox" id="a-menu-toggle" class="sidebar__toggle-input sr-only">
+      <label for="a-menu-toggle" class="sidebar__toggle" aria-label="Mở menu quản trị"><span class="sidebar__toggle-bars" aria-hidden="true"></span></label>
       <div class="sidebar__nav">
       <?php foreach (ADMIN_MENU as [$label, $href, $ic, $need]):
           if (!staff_can($me, $need)) continue;
@@ -150,7 +179,8 @@ function admin_start(string $section, string $title, string $subtitle = '', stri
       <?php endforeach; ?>
       </div>
       <div class="sidebar__user">
-        <span class="sidebar__avatar" aria-hidden="true"><?= e(mb_substr($me['name'] ?? '?', -1)) ?></span>
+        <?php $nameParts = preg_split('/\s+/u', trim((string) ($me['name'] ?? ''))) ?: []; /* chữ đầu của tên (từ cuối), vd "Nguyễn Minh Anh" → "A" */ ?>
+        <span class="sidebar__avatar" aria-hidden="true"><?= e(mb_strtoupper(mb_substr((string) (end($nameParts) ?: '?'), 0, 1))) ?></span>
         <div class="sidebar__user-text grow">
           <p class="t-small t-strong"><?= e($me['name'] ?? '') ?></p>
           <p class="t-small" style="opacity:.8"><?= e($me['staff_role'] ?? '') ?></p>

@@ -28,13 +28,11 @@ if (is_post()) {
     }
 }
 
-mobile_start('Quên mật khẩu', ['back' => url('sv/dang-nhap.php')]);
+auth_start('Quên mật khẩu', ['heading' => 'Đặt lại mật khẩu', 'back' => url('sv/dang-nhap.php'), 'back_label' => 'Đăng nhập',
+    'subtitle' => 'Nhập email đã đăng ký. Chúng tôi sẽ gửi liên kết đặt lại mật khẩu.']);
 ?>
-<form method="post" class="stack gap-16">
+<form method="post" class="auth-form">
   <?= csrf_field() ?>
-  <span class="icon-circle" style="width:56px;height:56px;background:var(--c-primary-50)"><?= icon('key', 28, 'var(--c-primary)') ?></span>
-  <h2 class="t-h1">Đặt lại mật khẩu</h2>
-  <p class="t-muted">Nhập email đã đăng ký. Chúng tôi sẽ gửi liên kết đặt lại mật khẩu.</p>
   <?= field_input('email', 'Email', post('email'), ['type' => 'email', 'placeholder' => 'ten@email.com', 'autocomplete' => 'email', 'required' => true, 'error' => $error]) ?>
   <button type="submit" class="btn btn--block">Gửi liên kết đặt lại</button>
   <?php if ($sent): ?>
@@ -44,4 +42,4 @@ mobile_start('Quên mật khẩu', ['back' => url('sv/dang-nhap.php')]);
     <?php endif; ?>
   <?php endif; ?>
 </form>
-<?php mobile_end();
+<?php auth_end();
