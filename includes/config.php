@@ -20,6 +20,9 @@ const SITE = [
     // Tài liệu gốc ghi "abc-trung học.edu.vn" (có dấu cách, không hợp lệ) → dùng abc-trunghoc.edu.vn
     'staff_domain' => 'abc-trunghoc.edu.vn',
     'is_demo'      => true,          // hiện dòng "Bản chạy thử – dữ liệu giả lập"
+    // Chặn Google/Bing lập chỉ mục (thẻ meta robots + header X-Robots-Tag) để bản demo
+    // không bị nhầm là kênh chính thức. Chỉ đặt false khi nhà trường đưa vào dùng thật.
+    'noindex'      => true,
 ];
 
 /** Mật khẩu chung của các tài khoản chạy thử (học sinh và cán bộ). */

@@ -179,6 +179,11 @@ Trong `includes/config.php`, đặt `'is_demo' => false`. Thay đổi này sẽ:
 - che mã bí mật trong *Email đi*;
 - bỏ dòng "Bản chạy thử" và "Bản nháp".
 
+**Chặn lập chỉ mục:** bản demo đặt `'noindex' => true`, nên mọi trang có `<meta name="robots" content="noindex, nofollow">`
+và header `X-Robots-Tag` (cả tệp tĩnh, nhờ `.htaccess`). Nhờ vậy Google không đưa bản demo lên kết quả tìm kiếm, tránh bị nhầm là kênh chính thức.
+Chỉ đặt `false` và xóa khối `X-Robots-Tag` trong `.htaccess` khi nhà trường đưa vào dùng thật.
+**Không** chặn bằng `robots.txt` (`Disallow`): làm vậy Google không đọc được thẻ noindex, nên link vẫn có thể hiện trên kết quả tìm kiếm.
+
 Đổi luôn `DEMO_PASSWORD` và mật khẩu của mọi tài khoản cán bộ. Cách đổi: tạo tài khoản mới ở trang **Tài khoản**,
 hệ thống gửi email đặt mật khẩu lần đầu.
 

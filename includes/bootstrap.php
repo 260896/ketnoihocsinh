@@ -41,6 +41,11 @@ require ROOT . '/includes/icons.php';
 require ROOT . '/includes/ui.php';
 require ROOT . '/includes/layout.php';
 
+// Không cho công cụ tìm kiếm lập chỉ mục bản demo – áp dụng cho mọi phản hồi (cả tệp tải về, CSV).
+if (SITE['noindex'] && !headers_sent()) {
+    header('X-Robots-Tag: noindex, nofollow');
+}
+
 // Nhắc hạn / chuyển dự phòng: chạy dự phòng tại đây (tối đa 1 lần/phút).
 // Bản chính thức nên chạy thêm cron thật: php cron.php mỗi phút (xem HUONG-DAN.md).
 try {

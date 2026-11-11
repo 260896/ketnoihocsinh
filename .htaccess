@@ -1,3 +1,8 @@
 # Apache (XAMPP): chặn truy cập trực tiếp các thư mục nội bộ
 Options -Indexes
 RedirectMatch 403 ^.*/(data|includes|_old-react)(/|$)
+
+# Bản demo: không cho công cụ tìm kiếm lập chỉ mục (kể cả tệp tĩnh). Gỡ khi nhà trường dùng thật.
+<IfModule mod_headers.c>
+    Header set X-Robots-Tag "noindex, nofollow"
+</IfModule>
